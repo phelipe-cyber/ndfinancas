@@ -1,3 +1,4 @@
-/vendor
-/dist
-/.env
+plugins
+vendor
+dist
+.env

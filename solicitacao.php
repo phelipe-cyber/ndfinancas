@@ -71,12 +71,12 @@ include_once("conexao.php");
 
             <div class="col-2">
                   <label>Juros:</label>
-                      <input id="juros" onkeyup="formatarMoeda();" name="valor" type="text" class="form-control"  >
+                      <input readonly id="juros" name="juros" onkeyup="formatarMoeda();" name="valor" type="text" class="form-control"  >
                   </div>
 
             <div class="col-2">
                   <label>Valor Bruto:</label>
-                      <input id="valor_bruto" onkeyup="formatarMoeda();" name="valor" type="text" class="form-control"  >
+                      <input id="valor_bruto" readonly name="valor_bruto" onkeyup="formatarMoeda();" name="valor" type="text" class="form-control"  >
                   </div>
 
                       <script>
@@ -94,7 +94,7 @@ include_once("conexao.php");
                                             }
 
                                             elemento.value =  valor;
-                                                
+
 
                                             }
                         </script>

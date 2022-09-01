@@ -7,9 +7,12 @@ date_default_timezone_set('America/Recife');
  $data_hora = (date('Y-m-d H:i:s'));
  $usuario = $_SESSION['login'];
  
+ print_r($_POST);
+
  $id = $_POST['cliente'];
  $valor = $_POST['valor'];
- 
+ $juros = $_POST['juros'];
+ $valor = $_POST['valor_bruto'];
 
 
  $data_inicio = (date_create('Y-m-d')) + 20;
@@ -32,7 +35,7 @@ $intervalo = $data1->diff($data2);
 
 
 
-$select_sql = "INSERT INTO `solicitacao`(`id`, `id_cliente`, `valor`, `status`, `usuario`, `data_hora`) 
+$select_sql = "INSERT INTO `solicitacao`(`id`, `id_cliente`, `valor`, `status`, `juros`, `valor_bruto`, `usuario`, `data_hora`)
 VALUES (null,'$id','$valor','1','$usuario','$data_hora')";
 $salvar = mysqli_query($conn, $select_sql);
 

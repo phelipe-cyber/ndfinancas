@@ -6,8 +6,7 @@ if(empty($_POST['login']) || empty($_POST['password'])  ) {
 	header('Location: index.php');
 	exit();
 }
-print_r($_POST);
-exit();
+
 $login = mysqli_real_escape_string($conn, $_POST['login']);
 $password = mysqli_real_escape_string($conn, $_POST['password']);
 $status = mysqli_real_escape_string($conn, $_POST['status']);

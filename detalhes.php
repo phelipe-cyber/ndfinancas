@@ -47,7 +47,29 @@ while ($row_data = mysqli_fetch_assoc($result_comprovante)) {
 
 }
 
-@$ult_array_data = end($data_compro);
+ $select_vl_pgto = ("SELECT sum(valor_pago) as valor_pago FROM `valor_pago` where id_solicitacao =  $id_solicitacao group by valor_pago ");
+$result_vl_pgto = mysqli_query($conn, $select_vl_pgto);
+
+while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
+    // print_r($row_vl_pgto);
+
+    $sum_pgto = $row_vl_pgto['valor_pago'];
+
+  }
+  
+ echo $sum_pgto;
+
+
+if($data_compro == "" ){
+
+  $ult_array_data = $data_hora;
+
+}else{
+  
+  @$ult_array_data = end($data_compro);
+
+}
+@$ult_array_data;
 
 // $ultimadata= date('d/m/Y h:m:s', strtotime($ult_array_data));
 
@@ -124,6 +146,14 @@ while ($row_data = mysqli_fetch_assoc($result_comprovante)) {
               <div class="info-box-content">
                 <span class="info-box-text text-center text-muted">Valor da Parcela</span>
                 <span class="info-box-number text-center text-muted mb-0"><?php echo $valor_parcela ?></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-2">
+            <div class="info-box bg-light">
+              <div class="info-box-content">
+                <span class="info-box-text text-center text-muted">Valor Pago</span>
+                <span class="info-box-number text-center text-muted mb-0"><?php  echo "R$ " .number_format($sum_pgto, 2, ',', '.'); ?></span>
               </div>
             </div>
           </div>
@@ -265,13 +295,12 @@ while ($row_data = mysqli_fetch_assoc($result_comprovante)) {
           <div class="col-4">
 
              <label>Valor da Pago:</label>
-                                        <input id="valor_pago" name="valor_pago" onkeyup="formatarMoeda();"
-                                            type="text" class="form-control">
+                                        <input id="valor_pago" name="valor_pago" onkeyup="formatarMoeda();" type="text" class="form-control">
                                     <!-- </div> -->
 
                                     <script>
                                         function formatarMoeda() {
-                                            var elemento = document.getElementById('valor');
+                                            var elemento = document.getElementById('valor_pago');
                                             var valor = elemento.value;
                                             valor = valor + '';
                                             valor = parseInt(valor.replace(/[\D]+/g, ''));

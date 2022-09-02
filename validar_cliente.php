@@ -5,17 +5,36 @@
 
 $id = $_POST['id'];
 
-$select_sql = ("SELECT status_solicitacao FROM `clientes` where id = $id ORDER BY id ASC ");
+ $select_sql = ("SELECT status_cliente FROM `clientes` where id = $id; ");
+
 $recebidos = mysqli_query($conn, $select_sql);
 
 while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
-    $status_solicitacao = $row_usuario['status_solicitacao'];
+    $status_solicitacao = $row_usuario['status_cliente'];
 
 }
 
 if( $status_solicitacao == 1 ){
     ?>
-       <div id="danger-alert" class="alert alert-danger alert-dismissible">
+
+<div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="col-12">
+            
+                      <div id="spiner" style="display: none;">
+                <!-- <div class="spinner-border"></div> -->
+                <div class="text-center">
+                  <div class="spinner-border" role="status">
+
+                  </div>
+                </div>
+                <div class="text-center">
+                  <!-- <label>Buscando...</label> -->
+                </div>
+              </div>
+                <div id="danger-alert" class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5><i class="icon fas fa-ban"></i> Erro!</h5>
                     Cliente Em Andamento

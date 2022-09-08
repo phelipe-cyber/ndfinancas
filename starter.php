@@ -51,6 +51,16 @@ session_start();
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
+
+<!-- Google Font: Source Sans Pro -->
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
+  <!-- Font Awesome -->
+  <!-- <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css"> -->
+  <!-- Theme style -->
+  <!-- <link rel="stylesheet" href="../../dist/css/adminlte.min.css"> -->
+  <!-- summernote -->
+  <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini"  >
 <div class="wrapper">
@@ -145,6 +155,12 @@ session_start();
                 <a href="cdclientes.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Cadastro de Clientes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="clientes.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Clientes</p>
                 </a>
               </li>
             </ul>

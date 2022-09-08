@@ -6,9 +6,11 @@ include_once("conexao.php");
 date_default_timezone_set('America/Recife');
  $data_hora = (date('Y-m-d H:i:s'));
  $usuario = $_SESSION['login'];
+ $data_hora_salve = (date('Y-m-d_H:i:s'));
 
 $cpf = $_POST['cpf'];
 $cep = $_POST['cep'];
+$cnpj = $_POST['cnpj'];
 $nome=$_POST['nome'];
 $sobrenome=$_POST['sobrenome'];
 $rg=$_POST['rg'];
@@ -33,16 +35,65 @@ $complemento_emp=$_POST['complemento_emp'];
 $referencia_emp=$_POST['referencia_emp'];
 
     $Sql = "INSERT INTO `clientes`(`id`, `nome`, `sobrenome`, `cpf`, `rg`, `tel`, `tel2`, `atividade`,
-    `endereco`, `numero`, `bairro`, `municipio`, `uf`, `complemento`, `referencia`, `cep_emp`, `lougadouro_emp`, 
+    `endereco`, `cep`, `cnpj`,`numero`, `bairro`, `municipio`, `uf`, `complemento`, `referencia`, `cep_emp`, `lougadouro_emp`, 
     `number_emp`, `municipio_emp`, `uf_emp`, `bairro_emp`, `complemento_emp`, `referencia_emp`, `status_cliente`, 
     `user_created`, `data_hora_cliente`)
 
-    VALUES (null,'$nome','$sobrenome','$cpf','$rg','$tel','$tel2','$atividade','$lougadouro','$number',
+    VALUES (null,'$nome','$sobrenome','$cpf','$rg','$tel','$tel2','$atividade','$lougadouro',' $cep', '$cnpj' '$number',
     '$bairro','$municipio','$uf','$complemento','$referencia', '$cep_emp', '$lougadouro_emp', '$number_emp', 
     '$municipio_emp', '$uf_emp', '$bairro_emp', '$complemento_emp', '$referencia_emp', '0', '$usuario', '$data_hora')";
 
 $salvar = mysqli_query($conn, $Sql);
 
+$id_insert = mysqli_insert_id($conn);
+
+
+$nome_arquivo_inport = $_FILES['foto']['name']['ftcliente'];
+$nome_arquivoftcliente = $id_insert ."_". "self". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['ftcliente'], "imagens_cliente/" . $nome_arquivoftcliente);
+
+$nome_arquivo_inport = $_FILES['foto']['name']['ftrg'];
+$nome_arquivoftrg = $id_insert ."_". "rg". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['ftrg'], "imagens_cliente/" . $nome_arquivoftrg);
+
+$nome_arquivo_inport = $_FILES['foto']['name']['ftcpf'];
+$nome_arquivoftcpf = $id_insert ."_". "cpf". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['ftcpf'], "imagens_cliente/" . $nome_arquivoftcpf);
+
+$nome_arquivo_inport = $_FILES['foto']['name']['ftcompres'];
+$nome_arquivoftcompres = $id_insert ."_". "compres". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['ftcompres'], "imagens_cliente/" . $nome_arquivoftcompres);
+
+$nome_arquivo_inport = $_FILES['foto']['name']['ftcompcomer'];
+$nome_arquivoftcompcomer = $id_insert ."_". "compcomer". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['ftcompcomer'], "imagens_cliente/" . $nome_arquivoftcompcomer);
+
+$nome_arquivo_inport = $_FILES['foto']['name']['fttermo'];
+$nome_arquivofttermo = $id_insert ."_". "termo". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['fttermo'], "imagens_cliente/" . $nome_arquivofttermo);
+
+$nome_arquivo_inport = $_FILES['foto']['name']['ftlocal'];
+$nome_arquivoftlocal = $id_insert ."_". "local". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['ftlocal'], "imagens_cliente/" . $nome_arquivoftlocal);
+
+$nome_arquivo_inport = $_FILES['foto']['name']['ftlocal2'];
+$nome_arquivoftlocal2 = $id_insert ."_". "local2". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['ftlocal2'], "imagens_cliente/" . $nome_arquivoftlocal2);
+
+$nome_arquivo_inport = $_FILES['foto']['name']['ftlocal3'];
+$nome_arquivoftlocal3 = $id_insert ."_". "local3". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['ftlocal3'], "imagens_cliente/" . $nome_arquivoftlocal3);
+
+$salve_foto = "INSERT INTO `fotos_clientes`(`id`, `id_cliente`,`ftcliente`, `ftrg`, `ftcpf`, `ftcompres`, 
+`ftcompcomer`, `fttermo`, `ftlocal`, `ftlocal2`, `ftlocal3`, `usuario`, 
+`data_fotos_clientes`) 
+VALUES (null,'$id_insert','$nome_arquivoftcliente','$nome_arquivoftrg','$nome_arquivoftcpf','$nome_arquivoftcompres','$nome_arquivoftcompcomer',
+'$nome_arquivofttermo','$nome_arquivoftlocal','$nome_arquivoftlocal2','$nome_arquivoftlocal3','$usuario','$data_hora')";
+
+$salvar_foto = mysqli_query($conn, $salve_foto) or die(mysqli_error($conn));
+
+
+// exit();
 if( $salvar == 1 ){
     ?>
     <div class="content">

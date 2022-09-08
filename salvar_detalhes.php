@@ -11,7 +11,10 @@ date_default_timezone_set('America/Recife');
  $id_solicitacao = $_POST['id_solicitacao'];
 
 $valor_pago = $_POST['valor_pago'];
-
+$atraso_diaria = $_POST['atraso_diaria'];
+$total_atraso = $_POST['total_atraso'];
+$atraso_parcela = $_POST['atraso_parcela'];
+$dt_pgto = $_POST['dt_pgto'];
 $nomeEvento = $_POST['nome_evento'];
 $descricaoEvento = $_POST['descricao_evento'];
 $imagem = $_FILES['imagem']['tmp_name'];
@@ -21,14 +24,17 @@ $nome = $_FILES['imagem']['name'];
 
 $nome_arquivo = $id_solicitacao."_".$data_hora_salve."_".$nome;
 
- $queryInsercao = "INSERT INTO `comprovantes`(`id`, `id_solicitacao`, `comprovante`, `usuario`, `data_comprovante`)
-VALUES (null, '$id_solicitacao', '$nome_arquivo', '$usuario', '$data_hora' )";
+ $queryInsercao = "INSERT INTO `comprovantes`(`id`, `id_solicitacao`, `comprovante`, `usuario`, `dt_pgto`, `data_comprovante`)
+VALUES (null, '$id_solicitacao', '$nome_arquivo', '$usuario', '$dt_pgto', '$data_hora' )";
 
 $salvar = mysqli_query($conn, $queryInsercao);
 
-$sql_pago = "INSERT INTO `valor_pago`(`id`, `id_solicitacao`, `valor_pago`, `usuario`, `data_valor_pago`) 
-VALUES (null,'$id_solicitacao', '$valor_pago', '$usuario', '$data_hora')";
+$sql_pago = "INSERT INTO `valor_pago`(`id`, `id_solicitacao`, `valor_pago`, `atraso_diaria`,  `atraso_parcela`, `total_atraso`, `usuario`, `data_valor_pago`) 
+VALUES (null,'$id_solicitacao', '$valor_pago', '$atraso_diaria', '$atraso_parcela', '$total_atraso', '$usuario', '$data_hora')";
 $salvar_pago = mysqli_query($conn, $sql_pago);
+
+$update_pgto = "UPDATE `solicitacao` SET `dt_pgto`='$dt_pgto' WHERE id = $id_solicitacao";
+$salve_pgto = mysqli_query($conn, $update_pgto);
 
 
 move_uploaded_file($_FILES['imagem']['tmp_name'], "comprovante/" . $nome_arquivo);

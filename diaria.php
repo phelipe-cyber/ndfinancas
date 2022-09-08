@@ -1,6 +1,7 @@
 <?php
 include_once("starter.php");
 include_once("conexao.php");
+$data_hoje = (date('Y-m-d'));
 
 ?>
  <div class="content">
@@ -36,14 +37,21 @@ include_once("conexao.php");
           <th>Valor Parcela</th>
           <th>Data Inicio</th>
           <th>Data Final</th>
-          <!-- <th>Status</th> -->
+          <th>Status</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         
         <?php
-                          $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id ORDER by s.id DESC ");
+                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id ORDER by s.id ASC ");
+                          //  $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, comp.*
+                          // FROM `solicitacao` s 
+                          // INNER JOIN clientes c on s.id_cliente = c.id 
+                          // INNER JOIN status st on s.status_solicitacao = st.id
+                          // INNER JOIN comprovantes comp on s.id = comp.id_solicitacao 
+                          // group by comp.id_solicitacao
+                          // ORDER by comp.dt_pgto DESC;");
                             
                             $recebidos = mysqli_query($conn, $select_sql);
                             
@@ -61,7 +69,8 @@ include_once("conexao.php");
                                 $juros = $row_usuario['juros'];
                                 $status = $row_usuario['descricao'];
                                 $valor_parcela = $row_usuario['valor_parcela'];
-                                $data_hora = date('d/m/Y H:i:s', strtotime($row_usuario['data_hora_solicitacao']));
+                                $dt_pgto = $row_usuario['dt_pgto'];
+                                $data_hora = date('d/m/Y', strtotime($row_usuario['dt_solicitacao']));
                                 echo "<tr>";
                                 echo "<td >$cliente $sobrenome </td>";
                                 echo "<td >$valor</td>";
@@ -70,6 +79,12 @@ include_once("conexao.php");
                                 echo "<td >$valor_parcela</td>";
                                 echo "<td >$data_hora</td>";
                                 echo "<td ></td>";
+
+                                if( $dt_pgto == $data_hoje  ){
+                                  echo "<td ><span class='badge badge-success'>EM DIA</span></td>";
+                                }else{
+                                  echo "<td ><span class='badge badge-danger'>EM ATRASO</span></td>";
+                                }
                                 // echo "<td>$status</td>";
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
 

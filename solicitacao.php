@@ -37,9 +37,31 @@ include_once("conexao.php");
                             <div class="card-body">
                                 <div class="row">
 
+                                <!-- <div class="container"> -->
+    <!-- <div class="row"> -->
+        <div class="col-1">
+            <div class="form-group">
+            <label>Data Solicitação:</label>
+                <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                    <input required name="dt_solicitcao" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+                    <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker4').datetimepicker({
+                    format: 'YYYY-MM-DD'
+                });
+            });
+        </script>
+    <!-- </div> -->
+<!-- </div> -->
+                                
                                     <!-- <div class="col-lg-12"> -->
                                     <div class="col-4">
-
                                         <div class="form-group">
                                             <label>Cliente:</label>
                                             <select id="cliente" name="cliente" class="form-control select2"
@@ -63,25 +85,25 @@ include_once("conexao.php");
                                         </div>
                                     </div>
 
-                                    <div class="col-2">
+                                    <div class="col-1">
                                         <label>Valor:</label>
                                         <input id="valor" onkeyup="formatarMoeda();" name="valor" type="text"
                                             class="form-control">
                                     </div>
 
-                                    <div class="col-2">
+                                    <div class="col-1">
                                         <label>Juros:</label>
                                         <input readonly id="juros" name="juros" onkeyup="formatarMoeda();" name="valor"
                                             type="text" class="form-control">
                                     </div>
 
-                                    <div class="col-2">
+                                    <div class="col-1">
                                         <label>Valor Bruto:</label>
                                         <input id="valor_bruto" readonly name="valor_bruto" onkeyup="formatarMoeda();"
                                             name="valor" type="text" class="form-control">
                                     </div>
 
-                                    <div class="col-2">
+                                    <div class="col-1">
                                         <label>Valor da parcela:</label>
                                         <input id="valor_parcela" readonly name="valor_parcela" onkeyup="formatarMoeda();"
                                             name="valor" type="text" class="form-control">

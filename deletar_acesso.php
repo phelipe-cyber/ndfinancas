@@ -1,49 +1,17 @@
 <?php 
-include_once("starter.php");
-include_once("conexao.php");
+    // include_once("starter.php");
+    include_once("conexao.php");
+    // print_r($_POST);
 
-date_default_timezone_set('America/Recife');
- $data_hora = (date('Y-m-d H:i:s'));
- $usuario = $_SESSION['login'];
+$id_menu = $_POST['id_menu'];
+$id_user = $_POST['id_user'];
+
+// exit();
+
+$deletar_sql = "DELETE FROM user_accesses WHERE `id_menu` = $id_menu";
+
+$salvar = mysqli_query($conn, $deletar_sql);
  
- //  print_r($_POST);
-//  exit();
-$id = $_POST['cliente'];
-$valor = $_POST['valor'];
-$juros = $_POST['juros'];
-$valor_bruto = $_POST['valor_bruto'];
-$dt_solicitcao = $_POST['dt_solicitcao'];
-$dt_solicitcao = date('Y-m-d', strtotime($_POST['dt_solicitcao']));
- $valor_parcelado = $_POST['valor_parcela'];
-
-//  echo $juros;
-// exit();
- $data_inicio = (date_create('Y-m-d')) + 20;
-
-$data_final = (date_create('Y-m-d'));
-
-
-$data = new DateTime('03-06-2022');
-$data->modify('+20 day');
- $data->format('d-m-Y');
-
-// exit();
-
-
-$data1 = new DateTime('2011-09-11');
-$data2 = new DateTime('2011-10-13');
-$intervalo = $data1->diff($data2);
- $intervalo->format('%R%a dias');
-
-
-
- $select_sql = "INSERT INTO `solicitacao`(`id`, `id_cliente`, `valor`, `valor_parcela`, `status_solicitacao`, `juros`, `valor_bruto`, `dt_solicitacao`, `dt_pgto`,`usuario`, `data_hora_solicitacao`)
-VALUES (null,'$id','$valor', '$valor_parcelado', '1', '$juros','$valor_bruto', '$dt_solicitcao', '$dt_solicitcao','$usuario','$data_hora')";
-$salvar = mysqli_query($conn, $select_sql);
-
-$update = "UPDATE clientes SET status_cliente = '1' WHERE id = $id";
-$salvar_update = mysqli_query($conn, $update);
-
 if( $salvar == 1 ){
     ?>
     <div class="content">
@@ -63,14 +31,20 @@ if( $salvar == 1 ){
                   <!-- <label>Buscando...</label> -->
                 </div>
               </div>
-       <div class="alert alert-success alert-dismissible">
+       <div id="alert-danger" class="alert alert-danger alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h5><i class="icon fas fa-check"></i> Alert!</h5>
-                  Salvo com Sucesso
+                  Acesso Deletado !
                 </div>
+
+                <script>
+                        $("#alert-danger").fadeTo(2000, 500).slideUp(500, function() {
+                            $("#alert-danger").slideUp(500);
+                        });
+                </script>
     <?php
-       echo '<meta http-equiv="refresh" content="3;URL=solicitacao.php" />';
-  }else{
+    //    echo '<meta http-equiv="refresh" content="4;URL=starter.php" />';
+}else{
     ?>
     <div class="content">
     <div class="container-fluid">
@@ -92,9 +66,12 @@ if( $salvar == 1 ){
      <div class="alert alert-danger alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                  Erro ao Salvar
+                  Erro 
                 </div>
+                <script>
+                        $("#alert-danger").fadeTo(2000, 500).slideUp(500, function() {
+                            $("#alert-danger").slideUp(500);
+                        });
+                </script>
     <?php
 }
-
-?>

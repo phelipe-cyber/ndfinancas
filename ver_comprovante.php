@@ -1,6 +1,5 @@
 <?php
 include_once("starter.php");
-
 include_once("conexao.php");
 
 $id_comprovante = $_GET['id'];

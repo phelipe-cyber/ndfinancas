@@ -4,6 +4,7 @@ include_once("conexao.php");
 $data_hoje = (date('Y-m-d'));
 
 ?>
+
  <div class="content">
     <div class="container-fluid">
       <div class="row">

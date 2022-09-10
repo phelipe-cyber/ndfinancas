@@ -1,6 +1,6 @@
 <?php 
-error_reporting(E_ALL);
-session_start();
+include("verifica_login.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -19,38 +19,27 @@ session_start();
   <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
   <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 
 </head>
+<form  method="POST" action="salvar_login.php" enctype="multipart/form-data">
+
 <body class="hold-transition login-page" background="./dist/img/nd.jpg">
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>NDFINANCAS</b></a>
+      <a href="../../index2.html" class="h1"><b>NDFINANCAS Criar Login</b></a>
     </div>
     <div class="card-body">
      
     <?php
-    
                 if (isset($_SESSION['nao_autenticado'])) :
                 ?>
-                    <!-- <div class="alert alert-danger text-center " role="alert">
+                    <div class="alert alert-danger text-center " role="alert">
                         ERRO: Usuário ou senha inválidos.
-                    </div> -->
-                    <div id="alert-danger" class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                  ERRO: Usuário ou senha inválidos.
-                </div>
-                <script>
-                        $("#alert-danger").fadeTo(2000, 500).slideUp(500, function() {
-                            $("#alert-danger").slideUp(500);
-                        });
-
-                </script>
-
-
+                    </div>
                 <?php
                 endif;
                 unset($_SESSION['nao_autenticado']);
@@ -58,7 +47,7 @@ session_start();
 
       <form action="login.php" method="post">
         <div class="input-group mb-3">
-          <input name="login" type="text" class="form-control" placeholder="LOGIN">
+          <input name="login" type="text" class="form-control" placeholder="Login">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -66,18 +55,52 @@ session_start();
           </div>
         </div>
         <div class="input-group mb-3">
-          <input name="password" type="password" class="form-control" placeholder="SENHA">
+          <input id="password" name="password" type="password" class="form-control" placeholder="Senha">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>
+        <div class="input-group mb-3">
+          <input id="password2" name="password2" type="password" class="form-control" placeholder="Confirmar senha">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        
+        <script>
+                      $(document).ready(function() {
+                        $("#password2").on('keyup', function(event) {
+                        
+                            password = document.getElementById("password").value ;
+                            password2 = document.getElementById("password2").value  ;
+                            console.log(password2);
+                            console.log(password);
+
+                            if( password == password2   ){
+
+                                document.getElementById("btn").style = "display: block";
+
+                            }else{
+
+                                document.getElementById("btn").style = "display: none";
+
+                            }                            
+                          
+                        });
+                      });
+
+                    </script>
+
+
         <div class="row">
          
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+            <button id="btn" style="display: none;" type="submit" class="btn btn-primary btn-block">Criar login</button>
           </div>
           <!-- /.col -->
         </div>

@@ -1,8 +1,3 @@
-<?php 
-error_reporting(E_ALL);
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,8 +14,6 @@ session_start();
   <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
-
 </head>
 <body class="hold-transition login-page" background="./dist/img/nd.jpg">
 <div class="login-box">
@@ -32,25 +25,11 @@ session_start();
     <div class="card-body">
      
     <?php
-    
                 if (isset($_SESSION['nao_autenticado'])) :
                 ?>
-                    <!-- <div class="alert alert-danger text-center " role="alert">
+                    <div class="alert alert-danger text-center " role="alert">
                         ERRO: Usuário ou senha inválidos.
-                    </div> -->
-                    <div id="alert-danger" class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                  <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                  ERRO: Usuário ou senha inválidos.
-                </div>
-                <script>
-                        $("#alert-danger").fadeTo(2000, 500).slideUp(500, function() {
-                            $("#alert-danger").slideUp(500);
-                        });
-
-                </script>
-
-
+                    </div>
                 <?php
                 endif;
                 unset($_SESSION['nao_autenticado']);
@@ -61,7 +40,7 @@ session_start();
           <input name="login" type="text" class="form-control" placeholder="LOGIN">
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-user"></span>
+              <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>

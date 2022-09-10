@@ -1,6 +1,4 @@
 <?php
-
-session_start();
 include_once("starter.php");
 include_once("conexao.php");
 
@@ -57,6 +55,9 @@ date_default_timezone_set('America/Recife');
  }
 
 ?>
+<script>
+    document.getElementById('class<?php echo $name.".php" ?>').classList.add('active');
+</script>
 <!-- <div class="content-wrapper"> -->
 <!-- Content Header (Page header) -->
 <section class="content-header">

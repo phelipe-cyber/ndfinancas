@@ -3,14 +3,13 @@ include_once("starter.php");
 include_once("conexao.php");
 
 ?>
+<form id="Form" action="" method="POST">
 
-<form id="Form" action="salvar_solicitacao.php" method="POST">
-
-    <div id="add_pedido"></div>
     <br>
 
     <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+    <div id="add_pedido_acesso"></div>
 
     <div class="content">
         <div class="container-fluid">
@@ -32,164 +31,53 @@ include_once("conexao.php");
 
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title">Solicitação</h3>
+                                <h3 class="card-title">Acesso</h3>
                             </div>
                             <div class="card-body">
                                 <div class="row">
 
-                                <!-- <div class="container"> -->
-    <!-- <div class="row"> -->
-        <div class="col-1">
-            <div class="form-group">
-            <label>Data Solicitação:</label>
-                <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                    <input required name="dt_solicitcao" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
-                    <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker4').datetimepicker({
-                    format: 'YYYY-MM-DD'
-                });
-            });
-        </script>
-    <!-- </div> -->
-<!-- </div> -->
                                 
                                     <!-- <div class="col-lg-12"> -->
                                     <div class="col-4">
                                         <div class="form-group">
-                                            <label>Cliente:</label>
-                                            <select id="cliente" name="cliente" class="form-control select2"
+                                            <label>Usuario:</label>
+                                            <select id="usuario" name="usuario" class="form-control select2"
                                                 style="width: 100%;">
                                                 <option selected=""></option>
                                                 <?php
-                                                    $select_sql = ("SELECT * FROM `clientes`");
+                                                    $select_sql = ("SELECT * FROM `user`");
                                                     
                                                     $recebidos = mysqli_query($conn, $select_sql);
                                                     
                                                     while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
 
-                                                        $status_solicitacao = $row_usuario['status_solicitacao'];
-                                                        $cliente = $row_usuario['nome'];
-                                                        $sobrenome = $row_usuario['sobrenome'];
+                                                        $usuario = $row_usuario['usuario'];
                                                         $id = $row_usuario['id'];
-                                                        echo "<option value='$id'>$cliente $sobrenome  </option>";
+                                                        echo "<option value='$id'> $usuario </option>";
                                                         }
                                                 ?>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="col-1">
-                                        <label>Valor:</label>
-                                        <input id="valor" onkeyup="formatarMoeda();" name="valor" type="text"
-                                            class="form-control">
-                                    </div>
-
-                                    <div class="col-1">
-                                        <label>Juros:</label>
-                                        <input readonly id="juros" name="juros" onkeyup="formatarMoeda();" name="valor"
-                                            type="text" class="form-control">
-                                    </div>
-
-                                    <div class="col-1">
-                                        <label>Valor Bruto:</label>
-                                        <input id="valor_bruto" readonly name="valor_bruto" onkeyup="formatarMoeda();"
-                                            name="valor" type="text" class="form-control">
-                                    </div>
-
-                                    <div class="col-1">
-                                        <label>Valor da parcela:</label>
-                                        <input id="valor_parcela" readonly name="valor_parcela" onkeyup="formatarMoeda();"
-                                            name="valor" type="text" class="form-control">
-                                    </div>
-
-                                    <script>
-                                        function formatarMoeda() {
-                                            var elemento = document.getElementById('valor');
-                                            var valor = elemento.value;
-                                            valor = valor + '';
-                                            valor = parseInt(valor.replace(/[\D]+/g, ''));
-                                            valor = valor + '';
-                                            valor = valor.replace(/([0-9]{2})$/g, ",$1");
-                                            if (valor.length > 6) {
-                                                valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
-                                            }
-                                            elemento.value = valor;
-                                        }
-                                    </script>
-                                    <!-- </div> -->
-
                                 </div>
 
-                                <div id="button" class="col-2">
-                                    <button type="submit" class="btn btn-block btn-success">Salvar</button>
-                                </div>
-
+                             
                             </div>
                         </div>
 
                         <script>
-                            function conversor(str) {
-                                if (typeof str == 'number') return str;
-                                var nr;
-                                var virgulaSeparaDecimais = str.match(/(,)\d{2}$/);
-                                if (virgulaSeparaDecimais) nr = str.replace(/\./g, '').replace(',', '.')
-                                else nr = str.replace(',', '');
-                                return parseFloat(nr);
-                            }
                             $(document).ready(function() {
-                                //   $("#valor").change(function() {
-                                $("#valor").on('keyup', function(event) {
+                                $("#usuario").change(function() {
                                     // document.getElementById('spiner').style = 'display:block;';
-                                    let valor = conversor(document.getElementById("valor").value);
-                                    //   console.log(valor);
-                                    var percentual = 0.20;
-                                    var juros = valor * percentual;
-                                    var valor_bruto = valor + juros;
-                                    console.log(juros);
-                                    console.log(valor_bruto);
-
-                                    var valor_parcela = (valor_bruto / 20);
-
-                                        console.log(valor_parcela);
-                                    var juros = juros.toLocaleString('pt-br', {
-                                        style: 'currency',
-                                        currency: 'BRL'
-                                    });
-                                    var valor_bruto = valor_bruto.toLocaleString('pt-br', {
-                                        style: 'currency',
-                                        currency: 'BRL'
-                                    });
-                                    var valor_parcela = valor_parcela.toLocaleString('pt-br', {
-                                        style: 'currency',
-                                        currency: 'BRL'
-                                    });
-
-                                    document.getElementById("juros").value = juros;
-                                    document.getElementById("valor_bruto").value = valor_bruto;
-                                    document.getElementById("valor_parcela").value = valor_parcela;
-                                })
-                            });
-                        </script>
-
-                        <script>
-                            $(document).ready(function() {
-                                $("#cliente").change(function() {
-                                    // document.getElementById('spiner').style = 'display:block;';
-                                    let id = document.getElementById("cliente").value;
+                                    let id = document.getElementById("usuario").value;
                                     if (id == "") {} else {
                                         var vData = {
                                             id: id
                                         };
                                         console.log(vData);
                                         $.ajax({
-                                            url: 'validar_cliente.php',
+                                            url: 'ver_acessos.php',
                                             dataType: 'html',
                                             type: 'POST',
                                             data: vData,
@@ -211,6 +99,11 @@ include_once("conexao.php");
                                 })
                             });
                         </script>
+
+
+
+<div id="add_pedido"></div>
+
 
                         <!-- jQuery -->
                         <script src="../../plugins/jquery/jquery.min.js"></script>

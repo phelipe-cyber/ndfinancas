@@ -4,9 +4,24 @@ include_once("conexao.php");
 
 date_default_timezone_set('America/Recife');
  $data_hora = (date('Y-m-d H:i:s'));
- $data_hoje = (date('Y-m-d'));
  $usuario = $_SESSION['login'];
+ $data_hoje = (date('Y-m-d'));
 
+
+//  0 = Domingo, 1 = Segunda, 2 = Terça, 3 = Quarta, 4 = quinta, 5 = sexta, 7 = sabado
+
+// $data_comprovante = date('d/m/Y', strtotime($data_hoje));
+
+// $diasemana = array('Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sabado');
+
+// $data_semana = date('Y-m-d', strtotime($data_hoje));
+
+// $diasemana_numero = date('w', strtotime($data_semana));
+
+// $diasemana[$diasemana_numero];
+
+// echo $diasemana[$diasemana_numero];
+// exit();
 // print_r($_GET);
 
 $id = $_GET['id'];
@@ -71,6 +86,8 @@ if($data_compro == "" ){
 }
 
 $ultimadata = date('Y-m-d', strtotime($ult_array_data));
+
+
 
 if( $data_hoje == $ultimadata ){
   // echo "Igual";

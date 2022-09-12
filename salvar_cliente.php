@@ -33,18 +33,15 @@ $municipio_emp=$_POST['municipio_emp'];
 $complemento_emp=$_POST['complemento_emp'];
 $referencia_emp=$_POST['referencia_emp'];
 
-    $Sql = "INSERT INTO `clientes`(`id`, `nome`, `sobrenome`, `cpf`, `rg`, `tel`, `tel2`, `atividade`,
-    `endereco`, `cep`, `cnpj`,`numero`, `bairro`, `municipio`, `uf`, `complemento`, `referencia`, `cep_emp`, `lougadouro_emp`, 
-    `number_emp`, `municipio_emp`, `uf_emp`, `bairro_emp`, `complemento_emp`, `referencia_emp`, `status_cliente`, 
-    `user_created`, `data_hora_cliente`)
-
-    VALUES (null,'$nome','$sobrenome','$cpf','$rg','$tel','$tel2','$atividade','$lougadouro',' $cep', '$cnpj' '$number',
-    '$bairro','$municipio','$uf','$complemento','$referencia', '$cep_emp', '$lougadouro_emp', '$number_emp', 
+    $Sql = "INSERT INTO `clientes`(`id`, `nome`, `sobrenome`, `cpf`, `rg`, `tel`, `tel2`, `atividade`, `endereco`, `cep`, `cnpj`, `numero`, `bairro`, `municipio`, `uf`, `complemento`, `referencia`, `cep_emp`, `lougadouro_emp`, `number_emp`, `municipio_emp`, `uf_emp`, `bairro_emp`, `complemento_emp`, `referencia_emp`, `status_cliente`, `user_created`, `data_hora_cliente`)
+     VALUES (null,'$nome', '$sobrenome', '$cpf', '$rg', '$tel', '$tel2', '$atividade', '$lougadouro', '$cep', '$cnpj', '$number',
+    '$bairro', '$municipio', '$uf', '$complemento', '$referencia', '$cep_emp', '$lougadouro_emp', '$number_emp', 
     '$municipio_emp', '$uf_emp', '$bairro_emp', '$complemento_emp', '$referencia_emp', '0', '$usuario', '$data_hora')";
 
 $salvar = mysqli_query($conn, $Sql);
-
 $id_insert = mysqli_insert_id($conn);
+// print_r($id_insert);
+// exit();
 
 
 $nome_arquivo_inport = $_FILES['foto']['name']['ftcliente'];

@@ -37,29 +37,33 @@ include_once("conexao.php");
                             <div class="card-body">
                                 <div class="row">
 
-                                <!-- <div class="container"> -->
-    <!-- <div class="row"> -->
-        <div class="col-1">
-            <div class="form-group">
-            <label>Data Solicitação:</label>
-                <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                    <input required name="dt_solicitcao" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
-                    <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker4').datetimepicker({
-                    format: 'YYYY-MM-DD'
-                });
-            });
-        </script>
-    <!-- </div> -->
-<!-- </div> -->
-                                
+                                    <!-- <div class="container"> -->
+                                    <!-- <div class="row"> -->
+                                    <div class="col-1">
+                                        <div class="form-group">
+                                            <label>Data Solicitação:</label>
+                                            <div class="input-group date" id="datetimepicker4"
+                                                data-target-input="nearest">
+                                                <input required name="dt_solicitcao" type="text"
+                                                    class="form-control datetimepicker-input"
+                                                    data-target="#datetimepicker4" />
+                                                <div class="input-group-append" data-target="#datetimepicker4"
+                                                    data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $('#datetimepicker4').datetimepicker({
+                                                format: 'YYYY-MM-DD'
+                                            });
+                                        });
+                                    </script>
+                                    <!-- </div> -->
+                                    <!-- </div> -->
+
                                     <!-- <div class="col-lg-12"> -->
                                     <div class="col-4">
                                         <div class="form-group">
@@ -78,12 +82,16 @@ include_once("conexao.php");
                                                         $cliente = $row_usuario['nome'];
                                                         $sobrenome = $row_usuario['sobrenome'];
                                                         $id = $row_usuario['id'];
-                                                        echo "<option value='$id'>$cliente $sobrenome  </option>";
-                                                        }
-                                                ?>
+                                                        $id_cliente = $row_usuario['id_cliente'];    
+                                                        echo "<option value='$id.$id_cliente'>$cliente $sobrenome</option>";
+                                                        
+                                                    }
+                                                    ?>
                                             </select>
                                         </div>
                                     </div>
+
+                                    <input id="id_cliente" name="id_servico" type="hidden" value="" class="form-control">
 
                                     <div class="col-1">
                                         <label>Valor:</label>
@@ -105,8 +113,8 @@ include_once("conexao.php");
 
                                     <div class="col-1">
                                         <label>Valor da parcela:</label>
-                                        <input id="valor_parcela" readonly name="valor_parcela" onkeyup="formatarMoeda();"
-                                            name="valor" type="text" class="form-control">
+                                        <input id="valor_parcela" readonly name="valor_parcela"
+                                            onkeyup="formatarMoeda();" name="valor" type="text" class="form-control">
                                     </div>
 
                                     <script>
@@ -126,7 +134,7 @@ include_once("conexao.php");
                                     <!-- </div> -->
 
                                 </div>
-
+                              
                                 <div id="button" class="col-2">
                                     <button type="submit" class="btn btn-block btn-success">Salvar</button>
                                 </div>
@@ -147,33 +155,72 @@ include_once("conexao.php");
                                 //   $("#valor").change(function() {
                                 $("#valor").on('keyup', function(event) {
                                     // document.getElementById('spiner').style = 'display:block;';
-                                    let valor = conversor(document.getElementById("valor").value);
-                                    //   console.log(valor);
-                                    var percentual = 0.20;
-                                    var juros = valor * percentual;
-                                    var valor_bruto = valor + juros;
-                                    console.log(juros);
-                                    console.log(valor_bruto);
 
-                                    var valor_parcela = (valor_bruto / 20);
+                                    let id_result = document.getElementById("cliente").value;
+                                    var idarray = id_result.split(".");
+                                    console.log(idarray);
+                                    var id = idarray[0];
+                                    var id_cliente = idarray[1];
 
-                                        console.log(valor_parcela);
-                                    var juros = juros.toLocaleString('pt-br', {
-                                        style: 'currency',
-                                        currency: 'BRL'
-                                    });
-                                    var valor_bruto = valor_bruto.toLocaleString('pt-br', {
-                                        style: 'currency',
-                                        currency: 'BRL'
-                                    });
-                                    var valor_parcela = valor_parcela.toLocaleString('pt-br', {
-                                        style: 'currency',
-                                        currency: 'BRL'
-                                    });
+                                    // console.log(id_cliente);
 
-                                    document.getElementById("juros").value = juros;
-                                    document.getElementById("valor_bruto").value = valor_bruto;
-                                    document.getElementById("valor_parcela").value = valor_parcela;
+                                    if( id_cliente == 1){
+
+                                        let valor = conversor(document.getElementById("valor").value);
+                                        //   console.log(valor);
+                                        var percentual = 0.20;
+                                        var juros = valor * percentual;
+                                        var valor_bruto = valor + juros;
+                                        // console.log(juros);
+                                        // console.log(valor_bruto);
+                                        var valor_parcela = (valor_bruto / 20);
+                                        // console.log(valor_parcela);
+                                        var juros = juros.toLocaleString('pt-br', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        });
+                                        var valor_bruto = valor_bruto.toLocaleString('pt-br', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        });
+                                        var valor_parcela = valor_parcela.toLocaleString('pt-br', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        });
+                                        document.getElementById("juros").value = juros;
+                                        document.getElementById("valor_bruto").value = valor_bruto;
+                                        document.getElementById("valor_parcela").value = valor_parcela;
+
+                                    }else{
+
+                                        let valor = conversor(document.getElementById("valor").value);
+                                        //   console.log(valor);
+                                        var percentual = 0.20;
+                                        var juros = valor * percentual;
+                                        var valor_bruto = valor + juros;
+                                        // console.log(juros);
+                                        // console.log(valor_bruto);
+                                        // var valor_parcela = (valor_bruto / 20);
+                                        // console.log(valor_parcela);
+                                        var juros = juros.toLocaleString('pt-br', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        });
+                                        var valor_bruto = valor_bruto.toLocaleString('pt-br', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        });
+                                        // var valor_parcela = valor_parcela.toLocaleString('pt-br', {
+                                        //     style: 'currency',
+                                        //     currency: 'BRL'
+                                        // });
+                                        document.getElementById("juros").value = juros;
+                                        document.getElementById("valor_bruto").value = valor_bruto;
+                                        document.getElementById("valor_parcela").style = 'display: none';
+
+
+                                    }
+
                                 })
                             });
                         </script>
@@ -182,12 +229,20 @@ include_once("conexao.php");
                             $(document).ready(function() {
                                 $("#cliente").change(function() {
                                     // document.getElementById('spiner').style = 'display:block;';
-                                    let id = document.getElementById("cliente").value;
+                                    
+                                    let id_result = document.getElementById("cliente").value;
+                                    var idarray = id_result.split(".");
+                                    console.log(idarray);
+                                    var id = idarray[0];
+                                    var id_cliente = idarray[1];
+
+                                    document.getElementById("id_cliente").value = id_cliente;
+                                    // console.log(id_cliente);
                                     if (id == "") {} else {
                                         var vData = {
                                             id: id
                                         };
-                                        console.log(vData);
+                                        // console.log(vData);
                                         $.ajax({
                                             url: 'validar_cliente.php',
                                             dataType: 'html',
@@ -240,7 +295,6 @@ include_once("conexao.php");
                         <script src="../../dist/js/adminlte.min.js"></script>
                         <!-- AdminLTE for demo purposes -->
 
-                        
                         <!-- Page specific script -->
                         <script>
                             $(function() {
@@ -315,7 +369,7 @@ include_once("conexao.php");
                                 $('.my-colorpicker2').colorpicker()
                                 $('.my-colorpicker2').on('colorpickerChange', function(event) {
                                     $('.my-colorpicker2 .fa-square').css('color', event.color
-                                    .toString());
+                                        .toString());
                                 })
                                 $("input[data-bootstrap-switch]").each(function() {
                                     $(this).bootstrapSwitch('state', $(this).prop('checked'));

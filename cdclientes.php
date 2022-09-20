@@ -38,6 +38,17 @@ include_once("starter.php");
                 </div>
                 <div class="card-body">
                   <div class="row">
+                  <div class="col-1">
+
+                  <div class="form-group">
+                  <label>VS ou Guerra</label>
+                  <select name="servico" required class="form-control select2bs4" style="width: 100%;" placeholder="Select a State">
+                    <option selected=""></option>
+                    <option value="1" >VS</option>
+                    <option value="2">Guerra</option>
+                  </select>
+                </div>
+                </div>
 
                     <div class="col-2">
                       <label>CNPJ:</label>

@@ -12,33 +12,29 @@ $id = $_POST['cliente'];
 $valor = $_POST['valor'];
 $juros = $_POST['juros'];
 $valor_bruto = $_POST['valor_bruto'];
+$valor_parcelado = $_POST['valor_parcela'];
+$id_servico = $_POST['id_servico'];
 $dt_solicitcao = $_POST['dt_solicitcao'];
 $dt_solicitcao = date('Y-m-d', strtotime($_POST['dt_solicitcao']));
- $valor_parcelado = $_POST['valor_parcela'];
 
-//  echo $juros;
+$id = explode('.', $id);
+$id = $id[0];
+
+if($id_servico == 1){  
+  $dt_pgto = $_POST['dt_solicitcao'];
+  $dt_pgto = date('Y-m-d', strtotime( $_POST['dt_solicitcao']));
+  
+}else{
+
+  $dt_pgto = $_POST['dt_solicitcao'];
+  $dt_pgto = date('Y-m-d', strtotime( '+1 month'));
+
+}
+//  echo $dt_solicitcao;
 // exit();
- $data_inicio = (date_create('Y-m-d')) + 20;
 
-$data_final = (date_create('Y-m-d'));
-
-
-$data = new DateTime('03-06-2022');
-$data->modify('+20 day');
- $data->format('d-m-Y');
-
-// exit();
-
-
-$data1 = new DateTime('2011-09-11');
-$data2 = new DateTime('2011-10-13');
-$intervalo = $data1->diff($data2);
- $intervalo->format('%R%a dias');
-
-
-
- $select_sql = "INSERT INTO `solicitacao`(`id`, `id_cliente`, `valor`, `valor_parcela`, `status_solicitacao`, `juros`, `valor_bruto`, `dt_solicitacao`, `dt_pgto`,`usuario`, `data_hora_solicitacao`)
-VALUES (null,'$id','$valor', '$valor_parcelado', '1', '$juros','$valor_bruto', '$dt_solicitcao', '$dt_solicitcao','$usuario','$data_hora')";
+ $select_sql = "INSERT INTO `solicitacao`(`id`, `id_cliente`, `id_servico`,`valor`, `valor_parcela`, `status_solicitacao`, `juros`, `valor_bruto`, `dt_solicitacao`, `dt_pgto`,`usuario`, `data_hora_solicitacao`)
+VALUES (null,'$id', '$id_servico', '$valor', '$valor_parcelado', '1', '$juros','$valor_bruto', '$dt_solicitcao', '$dt_pgto','$usuario','$data_hora')";
 $salvar = mysqli_query($conn, $select_sql);
 
 $update = "UPDATE clientes SET status_cliente = '1' WHERE id = $id";

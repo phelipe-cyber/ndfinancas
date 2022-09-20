@@ -33,7 +33,12 @@ while ($row_usuario_page = mysqli_fetch_assoc($recebidos_page)) {
 
 $search  = array_map('trim',array("'", '.php', '/','\\'));
 
-$array_salvar = str_replace($search, "",  $SCRIPT_NAME);
-
+ $array_salvar = str_replace($search, "",  $SCRIPT_NAME);
 
 ?>  
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+       $(document).ready(function() {
+            document.getElementById('<?php echo  $array_salvar ?>').classList.add('active');
+       })
+</script>

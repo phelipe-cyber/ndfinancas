@@ -26,7 +26,7 @@ date_default_timezone_set('America/Recife');
 
 $id = $_GET['id'];
 
- $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id where s.id = $id and s.id_servico = 1 ORDER by s.id DESC");
+ $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id where s.id = $id and s.id_servico = 2 ORDER by s.id DESC");
                            
 $recebidos = mysqli_query($conn, $select_sql);
 
@@ -36,13 +36,13 @@ while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
     $class = $row_usuario['class'];
     $cliente = $row_usuario['nome'];
     $sobrenome = $row_usuario['sobrenome'];
-    $id_cliente = $row_usuario['id'];
+    $id = $row_usuario['id'];
     $id_solicitacao = $row_usuario['id_soli'];
     $valor_bruto = $row_usuario['valor_bruto'];
     $valor = $row_usuario['valor'];
     $juros = $row_usuario['juros'];
     $status = $row_usuario['descricao'];
-    $valor_parcela = $row_usuario['valor_parcela'];
+    // $valor_parcela = $row_usuario['valor_parcela'];
     $data_hora = date('Y-m-d', strtotime($row_usuario['data_hora_solicitacao']));
     // $data_hora = date('d/m/Y H:i:s', strtotime($row_usuario['data_hora_solicitacao']));
 
@@ -72,20 +72,17 @@ while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
   
  $sum_pgto;
 
- 
 if($data_compro == "" ){
-
-  $select_solicitacao = ("SELECT *  FROM `solicitacao` where id =  $id_solicitacao ");
-  $result_solicitacao = mysqli_query($conn, $select_solicitacao);
-  
-  while ($row_sol = mysqli_fetch_assoc($result_solicitacao)) {
-      // print_r($row_vl_pgto);
-  
-      $ult_array_data = $row_sol['dt_pgto'];
-  
-    }
-
-  // $ult_array_data = $data_hora;
+    $select_solicitacao = ("SELECT *  FROM `solicitacao` where id =  $id_solicitacao ");
+    $result_solicitacao = mysqli_query($conn, $select_solicitacao);
+    
+    while ($row_sol = mysqli_fetch_assoc($result_solicitacao)) {
+        // print_r($row_vl_pgto);
+    
+        $ult_array_data = $row_sol['dt_pgto'];
+    
+      }
+//   $ult_array_data = $data_hora;
 
 }else{
   
@@ -94,6 +91,7 @@ if($data_compro == "" ){
 }
 
 $ultimadata = date('Y-m-d', strtotime($ult_array_data));
+
 
 
 if( $data_hoje == $ultimadata ){
@@ -134,7 +132,7 @@ if( $data_hoje == $ultimadata ){
               <!-- Default box -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Detalhes - VS</h3>
+                  <h3 class="card-title">Detalhes - Guerra</h3>
 
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -174,7 +172,7 @@ if( $data_hoje == $ultimadata ){
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-sm-3">
+                        <!-- <div class="col-12 col-sm-3">
                           <div class="info-box bg-light">
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Valor da Parcela</span>
@@ -182,7 +180,7 @@ if( $data_hoje == $ultimadata ){
                                 class="info-box-number text-center text-muted mb-0"><?php echo $valor_parcela ?></span>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
                         <div class="col-12 col-sm-3">
                           <div class="info-box bg-light">
                             <div class="info-box-content">
@@ -192,39 +190,22 @@ if( $data_hoje == $ultimadata ){
                             </div>
                           </div>
                         </div>
-                        <div class="col-12 col-sm-3">
+                        <!-- <div class="col-12 col-sm-3">
                           <div class="info-box bg-light">
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Parcelas</span>
                               <span class="info-box-number text-center text-muted mb-0"><?php  
-               
-               
-                                  // $data1 = new DateTime($ult_array_data);
-                                  // $data2 = new DateTime();
-                                  // $intervalo = $data1->diff($data2);
-                                  //  $dia_atraso = $intervalo->format('%a');
-                                  
-                                  $valor = preg_replace("/[^0-9,]+/i","",$valor_parcela);
-                                  
-                                  echo  ($sum_pgto - $atraso_diaria) / $valor . " / 20" ; 
+                            
+                                    $valor = preg_replace("/[^0-9,]+/i","",$valor_parcela);
+                                    
+                                    echo  ($sum_pgto - $atraso_diaria) / $valor . " / 20" ; 
 
-                                    // $valor = str_replace(",",".",$valor);
 
-                                    //  $atrasoParcela = $valor * $dia_atraso;
 
-                                      $parcela = ($sum_pgto - $atraso_diaria) / $valor;
-
-                                        // echo $parcela ;
-
-                                    ?>
-
-                                      <input id="parcela_pgto" value="<?php echo ($parcela)+1 ?>" name="parcela_pgto" type="hidden" class="form-control">
-                                      <input id="id_cliente" value="<?php echo ($id_cliente)?>" name="id_cliente" type="hidden" class="form-control">
-
-                                </span>
+                                ?></span>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
 
                       </div>
 
@@ -236,26 +217,10 @@ if( $data_hoje == $ultimadata ){
                               <span class="info-box-number text-center text-muted mb-0">
                                 <?php
                       
-                                  $today = getdate();
-                                  // print_r( $today['weekday']);
-
-                                  // if($today['weekday'] == 'Monday' 'Tuesday' ){
-                                  // if($today['weekday'] == 'Monday' or $today['weekday'] == 'Tuesday' ){
-
-                                  //   $data1 = new DateTime($ult_array_data);
-                                  //   $data2 = new DateTime();
-                                  //   $intervalo = $data1->diff($data2);
-                                  //   echo $dia_atraso = $intervalo->format('%a')-1 ;
-
-                                  // }else{
-
-                                    $data1 = new DateTime($ult_array_data);
-                                    $data2 = new DateTime();
-                                    $intervalo = $data1->diff($data2);
-                                    echo $dia_atraso = $intervalo->format('%a') ;
-
-                                  // }
-
+                                  $data1 = new DateTime($ult_array_data);
+                                  $data2 = new DateTime();
+                                  $intervalo = $data1->diff($data2);
+                                  echo $dia_atraso = $intervalo->format('%a') ;
                                   ?>
 
                               </span>
@@ -268,7 +233,7 @@ if( $data_hoje == $ultimadata ){
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Atraso Diário</span>
                               <span class="info-box-number text-center text-muted mb-0">
-                                <?php  $atraso_Diario =  $dia_atraso * 20; echo "R$ " .number_format($atraso_Diario, 2, ',', '.');?>
+                                <?php  $atraso_Diario =  $dia_atraso * 50; echo "R$ " .number_format($atraso_Diario, 2, ',', '.');?>
                                 <input id="atraso_diaria"
                                   value="<?php echo number_format($atraso_Diario, 2, ',', '.') ?>" name="atraso_diaria"
                                   type="hidden" class="form-control">
@@ -277,7 +242,7 @@ if( $data_hoje == $ultimadata ){
                           </div>
                         </div>
 
-                        <div class="col-12 col-sm-3">
+                        <!-- <div class="col-12 col-sm-3">
                           <div class="info-box bg-light">
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Atraso Parcela</span>
@@ -303,17 +268,20 @@ if( $data_hoje == $ultimadata ){
                               </span>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-12 col-sm-3">
                           <div class="info-box bg-light">
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Valor em Atraso</span>
                               <span class="info-box-number text-center text-muted mb-0">
-                                <?php  $valor_atraso = $atrasoParcela + $atraso_Diario;
-                    echo "R$ " .number_format($valor_atraso, 2, ',', '.');
+                                <?php 
+                                    $juros = preg_replace("/[^0-9,]+/i","",$juros);
+                                
+                                        $valor_atraso = $juros + $atraso_Diario;
+                                        echo "R$ " .number_format($valor_atraso, 2, ',', '.');
 
-                    ?>
+                                ?>
                                 <input id="total_atraso" value="<?php echo number_format($valor_atraso, 2, ',', '.') ?>"
                                   name="total_atraso" type="hidden" class="form-control">
 

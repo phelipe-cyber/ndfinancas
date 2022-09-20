@@ -122,7 +122,7 @@ $id_user = $_SESSION['id_user'];
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            <!-- <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> -->
           </div>
           <div class="info">
             <a href="#" class="d-block"> <?php echo $_SESSION['login'] ?></a>
@@ -158,7 +158,7 @@ $id_user = $_SESSION['id_user'];
                 ?>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a id="<?php echo $name.".php" ?>" href="<?php echo $name.".php" ?>" class="nav-link">
+                  <a id="<?php echo $name ?>" href="<?php echo $name.".php" ?>" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <?php
                           ?> <p><?php echo($menu_sep[$key]) ?></p><?php
@@ -166,12 +166,12 @@ $id_user = $_SESSION['id_user'];
                   </a>
                 </li>
               </ul>
-              <script>
+              <!-- <script>
                      $("#<?php echo $name.".php" ?>").click(function() {  
                        
                           document.getElementById('class<?php echo $name.".php" ?>').classList.add('active');
                         });
-                    </script>
+                    </script> -->
               <?php
               endforeach;
               ?>

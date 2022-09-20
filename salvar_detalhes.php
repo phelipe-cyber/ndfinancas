@@ -1,4 +1,5 @@
 <?php
+
 include_once("starter.php");
 include_once("conexao.php");
 
@@ -8,11 +9,28 @@ date_default_timezone_set('America/Recife');
  $usuario = $_SESSION['login'];
 
  $id_solicitacao = $_POST['id_solicitacao'];
+ $id_cliente = $_POST['id_cliente'];
+
+$parcela_pgto = $_POST['parcela_pgto'];
 
 $valor_pago = $_POST['valor_pago'];
+$valor_pago = preg_replace("/[^0-9,]+/i","",$valor_pago);
+$valor_pago = str_replace(",",".",$valor_pago);
+
+
 $atraso_diaria = $_POST['atraso_diaria'];
+$atraso_diaria = preg_replace("/[^0-9,]+/i","",$atraso_diaria);
+$atraso_diaria = str_replace(",",".",$atraso_diaria);
+
 $total_atraso = $_POST['total_atraso'];
+$total_atraso = preg_replace("/[^0-9,]+/i","",$total_atraso);
+$total_atraso = str_replace(",",".",$total_atraso);
+
 $atraso_parcela = $_POST['atraso_parcela'];
+$atraso_parcela = preg_replace("/[^0-9,]+/i","",$atraso_parcela);
+$atraso_parcela = str_replace(",",".",$atraso_parcela);
+
+
 $dt_pgto = $_POST['dt_pgto'];
 $nomeEvento = $_POST['nome_evento'];
 $descricaoEvento = $_POST['descricao_evento'];
@@ -20,6 +38,20 @@ $imagem = $_FILES['imagem']['tmp_name'];
 $tamanho = $_FILES['imagem']['size'];
 $tipo = $_FILES['imagem']['type'];
 $nome = $_FILES['imagem']['name'];
+
+// print_r($_POST);
+
+if($parcela_pgto == 20){
+  
+  $update = "UPDATE clientes SET status_cliente = 4 WHERE id = $id_cliente";
+  $salvar_update = mysqli_query($conn, $update);
+  
+  $update_status = "UPDATE `solicitacao` SET `status_solicitacao`= 4 WHERE id = $id_solicitacao";
+  $salve_pgto = mysqli_query($conn, $update_status);
+  
+};
+
+// exit();
 
 $nome_arquivo = $id_solicitacao."_".$data_hora_salve."_".$nome;
 
@@ -63,7 +95,7 @@ if( $salvar == 1 ){
                   Salvo com Sucesso
                 </div>
     <?php
-       echo '<meta http-equiv="refresh" content="3;URL=solicitacao.php" />';
+       echo '<meta http-equiv="refresh" content="3;URL=starter.php" />';
   }else{
     ?>
     <div class="content">

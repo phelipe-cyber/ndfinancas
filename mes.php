@@ -24,7 +24,7 @@ $data_hoje = (date('Y-m-d'));
               </div>
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title">Clientes - VS</h3>
+    <h3 class="card-title">Clientes - Guerra</h3>
   </div>
   <!-- /.card-header -->
   <div class="card-body">
@@ -35,7 +35,7 @@ $data_hoje = (date('Y-m-d'));
           <th>Valor</th>
           <th>Juros</th>
           <th>Valor Bruto</th>
-          <th>Valor Parcela</th>
+          <!-- <th>Valor Parcela</th> -->
           <th>Data Inicio</th>
           <th>Data Final</th>
           <th>Status</th>
@@ -45,7 +45,7 @@ $data_hoje = (date('Y-m-d'));
       <tbody>
         
         <?php
-                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id  where s.id_servico = 1 and c.status_cliente = 1 ORDER by s.id ASC ");
+                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id  where s.id_servico = 2  and c.status_cliente = 1 ORDER by s.id ASC ");
                           //  $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, comp.*
                           // FROM `solicitacao` s 
                           // INNER JOIN clientes c on s.id_cliente = c.id 
@@ -70,18 +70,18 @@ $data_hoje = (date('Y-m-d'));
                                 $juros = $row_usuario['juros'];
                                 $status = $row_usuario['descricao'];
                                 $valor_parcela = $row_usuario['valor_parcela'];
-                                $dt_pgto = $row_usuario['dt_pgto'];
                                 $data_hora = date('d/m/Y', strtotime($row_usuario['dt_solicitacao']));
+                                $dt_pgto = date('d/m/Y', strtotime($row_usuario['dt_pgto']));
                                 echo "<tr>";
                                 echo "<td >$cliente $sobrenome </td>";
                                 echo "<td >$valor</td>";
                                 echo "<td >$juros</td>";
                                 echo "<td >$valor_bruto</td>";
-                                echo "<td >$valor_parcela</td>";
+                                // echo "<td >$valor_parcela</td>";
                                 echo "<td >$data_hora</td>";
-                                echo "<td ></td>";
+                                echo "<td >$dt_pgto </td>";
 
-                                if( $dt_pgto == $data_hoje  ){
+                                if( $dt_pgto < $data_hora  ){
                                   echo "<td ><span class='badge badge-success'>EM DIA</span></td>";
                                 }else{
                                   echo "<td ><span class='badge badge-danger'>EM ATRASO</span></td>";
@@ -90,7 +90,7 @@ $data_hoje = (date('Y-m-d'));
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
 
                                 // echo "<td> <ion-icon name='eye-outline' href='teste.php' ></ion-icon> </td>";
-                                echo "<td class='text-center'> <a target='_blank' href='detalhes.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
+                                echo "<td class='text-center'> <a target='_blank' href='detalhes_guerra.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
 
                                 // <i class="fas fa-search"></i>
                                 echo "</tr>";

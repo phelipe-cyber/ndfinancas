@@ -5,7 +5,7 @@ include_once("verifica_acesso.php");
 include_once("conexao.php");
 
 $id_user = $_SESSION['id_user'];
-// print_r($acessos_page);
+// print_r($_SESSION);
 
 
 ?>

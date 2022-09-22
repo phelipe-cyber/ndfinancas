@@ -19,6 +19,7 @@ date_default_timezone_set('America/Recife');
     $class = $row_usuario['class'];
     $cliente = $row_usuario['nome'];
     $sobrenome = $row_usuario['sobrenome'];
+    $socio = $row_usuario['socio'];
     $id = $row_usuario['id'];
     $atividade = $row_usuario['atividade'];
     $endereco = $row_usuario['endereco'];
@@ -89,6 +90,10 @@ date_default_timezone_set('America/Recife');
                         <!-- <div class="card bg-light d-flex flex-fill"> -->
                             <div class="lead card-header text-muted border-bottom-0"><b>
                                 <?php echo $cliente." ".$sobrenome ?>
+                            </b>
+                            </div>
+                            <div class="lead card-header text-muted border-bottom-0"><b>
+                                <?php echo $socio ?>
                             </b>
                             </div>
                             <div class="card-body pt-0">

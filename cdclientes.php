@@ -38,8 +38,7 @@ include_once("starter.php");
                 </div>
                 <div class="card-body">
                   <div class="row">
-                  <div class="col-1">
-
+                  <div class="col-2">
                   <div class="form-group">
                   <label>VS ou Guerra</label>
                   <select name="servico" required class="form-control select2bs4" style="width: 100%;" placeholder="Select a State">
@@ -58,12 +57,13 @@ include_once("starter.php");
 
                     <script>
                       $(document).ready(function() {
-                        document.getElementById("nome").value = "";
+                        document.getElementById("razao_social").value = "";
                         $("#cnpj").on('keyup', function(event) {
                           // $("#cnpj").on('keydown', function(event) {
                           // $("#cnpj").on('onclick', function(event) {
                           // console.log(event);
                           // if (event.keyCode === 9 || event.keyCode === 13 || event.keyCode === 86) {
+                          document.getElementById("razao_social").value = "";
                           document.getElementById("nome").value = "";
                           document.getElementById("sobrenome").value = "";
                           document.getElementById("lougadouro").value = "";
@@ -84,11 +84,13 @@ include_once("starter.php");
                             url: 'https://brasilapi.com.br/api/cnpj/v1/' + cnpj,
                             method: "GET",
                             success: function(response) {
-                              // console.log(response);
+                              console.log(response.qsa[0].nome_socio);
                               // console.log(response.message);
                               document.getElementById("spiner").style = 'display:none;';
+                              
                               nomeRazao = response.razao_social;
-                              document.getElementById("nome").value = nomeRazao;
+                              document.getElementById("razao_social").value = nomeRazao;
+                              
                               municipio = response.municipio;
                               document.getElementById("municipio").value = municipio;
                               uf = response.uf
@@ -105,6 +107,10 @@ include_once("starter.php");
                               document.getElementById("complemento").value = complemento;
                               nome_fantasia = response.nome_fantasia
                               document.getElementById("sobrenome").value = nome_fantasia;
+
+                              nome_socios = response.qsa[0].nome_socio;
+                              document.getElementById("nome").value = nome_socios;
+
                               // document.getElementById("pedido").focus();
                             },
                             error: function(err) {
@@ -201,12 +207,16 @@ include_once("starter.php");
                     </script>
 
                     <div class="col-5">
-                      <label>Nome:</label>
-                      <input  id="nome" name="nome" type="text" class="form-control">
+                      <label>Razão social:</label>
+                      <input  id="razao_social" name="razao_social" type="text" class="form-control">
                     </div>
                     <div class="col-4">
-                      <label>Sobrenome:</label>
+                      <label>Nome Fantasia:</label>
                       <input  id="sobrenome" name="sobrenome" type="text" class="form-control">
+                    </div>
+                    <div class="col-5">
+                      <label>Nome:</label>
+                      <input  id="nome" name="nome" type="text" class="form-control">
                     </div>
                     <div class="col-1">
                       <label>RG:</label>

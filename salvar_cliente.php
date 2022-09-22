@@ -12,6 +12,7 @@ $cep = $_POST['cep'];
 $cnpj = $_POST['cnpj'];
 $nome=$_POST['nome'];
 $sobrenome=$_POST['sobrenome'];
+$razao_social=$_POST['razao_social'];
 $rg=$_POST['rg'];
 $tel=$_POST['tel'];
 $tel2=$_POST['tel2'];
@@ -33,9 +34,10 @@ $municipio_emp=$_POST['municipio_emp'];
 $complemento_emp=$_POST['complemento_emp'];
 $referencia_emp=$_POST['referencia_emp'];
 $servico = $_POST['servico'];
+$socio = $_POST['servico'];
 
-    $Sql = "INSERT INTO `clientes`(`id`, `nome`, `sobrenome`, `cpf`, `rg`, `tel`, `tel2`, `atividade`, `endereco`, `cep`, `cnpj`, `numero`, `bairro`, `municipio`, `uf`, `complemento`, `referencia`, `cep_emp`, `lougadouro_emp`, `number_emp`, `municipio_emp`, `uf_emp`, `bairro_emp`, `complemento_emp`, `referencia_emp`, `status_cliente`, `id_cliente`, `user_created`, `data_hora_cliente`)
-     VALUES (null,'$nome', '$sobrenome', '$cpf', '$rg', '$tel', '$tel2', '$atividade', '$lougadouro', '$cep', '$cnpj', '$number',
+    $Sql = "INSERT INTO `clientes`(`id`, `nome`, `sobrenome`, `socio`,`cpf`, `rg`, `tel`, `tel2`, `atividade`, `endereco`, `cep`, `cnpj`, `numero`, `bairro`, `municipio`, `uf`, `complemento`, `referencia`, `cep_emp`, `lougadouro_emp`, `number_emp`, `municipio_emp`, `uf_emp`, `bairro_emp`, `complemento_emp`, `referencia_emp`, `status_cliente`, `id_cliente`, `user_created`, `data_hora_cliente`)
+     VALUES (null,'$razao_social', '$sobrenome', '$nome','$cpf', '$rg', '$tel', '$tel2', '$atividade', '$lougadouro', '$cep', '$cnpj', '$number',
     '$bairro', '$municipio', '$uf', '$complemento', '$referencia', '$cep_emp', '$lougadouro_emp', '$number_emp', 
     '$municipio_emp', '$uf_emp', '$bairro_emp', '$complemento_emp', '$referencia_emp', '0', '$servico', '$usuario', '$data_hora')";
 

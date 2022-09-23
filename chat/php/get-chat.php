@@ -5,7 +5,7 @@
         $outgoing_id = $_SESSION['unique_id'];
         $incoming_id = mysqli_real_escape_string($conn, $_POST['incoming_id']);
         $output = "";
-        $sql = "SELECT * FROM messages LEFT JOIN user ON user.unique_id = messages.outgoing_msg_id
+        $sql = "SELECT *, DES_DECRYPT(msg) FROM messages LEFT JOIN user ON user.unique_id = messages.outgoing_msg_id
                 WHERE (outgoing_msg_id = {$outgoing_id} AND incoming_msg_id = {$incoming_id})
                 OR (outgoing_msg_id = {$incoming_id} AND incoming_msg_id = {$outgoing_id}) ORDER BY msg_id";
         $query = mysqli_query($conn, $sql);
@@ -14,13 +14,14 @@
                 if($row['outgoing_msg_id'] === $outgoing_id){
                     $output .= '<div class="chat outgoing">
                                 <div class="details">
-                                    <p>'. $row['msg'] .'</p>
+                                    <p>'. $row["DES_DECRYPT(msg)"] .'</p>
+
                                 </div>
                                 </div>';
                 }else{
                     $output .= '<div class="chat incoming">
                                 <div class="details">
-                                    <p>'. $row['msg'] .'</p>
+                                    <p>'. $row["DES_DECRYPT(msg)"] .'</p>
                                 </div>
                                 </div>';
                 }
@@ -33,5 +34,5 @@
     }else{
         header("location: ../login.php");
     }
-
+    // md5('{$password}'
 ?>

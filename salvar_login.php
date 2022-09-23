@@ -45,9 +45,10 @@ if( $row_usuario == 1 ){
     // $hashToStoreInDb = password_hash($password, PASSWORD_BCRYPT);
 
     $hashToStoreInDb = MD5($password);
+    $ran_id = rand(time(), 100000000);
 
-    $sql_login = "INSERT INTO `user`(`id`, `usuario`, `senha`, `status`)
-    VALUES (null,'$login','$hashToStoreInDb', '1' )";
+    $sql_login = "INSERT INTO `user`(`id`, `unique_id`, `usuario`, `senha`, `status`)
+    VALUES (null,'$ran_id', '$login', '$hashToStoreInDb', '1' )";
 
     $validar_sql = mysqli_query($conn, $sql_login);
 

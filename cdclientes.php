@@ -609,6 +609,7 @@ include_once("starter.php");
                                   }
                                 </script>
                               </li>
+
                               <li class="nav-item active">
                                 <a class="nav-link">
                                   <div class="btn btn-default btn-file">
@@ -624,6 +625,26 @@ include_once("starter.php");
                                     var filename = file.name;
                                     var error_gb = document.getElementById('fttermo').style = '';
                                     var labe1 = document.getElementById('fttermo');
+                                    labe1.innerHTML = filename;
+                                  }
+                                </script>
+                              </li>
+
+                              <li class="nav-item active">
+                                <a class="nav-link">
+                                  <div class="btn btn-default btn-file">
+                                    <i class="fas fa-paperclip"></i> Certificado
+                                    <input onchange="getFileData_ftcertificado(this);" type="file" name="foto[ftcertificado]">
+                                  </div>
+                                  <span id="ftcertificado" class="badge float-right" style="display: none!important;"></span>
+                                </a>
+
+                                <script>
+                                  function getFileData_ftcertificado(myFile) {
+                                    var file = myFile.files[0];
+                                    var filename = file.name;
+                                    var error_gb = document.getElementById('ftcertificado').style = '';
+                                    var labe1 = document.getElementById('ftcertificado');
                                     labe1.innerHTML = filename;
                                   }
                                 </script>

@@ -48,7 +48,7 @@ if( $row_usuario == 1 ){
     $ran_id = rand(time(), 100000000);
 
     $sql_login = "INSERT INTO `user`(`id`, `unique_id`, `usuario`, `senha`, `status`)
-    VALUES (null,'$ran_id', '$login', '$hashToStoreInDb', '1' )";
+    VALUES (null,'$ran_id', '$login', '$hashToStoreInDb', 'Off-line agora' )";
 
     $validar_sql = mysqli_query($conn, $sql_login);
 

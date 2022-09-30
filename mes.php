@@ -37,7 +37,7 @@ $data_hoje = (date('Y-m-d'));
           <th>Valor Bruto</th>
           <!-- <th>Valor Parcela</th> -->
           <th>Data Inicio</th>
-          <th>Data Final</th>
+          <!-- <th>Data Final</th> -->
           <th>Status</th>
           <th>Ações</th>
         </tr>
@@ -45,7 +45,9 @@ $data_hoje = (date('Y-m-d'));
       <tbody>
         
         <?php
-                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id  where s.id_servico = 2  and c.status_cliente = 1 ORDER by s.id ASC ");
+                                    $usuario = $_SESSION['login'];
+
+                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id  where s.id_servico = 2  and c.status_cliente = 1 and s.usuario = '$usuario' ORDER by s.id ASC ");
                           //  $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, comp.*
                           // FROM `solicitacao` s 
                           // INNER JOIN clientes c on s.id_cliente = c.id 
@@ -79,9 +81,9 @@ $data_hoje = (date('Y-m-d'));
                                 echo "<td >$valor_bruto</td>";
                                 // echo "<td >$valor_parcela</td>";
                                 echo "<td >$data_hora</td>";
-                                echo "<td >$dt_pgto </td>";
+                               
 
-                                if( $dt_pgto < $data_hora  ){
+                                if( $data_hoje < $dt_pgto ){
                                   echo "<td ><span class='badge badge-success'>EM DIA</span></td>";
                                 }else{
                                   echo "<td ><span class='badge badge-danger'>EM ATRASO</span></td>";
@@ -90,7 +92,7 @@ $data_hoje = (date('Y-m-d'));
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
 
                                 // echo "<td> <ion-icon name='eye-outline' href='teste.php' ></ion-icon> </td>";
-                                echo "<td class='text-center'> <a target='_blank' href='detalhes_guerra.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
+                                echo "<td class='text-center'> <a href='detalhes_guerra.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
 
                                 // <i class="fas fa-search"></i>
                                 echo "</tr>";

@@ -1,7 +1,66 @@
-<?php 
+<?php
+
+use WhichBrowser\Constants\Id;
+
 include_once("starter.php");
 
+ $id_edit = $_GET['id'];
+
+ 
+ 
+
+$select_sql = ("SELECT c.*, ft.* FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id = $id_edit ");
+                            
+ $recebidos = mysqli_query($conn, $select_sql);
+ 
+ while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
+    // print_r($row_usuario);
+
+    $id_cliente = $row_usuario['id_cliente'];
+    $status_solicitacao = $row_usuario['status_solicitacao'];
+    $class = $row_usuario['class'];
+    $cliente = $row_usuario['nome'];
+    $cnpj = $row_usuario['cnpj'];
+    $cep = $row_usuario['cep'];
+    $sobrenome = $row_usuario['sobrenome'];
+    $socio = $row_usuario['socio'];
+    $id = $row_usuario['id'];
+    $atividade = $row_usuario['atividade'];
+    $endereco = $row_usuario['endereco'];
+    $cpf = $row_usuario['cpf'];
+    $rg = $row_usuario['rg'];
+    $tel = $row_usuario['tel'];
+    $tel2 = $row_usuario['tel2'];
+    $numero = $row_usuario['numero'];
+    $bairro = $row_usuario['bairro'];
+    $municipio = $row_usuario['municipio'];
+    $uf = $row_usuario['uf'];
+    $uf_emp = $row_usuario['uf_emp'];
+    $complemento = $row_usuario['complemento'];
+    $referencia = $row_usuario['referencia'];
+    $cep_emp = $row_usuario['cep_emp'];
+    $lougadouro_emp = $row_usuario['lougadouro_emp'];
+    $number_emp = $row_usuario['number_emp'];
+    $municipio_emp = $row_usuario['municipio_emp'];
+    $bairro_emp = $row_usuario['bairro_emp'];
+    $complemento_emp = $row_usuario['complemento_emp'];
+    $referencia_emp = $row_usuario['referencia_emp'];
+
+    $ftcliente = $row_usuario['ftcliente'];
+    $ftrg = $row_usuario['ftrg'];
+    $ftcpf = $row_usuario['ftcpf'];
+    $ftcompres = $row_usuario['ftcompres'];
+    $ftcompcomer = $row_usuario['ftcompcomer'];
+    $fttermo = $row_usuario['fttermo'];
+    $ftlocal = $row_usuario['ftlocal'];
+    $ftlocal2 = $row_usuario['ftlocal2'];
+    $ftlocal3 = $row_usuario['ftlocal3'];
+    
+
+ }
+
 ?>
+
 
 <body class="hold-transition sidebar-mini">
 
@@ -25,7 +84,9 @@ include_once("starter.php");
 
             <!-- <form id="Form" action="salvar_cliente.php" method="POST"> -->
 
-            <form  method="POST" action="salvar_cliente.php" enctype="multipart/form-data">
+            <form  method="POST" action="salvar_edicao.php" enctype="multipart/form-data">
+           
+            <input type="hidden" value="<?php echo $id_edit ?>" name="id_edit" >
 
               <div id="danger-alert" class="alert alert-danger alert-dismissible" style="display: none;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -34,7 +95,7 @@ include_once("starter.php");
 
               <div class="card card-info">
                 <div class="card-header">
-                  <h3 class="card-title">Cadastro Cliente</h3>
+                  <h3 class="card-title">Editar Cliente</h3>
                 </div>
                 <div class="card-body">
                   <div class="row">
@@ -42,7 +103,20 @@ include_once("starter.php");
                   <div class="form-group">
                   <label>VS ou Guerra</label>
                   <select name="servico" required class="form-control select2bs4" style="width: 100%;" placeholder="Select a State">
-                    <option selected=""></option>
+                    
+                    <?php 
+                            if($id_cliente == 1){
+
+                                $id_cliente = 'VS';
+
+                            }else{
+
+                                $id_cliente = 'Guerra';
+
+                            }
+
+                    ?>
+                  <option selected="<?php echo $id_cliente ?>"><?php echo $id_cliente ?></option>
                     <option value="1" >VS</option>
                     <option value="2">Guerra</option>
                   </select>
@@ -51,231 +125,88 @@ include_once("starter.php");
 
                     <div class="col-2">
                       <label>CNPJ:</label>
-                      <input  id="cnpj" name="cnpj" type="text" class="form-control"
+                      <input  id="cnpj" value="<?php echo $cnpj ?>" name="cnpj" type="text" class="form-control"
                         data-inputmask="'mask': ['99.999.999/9999-99']" data-mask>
                     </div>
 
-                    <script>
-                      $(document).ready(function() {
-                        document.getElementById("razao_social").value = "";
-                        $("#cnpj").on('keyup', function(event) {
-                          // $("#cnpj").on('keydown', function(event) {
-                          // $("#cnpj").on('onclick', function(event) {
-                          // console.log(event);
-                          // if (event.keyCode === 9 || event.keyCode === 13 || event.keyCode === 86) {
-                          document.getElementById("razao_social").value = "";
-                          document.getElementById("nome").value = "";
-                          document.getElementById("sobrenome").value = "";
-                          document.getElementById("lougadouro").value = "";
-                          document.getElementById("bairro").value = "";
-                          document.getElementById("municipio").value = "";
-                          document.getElementById("uf").value = "";
-                          document.getElementById("complemento").value = "";
-                          document.getElementById("cep").value = "";
-                          document.getElementById("spiner").style = 'display:block;';
-                          document.getElementById("danger-alert").style = "display: none";
-                          var cnpj_completo = document.getElementById("cnpj").value
-                          var cnpj = cnpj_completo.replace(/[^0-9]/g, '');
-                          console.log(cnpj);
-                          var vData = {
-                            cnpj: cnpj
-                          };
-                          $.ajax({
-                            url: 'https://brasilapi.com.br/api/cnpj/v1/' + cnpj,
-                            method: "GET",
-                            success: function(response) {
-                              console.log(response.qsa[0].nome_socio);
-                              // console.log(response.message);
-                              document.getElementById("spiner").style = 'display:none;';
-                              
-                              nomeRazao = response.razao_social;
-                              document.getElementById("razao_social").value = nomeRazao;
-                              
-                              municipio = response.municipio;
-                              document.getElementById("municipio").value = municipio;
-                              uf = response.uf
-                              document.getElementById("uf").value = uf;
-                              cnpj = response.cnpj
-                              document.getElementById("cnpj").value = cnpj;
-                              bairro = response.bairro
-                              document.getElementById("bairro").value = bairro;
-                              logradouro = response.logradouro
-                              document.getElementById("lougadouro").value = logradouro;
-                              cep = response.cep
-                              document.getElementById("cep").value = cep;
-                              complemento = response.complemento
-                              document.getElementById("complemento").value = complemento;
-                              nome_fantasia = response.nome_fantasia
-                              document.getElementById("sobrenome").value = nome_fantasia;
-
-                              nome_socios = response.qsa[0].nome_socio;
-                              document.getElementById("nome").value = nome_socios;
-
-                              // document.getElementById("pedido").focus();
-                            },
-                            error: function(err) {
-                              document.getElementById("spiner").style = 'display:none;';
-                              // console.log(err.responseJSON.message);
-                              // console.log(err.message);
-                              Erro = err.responseJSON.message;
-                              // document.getElementById("nome").value = Erro;
-                              document.getElementById("sobrenome").value = "";
-                              document.getElementById("cep").value = "";
-                              document.getElementById("lougadouro").value = "";
-                              document.getElementById("bairro").value = "";
-                              document.getElementById("municipio").value = "";
-                              document.getElementById("uf").value = "";
-                              document.getElementById("complemento").value = "";
-                              document.getElementById("msg_error").innerText = Erro;
-                              document.getElementById("danger-alert").style = "display: block";
-                              $("#danger-alert").fadeTo(4000, 500).slideUp(500, function() {
-                                $("#danger-alert").slideUp(500);
-                              });
-                            },
-                            complete: () => loading(false),
-                          });
-                          // };
-                        });
-                      });
-                    </script>
-
                     <div class="col-2">
                       <label>CEP:</label>
-                      <input  id="cep" name="cep" type="text" class="form-control"
+                      <input  id="cep" name="cep" value="<?php echo $cep ?>" type="text" class="form-control"
                         data-inputmask="'mask': ['99999-999']" data-mask>
                     </div>
 
-                    <script>
-                      $(document).ready(function() {
-                        document.getElementById("nome").value = "";
-                        $("#cep").on('keyup', function(event) {
-                          // $("#cnpj").on('keydown', function(event) {
-                          // $("#cnpj").on('onclick', function(event) {
-                          // console.log(event);
-                          // if (event.keyCode === 9 || event.keyCode === 13 || event.keyCode === 86) {
-                          document.getElementById("danger-alert").style = "display: none";
-                          document.getElementById("lougadouro").value = "";
-                          document.getElementById("municipio").value = "";
-                          document.getElementById("uf").value = "";
-                          document.getElementById("bairro").value = "";
-                          document.getElementById("spiner").style = 'display:block;';
-                          var cep = document.getElementById("cep").value
-                          var cep = cep.replace(/[^0-9]/g, '');
-                          console.log(cep);
-                          var vData = {
-                            cep: cep
-                          };
-                          $.ajax({
-                            url: 'https://brasilapi.com.br/api/cep/v1/' + cep,
-                            method: "GET",
-                            success: function(response) {
-                              console.log(response);
-                              // console.log(response.message);
-                              document.getElementById("spiner").style = 'display:none;';
-                              street = response.street;
-                              document.getElementById("lougadouro").value = street;
-                              municipio = response.city;
-                              document.getElementById("municipio").value = municipio;
-                              uf = response.state
-                              document.getElementById("uf").value = uf;
-                              cep = response.cep
-                              document.getElementById("cep").value = cep;
-                              bairro = response.neighborhood
-                              document.getElementById("bairro").value = bairro;
-                              // document.getElementById("pedido").focus();
-                            },
-                            error: function(err) {
-                              document.getElementById("spiner").style = 'display:none;';
-                              // console.log(err.responseJSON.message);
-                              // console.log(err.message);
-                              Erro = err.responseJSON.message;
-                              // document.getElementById("lougadouro").value = Erro;
-                              document.getElementById("municipio").value = "";
-                              document.getElementById("uf").value = "";
-                              document.getElementById("bairro").value = "";
-                              document.getElementById("msg_error").innerText = Erro;
-                              document.getElementById("danger-alert").style = "display: block";
-                              $("#danger-alert").fadeTo(4000, 500).slideUp(500, function() {
-                                $("#danger-alert").slideUp(500);
-                              });
-                            },
-                            // complete: () => loading(false),
-                          });
-                          // };
-                        });
-                      });
-                    </script>
+                  
 
                     <div class="col-5">
                       <label>Razão social:</label>
-                      <input  id="razao_social" name="razao_social" type="text" class="form-control">
+                      <input  id="razao_social" value="<?php echo $cliente ?>" name="razao_social" type="text" class="form-control">
                     </div>
                     <div class="col-4">
                       <label>Nome Fantasia:</label>
-                      <input  id="sobrenome" name="sobrenome" type="text" class="form-control">
+                      <input  id="sobrenome" value="<?php echo $sobrenome ?>" name="sobrenome" type="text" class="form-control">
                     </div>
                     <div class="col-5">
                       <label>Nome:</label>
-                      <input  id="nome" name="nome" type="text" class="form-control">
+                      <input  id="nome" name="nome" value="<?php echo $socio ?>" type="text" class="form-control">
                     </div>
                     <div class="col-1">
                       <label>RG:</label>
-                      <input  id="rg" name="rg" type="text" class="form-control">
+                      <input  id="rg" name="rg" value="<?php echo $rg ?>" type="text" class="form-control">
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
                       <label>CPF:</label>
-                      <input  id="cpf" name="cpf" type="text" class="form-control"
+                      <input  id="cpf" name="cpf" value="<?php echo $cpf ?>" type="text" class="form-control"
                         data-inputmask="'mask': ['999.999.999-99']" data-mask>
                     </div>
                     <div class="col-2">
                       <label>Telefone 1:</label>
-                      <input  id="tel" name="tel" type="text" class="form-control"
+                      <input  id="tel" name="tel" value="<?php echo $tel ?>" type="text" class="form-control"
                         data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']" data-mask>
                     </div>
 
                     <div class="col-2">
                       <label>Telefone 2:</label>
-                      <input id="tel2" name="tel2" type="text" class="form-control"
+                      <input id="tel2" name="tel2" value="<?php echo $tel2 ?>" type="text" class="form-control"
                         data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']" data-mask>
                     </div>
                     <div class="col-3">
                       <label>Atidade:</label>
-                      <input  id="atividade" name="atividade" type="text" class="form-control">
+                      <input  id="atividade" name="atividade" value="<?php echo $atividade ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-4">
                       <label>Endereço:</label>
-                      <input  id="lougadouro" name="lougadouro" type="text" class="form-control">
+                      <input  id="lougadouro" name="lougadouro" value="<?php echo $endereco ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-1">
                       <label>Número:</label>
-                      <input  id="number" name="number" type="text" class="form-control">
+                      <input  id="number" name="number" value="<?php echo $numero ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-2">
                       <label>Bairro:</label>
-                      <input  id="bairro" name="bairro" type="text" class="form-control">
+                      <input  id="bairro" name="bairro" value="<?php echo $bairro ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-2">
                       <label>Municipio:</label>
-                      <input  id="municipio" name="municipio" type="text" class="form-control">
+                      <input  id="municipio" name="municipio" value="<?php echo $municipio ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-1">
                       <label>UF:</label>
-                      <input  id="uf" name="uf" type="text" class="form-control">
+                      <input  id="uf" name="uf" value="<?php echo $uf ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-4">
                       <label>Complemento:</label>
-                      <input id="complemento" name="complemento" type="text" class="form-control">
+                      <input id="complemento" name="complemento" value="<?php echo $complemento ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-4">
                       <label>Referencia:</label>
-                      <input id="referencia" name="referencia" type="text" class="form-control">
+                      <input id="referencia" name="referencia" value="<?php echo $referencia ?>" type="text" class="form-control">
                     </div>
 
                     <!-- <div class="col-2">
@@ -317,99 +248,43 @@ include_once("starter.php");
 
                     <div class="col-2">
                       <label>CEP:</label>
-                      <input  id="cep_emp" name="cep_emp" type="text" class="form-control"
+                      <input  id="cep_emp" name="cep_emp" value="<?php echo $cep_emp ?>" type="text" class="form-control"
                         data-inputmask="'mask': ['99999-999']" data-mask>
                     </div>
 
-                    <script>
-                      $(document).ready(function() {
-                        $("#cep_emp").on('keyup', function(event) {
-                          // $("#cnpj").on('keydown', function(event) {
-                          // $("#cnpj").on('onclick', function(event) {
-                          // console.log(event);
-                          // if (event.keyCode === 9 || event.keyCode === 13 || event.keyCode === 86) {
-                          document.getElementById("lougadouro_emp").value = "";
-                          document.getElementById("municipio_emp").value = "";
-                          document.getElementById("uf_emp").value = "";
-                          document.getElementById("bairro_emp").value = "";
-                          document.getElementById("bairro_emp").value = "";
-                          document.getElementById("bairro_emp").value = "";
-                          document.getElementById("spiner").style = 'display:block;';
-                          var cep = document.getElementById("cep_emp").value
-                          var cep = cep.replace(/[^0-9]/g, '');
-                          console.log(cep);
-                          var vData = {
-                            cep: cep
-                          };
-                          $.ajax({
-                            url: 'https://brasilapi.com.br/api/cep/v1/' + cep,
-                            method: "GET",
-                            success: function(response) {
-                              console.log(response);
-                              // console.log(response.message);
-                              document.getElementById("spiner").style = 'display:none;';
-                              street = response.street;
-                              document.getElementById("lougadouro_emp").value = street;
-                              municipio = response.city;
-                              document.getElementById("municipio_emp").value = municipio;
-                              uf = response.state
-                              document.getElementById("uf_emp").value = uf;
-                              cep = response.cep
-                              document.getElementById("cep_emp").value = cep;
-                              bairro = response.neighborhood
-                              document.getElementById("bairro_emp").value = bairro;
-                              // document.getElementById("pedido").focus();
-                            },
-                            error: function(err) {
-                              document.getElementById("spiner").style = 'display:none;';
-                              // console.log(err.responseJSON.message);
-                              // console.log(err.message);
-                              Erro = err.responseJSON.message;
-                              document.getElementById("lougadouro_emp").value = Erro;
-                              document.getElementById("municipio_emp").value = "";
-                              document.getElementById("uf_emp").value = "";
-                              document.getElementById("bairro_emp").value = "";
-                            },
-                            complete: () => loading(false),
-                          });
-                          // };
-                        });
-                      });
-                    </script>
-
                     <div class="col-4">
                       <label>Endereço:</label>
-                      <input  id="lougadouro_emp" name="lougadouro_emp" type="text" class="form-control">
+                      <input  id="lougadouro_emp" value="<?php echo $lougadouro_emp ?>" name="lougadouro_emp" type="text" class="form-control">
                     </div>
 
                     <div class="col-1">
                       <label>Número:</label>
-                      <input  id="number_emp" name="number_emp" type="text" class="form-control">
+                      <input  id="number_emp" name="number_emp" value="<?php echo $number_emp ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-2">
                       <label>Bairro:</label>
-                      <input  id="bairro_emp" name="bairro_emp" type="text" class="form-control">
+                      <input  id="bairro_emp" name="bairro_emp" value="<?php echo $bairro_emp ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-2">
                       <label>Municipio:</label>
-                      <input  id="municipio_emp" name="municipio_emp" type="text" class="form-control">
+                      <input  id="municipio_emp" name="municipio_emp" value="<?php echo $municipio_emp ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-1">
                       <label>UF:</label>
-                      <input  id="uf_emp" name="uf_emp" type="text" class="form-control">
+                      <input  id="uf_emp" name="uf_emp" value="<?php echo $uf_emp ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-4">
                       <label>Complemento:</label>
-                      <input id="complemento_emp" name="complemento_emp" type="text" class="form-control">
+                      <input id="complemento_emp" name="complemento_emp" value="<?php echo $complemento_emp ?>" type="text" class="form-control">
                     </div>
 
                     <div class="col-4">
                       <label>Referencia:</label>
-                      <input id="referencia_emp" name="referencia_emp" type="text" class="form-control">
+                      <input id="referencia_emp" name="referencia_emp" value="<?php echo $referencia_emp ?>" type="text" class="form-control">
                     </div>
 
                     <!-- <div class="col-2">
@@ -512,11 +387,13 @@ include_once("starter.php");
                                 <a class="nav-link">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Foto Cliente Self
-                                    <input accept="image/*" onchange="getFileData_ftcliente(this);" type="file" name="foto[ftcliente]">
+                                    <input accept="image/*" value="<?php  echo $ftcliente ?>" onchange="getFileData_ftcliente(this);" type="file" name="foto[ftcliente]">
                                   </div>
                                   <span id="ftcliente" class="badge float-right" style="display: none!important;"></span>
+                                  
                                 </a>
-
+                                
+                                
                                 <script>
                                   function getFileData_ftcliente(myFile) {
                                     var file = myFile.files[0];
@@ -526,7 +403,6 @@ include_once("starter.php");
                                     labe1.innerHTML = filename;
                                   }
                                 </script>
-
                               </li>
 
                               <li class="nav-item active">
@@ -771,8 +647,8 @@ include_once("starter.php");
                     <!-- /.card-footer -->
                   </div>
 
-                    <div class="col-1">
-                      <button type="submit" class="btn btn-block btn-success">Salvar</button>
+                    <div class="col-2">
+                      <button type="submit" class="btn btn-block btn-success">Salvar Edição</button>
                     </div>
                   <!-- /.card -->
 

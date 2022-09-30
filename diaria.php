@@ -45,7 +45,9 @@ $data_hoje = (date('Y-m-d'));
       <tbody>
         
         <?php
-                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id  where s.id_servico = 1 and c.status_cliente = 1 ORDER by s.id ASC ");
+                                    $usuario = $_SESSION['login'];
+
+                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id  where s.id_servico = 1 and c.status_cliente = 1 and s.usuario = '$usuario'  ORDER by s.id ASC ");
                           //  $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, comp.*
                           // FROM `solicitacao` s 
                           // INNER JOIN clientes c on s.id_cliente = c.id 
@@ -90,7 +92,7 @@ $data_hoje = (date('Y-m-d'));
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
 
                                 // echo "<td> <ion-icon name='eye-outline' href='teste.php' ></ion-icon> </td>";
-                                echo "<td class='text-center'> <a target='_blank' href='detalhes.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
+                                echo "<td class='text-center'> <a  href='detalhes.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
 
                                 // <i class="fas fa-search"></i>
                                 echo "</tr>";

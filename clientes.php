@@ -33,13 +33,17 @@ include_once("conexao.php");
                                 <thead>
                                     <tr>
                                         <th>Cliente</th>
+                                        <th>CNPJ</th>
+                                        <th>CPF</th>
                                         <th class="text-center" >Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     <?php
-                          $select_sql = ("SELECT c.* FROM `clientes` c  ORDER BY c.id ASC ");
+                                    $usuario = $_SESSION['login'];
+
+                          $select_sql = ("SELECT c.* FROM `clientes` c where user_created = '$usuario' ORDER BY c.id ASC ");
                             
                             $recebidos = mysqli_query($conn, $select_sql);
                             
@@ -50,9 +54,13 @@ include_once("conexao.php");
                                 $id = $row_usuario['id'];
                                 $sobrenome = $row_usuario['sobrenome'];
                                 $ftcliente = $row_usuario['ftcliente'];
+                                $cpf = $row_usuario['cpf'];
+                                $cnpj = $row_usuario['cnpj'];
 
                                 echo "<tr>";
                                 echo "<td >$cliente $sobrenome </td>";
+                                echo "<td >$cnpj </td>";
+                                echo "<td >$cpf </td>";
                                
                                
                                 // echo "<td>$status</td>";
@@ -61,13 +69,19 @@ include_once("conexao.php");
                                 // echo "<td> <ion-icon name='eye-outline' href='teste.php' ></ion-icon> </td>";
                                 // echo "<td class='text-center'> <a target='_blank' href='detalhes.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
                               echo "<td class='project-actions text-center'>
-                                <a class='btn btn-primary btn-sm' target='_blank' href='profile.php?id=$id''>
+                                <a class='btn btn-primary btn-sm' href='profile.php?id=$id''>
                                     <i class='fas fa-folder'>
                                     </i>
-                                    View
+                                    Ver
                                 </a>
                                
-                            </td>";
+                                <a class='btn btn-info btn-sm' href='cdclienteeditar.php?id=$id'>
+                                <i class='fas fa-pencil-alt'>
+                                </i>
+                                Editar
+                            </a>
+
+                                </td>";
                                 // <i class="fas fa-search"></i>
                                 echo "</tr>";
                                 }

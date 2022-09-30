@@ -7,23 +7,7 @@ date_default_timezone_set('America/Recife');
  $usuario = $_SESSION['login'];
  $data_hoje = (date('Y-m-d'));
 
-
-//  0 = Domingo, 1 = Segunda, 2 = Terça, 3 = Quarta, 4 = quinta, 5 = sexta, 7 = sabado
-
-// $data_comprovante = date('d/m/Y', strtotime($data_hoje));
-
-// $diasemana = array('Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sabado');
-
-// $data_semana = date('Y-m-d', strtotime($data_hoje));
-
-// $diasemana_numero = date('w', strtotime($data_semana));
-
-// $diasemana[$diasemana_numero];
-
-// echo $diasemana[$diasemana_numero];
-// exit();
-// print_r($_GET);
-
+ 
 $id = $_GET['id'];
 
  $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id where s.id = $id and s.id_servico = 1 ORDER by s.id DESC");
@@ -59,13 +43,14 @@ while ($row_data = mysqli_fetch_assoc($result_comprovante)) {
 
 }
 
- $select_vl_pgto = ("SELECT sum(valor_pago) as valor_pago , sum(atraso_diaria) as atraso_diaria  FROM `valor_pago` where id_solicitacao =  $id_solicitacao ");
+$select_vl_pgto = ("SELECT count(id_solicitacao) as parcelas, sum(valor_pago) as valor_pago , sum(atraso_diaria) as atraso_diaria  FROM `valor_pago` where id_solicitacao =  $id_solicitacao ");
 $result_vl_pgto = mysqli_query($conn, $select_vl_pgto);
 
 while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
     // print_r($row_vl_pgto);
 
     $sum_pgto = $row_vl_pgto['valor_pago'];
+    $parcelas = $row_vl_pgto['parcelas'];
     $atraso_diaria = $row_vl_pgto['atraso_diaria'];
 
   }
@@ -206,15 +191,7 @@ if( $data_hoje == $ultimadata ){
                                   
                                   $valor = preg_replace("/[^0-9,]+/i","",$valor_parcela);
                                   
-                                  echo  ($sum_pgto - $atraso_diaria) / $valor . " / 20" ; 
-
-                                    // $valor = str_replace(",",".",$valor);
-
-                                    //  $atrasoParcela = $valor * $dia_atraso;
-
-                                      $parcela = ($sum_pgto - $atraso_diaria) / $valor;
-
-                                        // echo $parcela ;
+                                  echo  $parcelas . " / 20" ; 
 
                                     ?>
 

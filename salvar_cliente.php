@@ -87,11 +87,15 @@ $nome_arquivo_inport = $_FILES['foto']['name']['ftlocal3'];
 $nome_arquivoftlocal3 = $id_insert ."_". "local3". "_". $data_hora_salve ."_". $nome_arquivo_inport;
 move_uploaded_file($_FILES['foto']['tmp_name']['ftlocal3'], "imagens_cliente/" . $nome_arquivoftlocal3);
 
+$nome_arquivo_inport = $_FILES['foto']['name']['ftlocal4'];
+$nome_arquivoftlocal4 = $id_insert ."_". "local4". "_". $data_hora_salve ."_". $nome_arquivo_inport;
+move_uploaded_file($_FILES['foto']['tmp_name']['ftlocal4'], "imagens_cliente/" . $nome_arquivoftlocal4);
+
 $salve_foto = "INSERT INTO `fotos_clientes`(`id`, `id_cliente`,`ftcliente`, `ftrg`, `ftcpf`, `ftcompres`, 
-`ftcompcomer`, `fttermo`, `ftcertificado`,  `ftlocal`, `ftlocal2`, `ftlocal3`, `usuario`, 
+`ftcompcomer`, `fttermo`, `ftcertificado`,  `ftlocal`, `ftlocal2`, `ftlocal3`,`ftlocal4`, `usuario`, 
 `data_fotos_clientes`) 
 VALUES (null,'$id_insert','$nome_arquivoftcliente','$nome_arquivoftrg','$nome_arquivoftcpf','$nome_arquivoftcompres','$nome_arquivoftcompcomer',
-'$nome_arquivofttermo','$nome_arquivoftcertificado', '$nome_arquivoftlocal','$nome_arquivoftlocal2','$nome_arquivoftlocal3','$usuario','$data_hora')";
+'$nome_arquivofttermo','$nome_arquivoftcertificado', '$nome_arquivoftlocal','$nome_arquivoftlocal2','$nome_arquivoftlocal3', '$nome_arquivoftlocal4', '$usuario','$data_hora')";
 
 $salvar_foto = mysqli_query($conn, $salve_foto) or die(mysqli_error($conn));
 

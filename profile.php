@@ -8,13 +8,23 @@ date_default_timezone_set('America/Recife');
 
  $id = $_GET['id'];
 
- $select_sql = ("SELECT c.*, ft.* FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id = $id  ");
-                            
- $recebidos = mysqli_query($conn, $select_sql);
- 
- while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
-    // print_r($row_usuario);
+ $select_sql = ("SELECT c.*, ft.* ,
+GROUP_CONCAT( DISTINCT ft.ftrg,'|-separator-sql-|', ft.ftcpf ,'|-separator-sql-|',ft.ftcompres,'|-separator-sql-|', ft.ftcompcomer,'|-separator-sql-|', ft.fttermo,'|-separator-sql-|', ft.ftcertificado,'|-separator-sql-|', ft.ftlocal,'|-separator-sql-|', ft.ftlocal2,'|-separator-sql-|', ft.ftlocal3,'|-separator-sql-|', ft.ftlocal4 ) as `fotos`
+FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id = $id 
 
+-- GROUP_CONCAT( DISTINCT a.defeito SEPARATOR '|-separator-sql-|') as `Defeitos`,
+
+ ");
+             
+             
+             
+             $recebidos = mysqli_query($conn, $select_sql);
+             
+             while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
+                 // print_r($row_usuario);
+                 
+                  $fotos = $row_usuario['fotos'];
+                
     $status_solicitacao = $row_usuario['status_solicitacao'];
     $class = $row_usuario['class'];
     $cliente = $row_usuario['nome'];
@@ -194,14 +204,41 @@ date_default_timezone_set('America/Recife');
                                     }
                                 </style>
                                 <!-- Post -->
-                                <div id="imagens">
+
+                                <div class="card-footer bg-white">
+                                 <ul class="mailbox-attachments d-flex align-items-stretch clearfix">
+                
+                
+                                    <?php
+                                        $sep_fotos = explode('|-separator-sql-|', $fotos);
+                                        
+                                        foreach( $sep_fotos as $Fotos ):
+                                            if($Fotos == ""){
+                        
+                                            }else{
+                                                ?>
+                                            
+                                                <li> 
+                                                <span class="mailbox-attachment-icon has-img"><img src="./imagens_cliente/<?php echo $Fotos ?>" alt="Attachment"></span>
+                                
+                                                <div class="mailbox-attachment-info">
+                                                    <a href="./imagens_cliente/<?php echo $Fotos ?>" target='_blank' class="mailbox-attachment-name"><i class="fas fa-camera"></i> <?php echo $Fotos ?></a>
+                                                      </div>
+                                        
+                                                </li>
+                                                
+                                                <?php
+                                        };
+                                            endforeach;
+
+                                        ?>
+
+             
+                                </ul>
+                                </div>
+                                <!-- <div id="imagens">
                                     <div class="post">
-                                        <!-- /.user-block -->
                                         <div class="row mb-3">
-                                            <!-- <div class="col-sm-6">
-                                                <img class="img-fluid" src="./imagens_cliente/9_self_2022-09-07_12:08:24_WhatsApp Image 2022-08-30 at 14.47.15.jpeg" alt="Photo">
-                                            </div> -->
-                                            <!-- /.col -->
                                             <div class="col-sm-6">
                                                 <div class="row">
                                                     <div class="col-sm-6">
@@ -212,7 +249,6 @@ date_default_timezone_set('America/Recife');
                                                             src="./imagens_cliente/<?php echo $ftcpf ?>"
                                                             alt="Photo">
                                                     </div>
-                                                    <!-- /.col -->
                                                     <div class="col-sm-6">
                                                         <img class="img-fluid "
                                                             src="./imagens_cliente/<?php echo $ftcompres ?>"
@@ -221,9 +257,7 @@ date_default_timezone_set('America/Recife');
                                                             src="./imagens_cliente/<?php echo $ftcompcomer ?>"
                                                             alt="Photo">
                                                     </div>
-                                                    <!-- /.col -->
                                                 </div>
-                                                <!-- /.row -->
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="row">
@@ -235,7 +269,6 @@ date_default_timezone_set('America/Recife');
                                                             src="./imagens_cliente/<?php echo $ftlocal ?>"
                                                             alt="Photo">
                                                     </div>
-                                                    <!-- /.col -->
                                                     <div class="col-sm-6">
                                                         <img class="img-fluid "
                                                             src="./imagens_cliente/<?php echo $ftlocal2 ?>"
@@ -244,22 +277,17 @@ date_default_timezone_set('America/Recife');
                                                             src="./imagens_cliente/<?php echo $ftlocal3 ?>"
                                                             alt="Photo">
                                                     </div>
-                                                    <!-- /.col -->
+                                                    </div>
                                                 </div>
-                                                <!-- /.row -->
-                                            </div>
 
                                             
-                                            <!-- /.col -->
+                                           
                                         </div>
-                                        <!-- /.row -->
-
+                                       
                                     </div>
+                                </div> -->
                                 </div>
-                                <!-- /.post -->
-                            </div>
-                            <!-- /.tab-pane -->
-                           
+                            
 
                           
                             <!-- /.tab-pane -->

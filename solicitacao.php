@@ -238,7 +238,11 @@ include_once("conexao.php");
 
                                     document.getElementById("id_cliente").value = id_cliente;
                                     // console.log(id_cliente);
-                                    if (id == "") {} else {
+                                    if (id == "" || id == 2 ) {
+
+                                        document.getElementById('button').style = 'display:flex;';
+
+                                    } else {
                                         var vData = {
                                             id: id
                                         };

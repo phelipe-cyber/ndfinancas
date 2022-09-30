@@ -43,13 +43,14 @@ while ($row_data = mysqli_fetch_assoc($result_comprovante)) {
 
 }
 
-$select_vl_pgto = ("SELECT count(id_solicitacao) as parcelas, sum(valor_pago) as valor_pago , sum(atraso_diaria) as atraso_diaria  FROM `valor_pago` where id_solicitacao =  $id_solicitacao ");
+ $select_vl_pgto = ("SELECT count(id_solicitacao) as parcelas, sum(valor_pago) as valor_pago , sum(atraso_diaria) as atraso_diaria, sum(em_aberto) as total_em_atraso  FROM `valor_pago` where id_solicitacao =  $id_solicitacao ");
 $result_vl_pgto = mysqli_query($conn, $select_vl_pgto);
 
 while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
     // print_r($row_vl_pgto);
 
     $sum_pgto = $row_vl_pgto['valor_pago'];
+    $total_em_atraso = $row_vl_pgto['total_em_atraso'];
     $parcelas = $row_vl_pgto['parcelas'];
     $atraso_diaria = $row_vl_pgto['atraso_diaria'];
 
@@ -203,6 +204,25 @@ if( $data_hoje == $ultimadata ){
                           </div>
                         </div>
 
+                          <?php
+                          if($total_em_atraso == ""){
+
+                          }else{
+                            ?>
+                            <div class="col-12 col-sm-3">
+                              <div class="info-box bg-danger">
+                                <div class="info-box-content">
+                                  <span class="info-box-text text-center text-white">Valor em Aberto</span>
+                                  <span
+                                    class="info-box-number text-center text-white mb-0"><?php  echo "R$ " .number_format($total_em_atraso, 2, ',', '.'); ?></span>
+                                </div>
+                              </div>
+                            </div>
+                          <?php
+                          }
+                          ?>
+
+
                       </div>
 
                       <div class="row">
@@ -282,15 +302,21 @@ if( $data_hoje == $ultimadata ){
                           </div>
                         </div>
 
+                        
                         <div class="col-12 col-sm-3">
                           <div class="info-box bg-light">
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Valor em Atraso</span>
                               <span class="info-box-number text-center text-muted mb-0">
-                                <?php  $valor_atraso = $atrasoParcela + $atraso_Diario;
-                    echo "R$ " .number_format($valor_atraso, 2, ',', '.');
+                                <?php  $valor_atraso = $atrasoParcela + $atraso_Diario + $total_em_atraso ;
+                                      if($valor_atraso == '0'){
 
-                    ?>
+                                      }else{
+                                        
+                                      }
+                                    echo "R$ " .number_format($valor_atraso, 2, ',', '.');
+
+                                    ?>
                                 <input id="total_atraso" value="<?php echo number_format($valor_atraso, 2, ',', '.') ?>"
                                   name="total_atraso" type="hidden" class="form-control">
 
@@ -418,7 +444,7 @@ if( $data_hoje == $ultimadata ){
                               <div class="btn btn-default btn-file">
                                 <i class="fas fa-paperclip"></i> Anexar
                                 <!-- <input type="file" name="imagem" accept="image/png, image/jpeg"> -->
-                                <input required onchange="getFileData(this);" type="file" name="imagem">
+                                <input  onchange="getFileData(this);" type="file" name="imagem">
                               </div>
 
                             </div>

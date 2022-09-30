@@ -51,7 +51,7 @@ if($parcela_pgto == 20){
   
 };
 
-// exit();
+$em_aberto = $total_atraso - $valor_pago;
 
 $nome_arquivo = $id_solicitacao."_".$data_hora_salve."_".$nome;
 
@@ -60,8 +60,8 @@ VALUES (null, '$id_solicitacao', '$nome_arquivo', '$usuario', '$dt_pgto', '$data
 
 $salvar = mysqli_query($conn, $queryInsercao);
 
-$sql_pago = "INSERT INTO `valor_pago`(`id`, `id_solicitacao`, `valor_pago`, `atraso_diaria`,  `atraso_parcela`, `total_atraso`, `usuario`, `data_valor_pago`) 
-VALUES (null,'$id_solicitacao', '$valor_pago', '$atraso_diaria', '$atraso_parcela', '$total_atraso', '$usuario', '$data_hora')";
+$sql_pago = "INSERT INTO `valor_pago`(`id`, `id_solicitacao`, `valor_pago`, `atraso_diaria`,  `atraso_parcela`, `total_atraso`, `em_aberto`, `usuario`, `data_valor_pago`) 
+VALUES (null,'$id_solicitacao', '$valor_pago', '$atraso_diaria', '$atraso_parcela', '$total_atraso', '$em_aberto','$usuario', '$data_hora')";
 $salvar_pago = mysqli_query($conn, $sql_pago);
 
 $update_pgto = "UPDATE `solicitacao` SET `dt_pgto`='$dt_pgto' WHERE id = $id_solicitacao";
@@ -95,7 +95,8 @@ if( $salvar == 1 ){
                   Salvo com Sucesso
                 </div>
     <?php
-       echo '<meta http-equiv="refresh" content="3;URL=starter.php" />';
+       echo '<meta http-equiv="refresh" content="3;URL=diaria.php" />';
+      //  echo '<meta http-equiv="refresh" content="3;URL=starter.php" />';
   }else{
     ?>
     <div class="content">

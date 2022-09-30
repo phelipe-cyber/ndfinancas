@@ -575,7 +575,7 @@ include_once("starter.php");
                                 <a class="nav-link">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Comprovante Residência
-                                    <input accept="image/*" onchange="getFileData_ftcomresi(this);" type="file" name="foto[ftcompres]">
+                                    <input accept="image/*,.pdf" onchange="getFileData_ftcomresi(this);" type="file" name="foto[ftcompres]">
                                   </div>
                                   <span id="ftcomresi" class="badge float-right" style="display: none!important;"></span>
                                 </a>
@@ -594,7 +594,7 @@ include_once("starter.php");
                                 <a class="nav-link">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Comprovante Comercial
-                                    <input accept="image/*" onchange="getFileData_ftcomercial(this);" type="file" name="foto[ftcompcomer]">
+                                    <input accept="image/*,.pdf" onchange="getFileData_ftcomercial(this);" type="file" name="foto[ftcompcomer]">
                                   </div>
                                   <span id="ftcomercial" class="badge float-right" style="display: none!important;"></span>
                                 </a>
@@ -614,7 +614,7 @@ include_once("starter.php");
                                 <a class="nav-link">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Termo
-                                    <input accept="image/*" onchange="getFileData_fttermo(this);" type="file" name="foto[fttermo]">
+                                    <input accept="image/*,.pdf" onchange="getFileData_fttermo(this);" type="file" name="foto[fttermo]">
                                   </div>
                                   <span id="fttermo" class="badge float-right" style="display: none!important;"></span>
                                 </a>
@@ -634,7 +634,7 @@ include_once("starter.php");
                                 <a class="nav-link">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Certificado
-                                    <input accept="image/*" onchange="getFileData_ftcertificado(this);" type="file" name="foto[ftcertificado]">
+                                    <input accept="image/*,.pdf" onchange="getFileData_ftcertificado(this);" type="file" name="foto[ftcertificado]">
                                   </div>
                                   <span id="ftcertificado" class="badge float-right" style="display: none!important;"></span>
                                 </a>

@@ -213,12 +213,31 @@ FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id
                                         $sep_fotos = explode('|-separator-sql-|', $fotos);
                                         
                                         foreach( $sep_fotos as $Fotos ):
+                                            
+                                            $ext = explode('.', $Fotos );
+                                             
+                                            $ult_ext = end($ext);
+
+                                            // echo $ult_ext;
+
                                             if($Fotos == ""){
                         
                                             }else{
-                                                ?>
-                                            
-                                                <li> 
+                                                if( $ult_ext == 'pdf' ){
+                                                    ?>
+                                                      <li> 
+                                                <!-- <span class="mailbox-attachment-icon has-img"><img src="./imagens_cliente/<?php echo $Fotos ?>" alt="Attachment"></span> -->
+                                                <span class="mailbox-attachment-icon"><i class="far fa-file-pdf"></i></span>
+                                
+                                                <div class="mailbox-attachment-info">
+                                                    <a href="./imagens_cliente/<?php echo $Fotos ?>" target='_blank' class="mailbox-attachment-name"><i class="fas fa-camera"></i> <?php echo $Fotos ?></a>
+                                                      </div>
+                                        
+                                                </li>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                      <li> 
                                                 <span class="mailbox-attachment-icon has-img"><img src="./imagens_cliente/<?php echo $Fotos ?>" alt="Attachment"></span>
                                 
                                                 <div class="mailbox-attachment-info">
@@ -226,6 +245,10 @@ FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id
                                                       </div>
                                         
                                                 </li>
+                                                    <?php
+                                                }
+                                                ?>
+                                              
                                                 
                                                 <?php
                                         };

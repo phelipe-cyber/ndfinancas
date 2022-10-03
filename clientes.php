@@ -3,9 +3,6 @@ include_once("starter.php");
 include_once("conexao.php");
 
 ?>
-<script>
-    document.getElementById('class<?php echo $name.".php" ?>').classList.add('active');
-</script>
 <div class="content">
     <div class="container-fluid">
         <div class="row">

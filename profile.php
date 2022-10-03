@@ -66,9 +66,7 @@ FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id
  }
 
 ?>
-<!-- <script>
-    document.getElementById('class<?php echo $name.".php" ?>').classList.add('active');
-</script> -->
+
 <!-- <div class="content-wrapper"> -->
 <!-- Content Header (Page header) -->
 <section class="content-header">

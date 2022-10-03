@@ -139,7 +139,7 @@ $id_user = $_SESSION['id_user'];
   foreach( $acessos as $ver_acessos):
       // print_r($ver_acessos['menu_name']);
 ?>
-            <li class="nav-item menu-open">
+            <li id="<?php echo $ver_acessos['menu_name'] ?>" class="nav-item menu-close">
               <a class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>

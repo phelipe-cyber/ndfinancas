@@ -1,7 +1,7 @@
 <?php 
 include_once("starter.php");
 include_once("conexao.php");
-
+// exit();
 ?>
 
 <form id="Form" action="salvar_solicitacao.php" method="POST">
@@ -432,9 +432,3 @@ include_once("conexao.php");
                             }
                             // DropzoneJS Demo Code End
                         </script>
-
-                        <!-- <script src="plugins/jquery/jquery.min.js"></script> -->
-                        <!-- Bootstrap 4 -->
-                        <!-- <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-                        <!-- AdminLTE App -->
-                        <script src="dist/js/adminlte.min.js"></script>

@@ -59,7 +59,7 @@ while ($row_data = mysqli_fetch_assoc($result_comprovante)) {
 
 }
 
- $select_vl_pgto = ("SELECT sum(valor_pago) as valor_pago , sum(atraso_diaria) as atraso_diaria  FROM `valor_pago` where id_solicitacao =  $id_solicitacao ");
+ $select_vl_pgto = ("SELECT sum(valor_pago) as valor_pago , sum(atraso_diaria) as atraso_diaria , sum(em_aberto) as total_em_atraso FROM `valor_pago` where id_solicitacao =  $id_solicitacao ");
 $result_vl_pgto = mysqli_query($conn, $select_vl_pgto);
 
 while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
@@ -289,6 +289,25 @@ if( $data_hoje == $ultimadata ){
                             </div>
                           </div>
                         </div>
+
+                        <?php
+                          if($total_em_atraso == ""){
+
+                          }else{
+                            ?>
+                            <div class="col-12 col-sm-3">
+                              <div class="info-box bg-danger">
+                                <div class="info-box-content">
+                                  <span class="info-box-text text-center text-white">Valor em Aberto</span>
+                                  <span
+                                    class="info-box-number text-center text-white mb-0"><?php  echo "R$ " .number_format($total_em_atraso, 2, ',', '.'); ?></span>
+                                </div>
+                              </div>
+                            </div>
+                          <?php
+                          }
+                          ?>
+
                       </div>
 
                       <div class="row">

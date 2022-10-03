@@ -166,12 +166,7 @@ $id_user = $_SESSION['id_user'];
                   </a>
                 </li>
               </ul>
-              <!-- <script>
-                     $("#<?php echo $name.".php" ?>").click(function() {  
-                       
-                          document.getElementById('class<?php echo $name.".php" ?>').classList.add('active');
-                        });
-                    </script> -->
+            
               <?php
               endforeach;
               ?>

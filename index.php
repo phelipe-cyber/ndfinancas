@@ -41,10 +41,10 @@ session_start();
                     <div id="alert-danger" class="alert alert-danger alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                   <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-                  ERRO: Usuário ou senha inválidos.
+                  ERRO: Usuário ou senha inválidos login Bloqueado
                 </div>
                 <script>
-                        $("#alert-danger").fadeTo(2000, 500).slideUp(500, function() {
+                        $("#alert-danger").fadeTo(4000, 500).slideUp(500, function() {
                             $("#alert-danger").slideUp(500);
                         });
 

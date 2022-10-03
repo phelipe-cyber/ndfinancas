@@ -4,10 +4,10 @@ include_once("conexao.php");
 // print_r($_POST);
 // exit();
 
-$id = $_POST['id'];
+$id = $_POST['id_user'];
 $status = $_POST['status'];
 
-$sql = "UPDATE `user` SET `status_login` = '$status' WHERE `user`.`id` = '$id' " ;
+echo $sql = "UPDATE `user` SET `status_login` = '$status' WHERE `user`.`id` = '$id' " ;
 
 $validar_sql = mysqli_query($conn, $sql);
 

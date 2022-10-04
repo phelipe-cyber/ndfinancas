@@ -59,7 +59,7 @@ while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
  $sum_pgto;
 
  
-if($data_compro == "" ){
+// if($data_compro == "" ){
 
   $select_solicitacao = ("SELECT *  FROM `solicitacao` where id =  $id_solicitacao ");
   $result_solicitacao = mysqli_query($conn, $select_solicitacao);
@@ -73,11 +73,11 @@ if($data_compro == "" ){
 
   // $ult_array_data = $data_hora;
 
-}else{
+// }else{
   
-  @$ult_array_data = end($data_compro);
+  // @$ult_array_data = end($data_compro);
 
-}
+// }
 
 $ultimadata = date('Y-m-d', strtotime($ult_array_data));
 
@@ -87,7 +87,7 @@ if( $data_hoje == $ultimadata ){
   @$ult_array_data = "" ;
 
 }else{
-    @$ult_array_data ;
+    @$ult_array_data;
     // echo "Diferente";
 }
 
@@ -190,7 +190,7 @@ if( $data_hoje == $ultimadata ){
                                   // $intervalo = $data1->diff($data2);
                                   //  $dia_atraso = $intervalo->format('%a');
                                   
-                                  $valor = preg_replace("/[^0-9,]+/i","",$valor_parcela);
+                                  // $valor = preg_replace("/[^0-9,]+/i","",$valor_parcela);
                                   
                                   echo  $parcelas . " / 20" ; 
 
@@ -245,11 +245,17 @@ if( $data_hoje == $ultimadata ){
                                   //   echo $dia_atraso = $intervalo->format('%a')-1 ;
 
                                   // }else{
-
-                                    $data1 = new DateTime($ult_array_data);
-                                    $data2 = new DateTime();
-                                    $intervalo = $data1->diff($data2);
-                                    echo $dia_atraso = $intervalo->format('%a') ;
+                                    // echo "HOJE ". $data_hoje."</br>";
+                                    // echo "Data pgto ". $ultimadata."</br>";
+                                      if( $ultimadata == $data_hoje ){
+                                        
+                                      }else{
+                                        
+                                        $data1 = new DateTime($ult_array_data);
+                                        $data2 = new DateTime();
+                                        $intervalo = $data1->diff($data2);
+                                        echo $dia_atraso = $intervalo->format('%a') + 1 ;
+                                      }
 
                                   // }
 
@@ -265,7 +271,7 @@ if( $data_hoje == $ultimadata ){
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Atraso Diário</span>
                               <span class="info-box-number text-center text-muted mb-0">
-                                <?php  $atraso_Diario =  $dia_atraso * 20; echo "R$ " .number_format($atraso_Diario, 2, ',', '.');?>
+                                <?php  $atraso_Diario =  $dia_atraso * 20; echo "R$ " .number_format($atraso_Diario, 2, ',', '.') ;?>
                                 <input id="atraso_diaria"
                                   value="<?php echo number_format($atraso_Diario, 2, ',', '.') ?>" name="atraso_diaria"
                                   type="hidden" class="form-control">
@@ -281,14 +287,14 @@ if( $data_hoje == $ultimadata ){
                               <span class="info-box-number text-center text-muted mb-0">
                                 <?php 
                     
-                     $valor = preg_replace("/[^0-9,]+/i","", $valor_parcela);
-                     $valor = str_replace(",",".",$valor );
+                    //  $valor = preg_replace("/[^0-9,]+/i","", $valor_parcela);
+                    //  $valor = str_replace(",",".",$valor_parcela );
 
                           if($dia_atraso == 0){
-                            $atrasoParcela = $valor * $dia_atraso;
+                            $atrasoParcela = $valor_parcela * $dia_atraso;
 
                           }else{
-                            $atrasoParcela = $valor * $dia_atraso + $valor;
+                            $atrasoParcela = $valor_parcela * $dia_atraso;
                           }
 
                       echo "R$ " .number_format($atrasoParcela, 2, ',', '.');

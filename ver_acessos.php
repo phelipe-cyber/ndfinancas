@@ -12,14 +12,28 @@ use Faker\Guesser\Name;
 
 $id = $_POST['id'];
 
-$acesso_select = "SELECT menu_name, 
-GROUP_CONCAT( DISTINCT menu_folder ORDER BY `id` ASC SEPARATOR '|-separator-sql-|') as `menu_folder`,
-GROUP_CONCAT( DISTINCT menu ORDER BY `id` ASC SEPARATOR '|-separator-sql-|') as `menu`,
-GROUP_CONCAT( DISTINCT id ORDER BY `id` ASC SEPARATOR '|-separator-sql-|') as `id`
+// $acesso_select = "SELECT menu_name, 
+// GROUP_CONCAT( DISTINCT menu_folder ORDER BY `id` ASC SEPARATOR '|-separator-sql-|') as `menu_folder`,
+// GROUP_CONCAT( DISTINCT menu ORDER BY `id` ASC SEPARATOR '|-separator-sql-|') as `menu`,
+// GROUP_CONCAT( DISTINCT id ORDER BY `id` ASC SEPARATOR '|-separator-sql-|') as `id`
 
-FROM `menus`
-GROUP BY menu_name
-ORDER BY id;";
+// FROM `menus`
+// GROUP BY menu_name
+// ORDER BY id;";
+
+
+ $acesso_select = "SELECT menu_name,
+ GROUP_CONCAT( DISTINCT a.menu_folder ORDER BY a.`id` ASC SEPARATOR '|-separator-sql-|') as `menu_folder`,
+ GROUP_CONCAT( DISTINCT a.menu ORDER BY a.`id` ASC SEPARATOR '|-separator-sql-|') as `menu`,
+ GROUP_CONCAT( DISTINCT a.id ORDER BY a.`id` ASC SEPARATOR '|-separator-sql-|') as `id`,
+ GROUP_CONCAT( IF( (SELECT 
+ d.menu_folder 
+ FROM `user_accesses` d 
+ WHERE d.menu_folder = a.menu_folder and d.menu_folder in (SELECT menu_folder FROM `menus` ) and d.id_usuario = '$id' LIMIT 1 )                                    
+ IS NULL, 'Sem Acesso' , 'Com acesso') ORDER BY a.`id` ASC SEPARATOR '|-separator-sql-|') as `acesso`
+ FROM `menus` a 
+ GROUP by a.menu_name 
+ ORDER BY a.id;";
 
 $recebidos = mysqli_query($conn, $acesso_select);
 
@@ -30,8 +44,10 @@ while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
     
 };
 
+
+
 foreach( $acessos as $ver_acessos):
-    // print_r($ver_acessos['menu_name']);
+    // print_r($ver_acessos);
 ?>
 
 <div class="card card-info">
@@ -44,26 +60,50 @@ foreach( $acessos as $ver_acessos):
           $ver_acessos_name = explode('|-separator-sql-|', $ver_acessos['menu_folder']);
           $menu_sep = explode('|-separator-sql-|', $ver_acessos['menu']);
           $ids = explode('|-separator-sql-|', $ver_acessos['id']);
+          $acesso = explode('|-separator-sql-|', $ver_acessos['acesso']);
         //   $status = explode('|-separator-sql-|', $ver_acessos['status']);
-        //   print_r($status);
+        //   print_r($acesso);
           $index2 = 0;
           foreach ($ver_acessos_name as $key => $name):
             
-            // print_r($name);
+            // print_r($acesso[$key]);
+
             ?>
                 <div class="row">
                 <div class="col-12">
                                                 <div class="form-group">
                                                     <div class="custom-control custom-switch">
-                                                        <input value="<?php echo($ids[$key]) ?>" type="checkbox" class="custom-control-input"
-                                                            id="customSwitch<?php echo $name ?>">
+                                                        <?php
+                                                        //    print_r($acesso[$key]) ;
+                                                        if( $acesso[$key] == 'Com acesso' ){
+                                                           ?>
+                                                                  <input checked value="<?php echo($ids[$key]) ?>" type="checkbox" class="custom-control-input"
+                                                            id="customSwitch<?php echo $name?>">
                                                         
                                                             <label class="custom-control-label"
-                                                            for="customSwitch<?php echo($name) ?>"><?php echo($menu_sep[$key]) ?></label>
+                                                            for="customSwitch<?php echo($name) ?>"><?php echo($menu_sep[$key] ) ?></label>
 
                                                             <input id="id_menu<?php echo($name) ?>" value="<?php echo($ids[$key]) ?>" type="hidden">
                                                             
                                                             <input id="id_user<?php echo($name) ?>" value="<?php echo($_POST['id']) ?>" type="hidden">
+                                                           <?php     
+                                                        }else{
+
+                                                            ?>
+                                                            <input value="<?php echo($ids[$key]) ?>" type="checkbox" class="custom-control-input"
+                                                      id="customSwitch<?php echo $name?>">
+                                                  
+                                                      <label class="custom-control-label"
+                                                      for="customSwitch<?php echo($name) ?>"><?php echo($menu_sep[$key] ) ?></label>
+
+                                                      <input id="id_menu<?php echo($name) ?>" value="<?php echo($ids[$key]) ?>" type="hidden">
+                                                      
+                                                      <input id="id_user<?php echo($name) ?>" value="<?php echo($_POST['id']) ?>" type="hidden">
+                                                     <?php  
+
+                                                        }
+                                                        ?>
+
 
                                                     </div>
                                                 </div>

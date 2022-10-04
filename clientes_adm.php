@@ -33,6 +33,7 @@ include_once("conexao.php");
                                         <th>CNPJ</th>
                                         <th>CPF</th>
                                         <th>VS | Guerra</th>
+                                        <th>Usuário</th>
                                         <th class="text-center" >Ações</th>
                                     </tr>
                                 </thead>
@@ -55,6 +56,7 @@ include_once("conexao.php");
                                 $cpf = $row_usuario['cpf'];
                                 $cnpj = $row_usuario['cnpj'];
                                 $id_cliente = $row_usuario['id_cliente'];
+                                $usuario_criacao = $row_usuario['user_created'];
                                 
                             if($id_cliente == 1){
 
@@ -71,6 +73,7 @@ include_once("conexao.php");
                                 echo "<td >$cnpj </td>";
                                 echo "<td >$cpf </td>";
                                 echo "<td > $id_cliente </td>";
+                                echo "<td > $usuario_criacao </td>";
 
                                
                                 // echo "<td>$status</td>";

@@ -54,6 +54,8 @@ include_once("conexao.php");
                                 $ftcliente = $row_usuario['ftcliente'];
                                 $cpf = $row_usuario['cpf'];
                                 $cnpj = $row_usuario['cnpj'];
+                                $id_cliente = $row_usuario['id_cliente'];
+
                                 if($id_cliente == 1){
 
                                     $id_cliente = 'VS';

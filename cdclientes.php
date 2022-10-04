@@ -239,7 +239,7 @@ include_once("starter.php");
                         data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']" data-mask>
                     </div>
                     <div class="col-3">
-                      <label>Atidade:</label>
+                      <label>Atividade:</label>
                       <input  id="atividade" name="atividade" type="text" class="form-control">
                     </div>
 

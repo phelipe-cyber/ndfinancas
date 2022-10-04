@@ -77,9 +77,7 @@ $data_hoje = (date('Y-m-d'));
                                 
                                 $valor_bruto = "R$ ". number_format($row_usuario['valor_bruto'], 2, ',', '.'); 
                                 $valor = "R$ ". number_format($row_usuario['valor'], 2, ',', '.');
-
                                 $juros = "R$ ". number_format($row_usuario['juros'], 2, ',', '.');
-                                
                                 @$valor_parcela = "R$ ". number_format($row_usuario['valor_parcela'], 2, ',', '.');
                                 
                                 if($id_servico == 1){
@@ -87,7 +85,6 @@ $data_hoje = (date('Y-m-d'));
                                     $id_servico = 'VS';
                                     $page = "detalhes.php";
 
-    
                                 }else{
     
                                     $id_servico = 'Guerra';

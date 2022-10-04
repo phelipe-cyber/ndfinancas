@@ -67,11 +67,18 @@ $data_hoje = (date('Y-m-d'));
                                 $id = $row_usuario['id'];
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $id_soli = $row_usuario['id_soli'];
-                                $valor_bruto = $row_usuario['valor_bruto'];
-                                $valor = $row_usuario['valor'];
-                                $juros = $row_usuario['juros'];
+                                
+                                // $valor_bruto = $row_usuario['valor_bruto'];
+                                // $valor = $row_usuario['valor'];
+                                // $juros = $row_usuario['juros'];
+                                // $valor_parcela = $row_usuario['valor_parcela'];
+
+                                $valor_bruto = "R$ ". number_format($row_usuario['valor_bruto'], 2, ',', '.'); 
+                                $valor = "R$ ". number_format($row_usuario['valor'], 2, ',', '.');
+                                $juros = "R$ ". number_format($row_usuario['juros'], 2, ',', '.');
+                                @$valor_parcela = "R$ ". number_format($row_usuario['valor_parcela'], 2, ',', '.');
+                                
                                 $status = $row_usuario['descricao'];
-                                $valor_parcela = $row_usuario['valor_parcela'];
                                 $dt_pgto = $row_usuario['dt_pgto'];
                                 $data_hora = date('d/m/Y', strtotime($row_usuario['dt_solicitacao']));
                                 echo "<tr>";

@@ -114,7 +114,7 @@ include_once("starter.php");
                             }
 
                     ?>
-                  <option selected="<?php echo $id_cliente ?>"><?php echo $id_cliente ?></option>
+                  <option selected=""></option>
                     <option value="1" >VS</option>
                     <option value="2">Guerra</option>
                   </select>

@@ -35,14 +35,14 @@ $municipio_emp=$_POST['municipio_emp'];
 $complemento_emp=$_POST['complemento_emp'];
 $referencia_emp=$_POST['referencia_emp'];
 $servico = $_POST['servico'];
-$socio = $_POST['servico'];
+// $socio = $_POST['servico'];
 
 $Sql_update_cliente = "UPDATE `clientes` SET `nome`='$nome',`sobrenome`='$sobrenome',`socio`='$razao_social',`cpf`='$cpf',
 `rg`='$rg',`tel`='$tel',`tel2`='$tel2',`atividade`='$atividade',`endereco`='$lougadouro',`cep`='$cep',
 `cnpj`='$cnpj',`numero`='$number',`bairro`='$bairro',`municipio`='$municipio',`uf`='$uf',
 `complemento`='$complemento',`referencia`='$referencia',`cep_emp`='$cep_emp',`lougadouro_emp`='$lougadouro_emp',
 `number_emp`='$number_emp',`municipio_emp`='$municipio_emp',`uf_emp`='$uf_emp',`bairro_emp`='$bairro_emp',
-`complemento_emp`='$complemento',`referencia_emp`='$referencia_emp' WHERE id = '$id_edit' ";
+`complemento_emp`='$complemento',`referencia_emp`='$referencia_emp', `id_cliente` = '$servico' WHERE id = '$id_edit' ";
 
 $salvar = mysqli_query($conn, $Sql_update_cliente);
 

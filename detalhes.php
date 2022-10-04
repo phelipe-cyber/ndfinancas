@@ -369,7 +369,8 @@ if( $data_hoje == $ultimadata ){
                             </p>
 
                             <p>
-                              <a href="ver_comprovante.php?id=<?php echo $id_arquivo ?>" class="link-black text-sm"><i
+                              <!-- <a href="ver_comprovante.php?id=<?php echo $id_arquivo ?>" class="link-black text-sm"><i -->
+                              <a target='_blank' href="./comprovante/<?php echo $arquivo ?>" class="link-black text-sm"><i
                                   class="fas fa-link mr-1"></i> Arquivo <?php echo $index ?></a>
                             </p>
                           </div>

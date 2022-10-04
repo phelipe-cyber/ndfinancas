@@ -139,7 +139,7 @@ if( $data_hoje == $ultimadata ){
                           <div class="info-box bg-light">
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Valor Solicitado</span>
-                              <span class="info-box-number text-center text-muted mb-0"><?php echo $valor ?></span>
+                              <span class="info-box-number text-center text-muted mb-0"><?php  echo "R$ " .number_format($valor, 2, ',', '.'); ?></span>
                             </div>
                           </div>
                         </div>
@@ -147,7 +147,7 @@ if( $data_hoje == $ultimadata ){
                           <div class="info-box bg-light">
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Total Juros</span>
-                              <span class="info-box-number text-center text-muted mb-0"><?php echo $juros ?></span>
+                              <span class="info-box-number text-center text-muted mb-0"><?php  echo "R$ " .number_format($juros, 2, ',', '.'); ?></span>
                             </div>
                           </div>
                         </div>
@@ -156,7 +156,7 @@ if( $data_hoje == $ultimadata ){
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Valor Bruto</span>
                               <span
-                                class="info-box-number text-center text-muted mb-0"><?php echo $valor_bruto ?></span>
+                                class="info-box-number text-center text-muted mb-0"><?php  echo "R$ " .number_format($valor_bruto, 2, ',', '.'); ?></span>
                             </div>
                           </div>
                         </div>
@@ -165,7 +165,7 @@ if( $data_hoje == $ultimadata ){
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Valor da Parcela</span>
                               <span
-                                class="info-box-number text-center text-muted mb-0"><?php echo $valor_parcela ?></span>
+                                class="info-box-number text-center text-muted mb-0"><?php  echo "R$ " .number_format($valor_parcela, 2, ',', '.'); ?></span>
                             </div>
                           </div>
                         </div>

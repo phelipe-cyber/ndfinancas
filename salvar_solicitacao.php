@@ -9,10 +9,24 @@ date_default_timezone_set('America/Recife');
  //  print_r($_POST);
 //  exit();
 $id = $_POST['cliente'];
+
 $valor = $_POST['valor'];
+$valor = preg_replace("/[^0-9,]+/i","",$valor);
+$valor = str_replace(",",".",$valor);
+
+
 $juros = $_POST['juros'];
+$juros = preg_replace("/[^0-9,]+/i","",$juros);
+$juros = str_replace(",",".",$juros);
+
 $valor_bruto = $_POST['valor_bruto'];
+$valor_bruto = preg_replace("/[^0-9,]+/i","",$valor_bruto);
+$valor_bruto = str_replace(",",".",$valor_bruto);
+
 $valor_parcelado = $_POST['valor_parcela'];
+$valor_parcelado = preg_replace("/[^0-9,]+/i","",$valor_parcelado);
+$valor_parcelado = str_replace(",",".",$valor_parcelado);
+
 $id_servico = $_POST['id_servico'];
 $dt_solicitcao = $_POST['dt_solicitcao'];
 $dt_solicitcao = date('Y-m-d', strtotime($_POST['dt_solicitcao']));

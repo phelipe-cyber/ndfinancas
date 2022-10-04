@@ -151,7 +151,7 @@ if( $data_hoje == $ultimadata ){
                           <div class="info-box bg-light">
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Valor Solicitado</span>
-                              <span class="info-box-number text-center text-muted mb-0"><?php echo $valor ?></span>
+                              <span class="info-box-number text-center text-muted mb-0"><?php  echo "R$ " .number_format($valor, 2, ',', '.'); ?></span>
                             </div>
                           </div>
                         </div>
@@ -159,7 +159,7 @@ if( $data_hoje == $ultimadata ){
                           <div class="info-box bg-light">
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Total Juros</span>
-                              <span class="info-box-number text-center text-muted mb-0"><?php echo $juros ?></span>
+                              <span class="info-box-number text-center text-muted mb-0"><?php  echo "R$ " .number_format($juros, 2, ',', '.'); ?></span>
                             </div>
                           </div>
                         </div>
@@ -168,7 +168,7 @@ if( $data_hoje == $ultimadata ){
                             <div class="info-box-content">
                               <span class="info-box-text text-center text-muted">Valor Bruto</span>
                               <span
-                                class="info-box-number text-center text-muted mb-0"><?php echo $valor_bruto ?></span>
+                                class="info-box-number text-center text-muted mb-0"><?php  echo "R$ " .number_format($valor_bruto, 2, ',', '.'); ?></span>
                             </div>
                           </div>
                         </div>
@@ -196,9 +196,9 @@ if( $data_hoje == $ultimadata ){
                               <span class="info-box-text text-center text-muted">Parcelas</span>
                               <span class="info-box-number text-center text-muted mb-0"><?php  
                             
-                                    $valor = preg_replace("/[^0-9,]+/i","",$valor_parcela);
+                                    // $valor = preg_replace("/[^0-9,]+/i","",$valor_parcela);
                                     
-                                    echo  ($sum_pgto - $atraso_diaria) / $valor . " / 20" ; 
+                                    echo  ($sum_pgto - $atraso_diaria) / $valor_parcela . " / 20" ; 
 
 
 
@@ -217,10 +217,16 @@ if( $data_hoje == $ultimadata ){
                               <span class="info-box-number text-center text-muted mb-0">
                                 <?php
                       
-                                  $data1 = new DateTime($ult_array_data);
-                                  $data2 = new DateTime();
-                                  $intervalo = $data1->diff($data2);
-                                  echo $dia_atraso = $intervalo->format('%a') ;
+                                    if( $data_hoje < $ult_array_data ){
+                                        echo $dia_atraso = 0;
+                                    }else{
+                                      $data1 = new DateTime($ult_array_data);
+                                      $data2 = new DateTime();
+                                      $intervalo = $data1->diff($data2);
+                                      echo $dia_atraso = $intervalo->format('%a') ;
+                                      
+                                    }
+
                                   ?>
 
                               </span>
@@ -249,14 +255,15 @@ if( $data_hoje == $ultimadata ){
                               <span class="info-box-number text-center text-muted mb-0">
                                 <?php 
                     
-                     $valor = preg_replace("/[^0-9,]+/i","", $valor_parcela);
-                     $valor = str_replace(",",".",$valor );
+                    //  $valor = preg_replace("/[^0-9,]+/i","", $valor_parcela);
+
+                    //  $valor = str_replace(",",".",$valor_parcela );
 
                           if($dia_atraso == 0){
-                            $atrasoParcela = $valor * $dia_atraso;
+                            $atrasoParcela = $valor_parcela * $dia_atraso;
 
                           }else{
-                            $atrasoParcela = $valor * $dia_atraso + $valor;
+                            $atrasoParcela = $valor_parcela * $dia_atraso + $valor_parcela;
                           }
 
                       echo "R$ " .number_format($atrasoParcela, 2, ',', '.');
@@ -276,10 +283,15 @@ if( $data_hoje == $ultimadata ){
                               <span class="info-box-text text-center text-muted">Valor em Atraso</span>
                               <span class="info-box-number text-center text-muted mb-0">
                                 <?php 
-                                    $juros = preg_replace("/[^0-9,]+/i","",$juros);
-                                
-                                        $valor_atraso = $juros + $atraso_Diario;
-                                        echo "R$ " .number_format($valor_atraso, 2, ',', '.');
+                                    // $juros = preg_replace("/[^0-9,]+/i","",$juros);
+                                    // $juros = preg_replace("/[^0-9,]+/i","",$juros);
+                                    if($dia_atraso == 0){
+                                      echo number_format(0, 2, ',', '.');
+                                    }else{
+                                      $valor_atraso = $valor_bruto + $atraso_Diario;
+                                      echo "R$ " .number_format($valor_atraso, 2, ',', '.');
+                                      
+                                    }
 
                                 ?>
                                 <input id="total_atraso" value="<?php echo number_format($valor_atraso, 2, ',', '.') ?>"

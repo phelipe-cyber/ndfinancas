@@ -10,7 +10,7 @@ date_default_timezone_set('America/Recife');
 
  $select_sql = ("SELECT c.*, ft.* ,
 GROUP_CONCAT( DISTINCT ft.ftrg,'|-separator-sql-|', ft.ftcpf ,'|-separator-sql-|',ft.ftcompres,'|-separator-sql-|', ft.ftcompcomer,'|-separator-sql-|', ft.fttermo,'|-separator-sql-|', ft.ftcertificado,'|-separator-sql-|', ft.ftlocal,'|-separator-sql-|', ft.ftlocal2,'|-separator-sql-|', ft.ftlocal3,'|-separator-sql-|', ft.ftlocal4 ) as `fotos`
-FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id = $id and c.user_created = '$usuario' ");
+FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id = $id ");
              
              $recebidos = mysqli_query($conn, $select_sql);
              $row = mysqli_num_rows($recebidos);

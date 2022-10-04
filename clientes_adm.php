@@ -41,7 +41,7 @@ include_once("conexao.php");
                                     <?php
                                     $usuario = $_SESSION['login'];
 
-                          $select_sql = ("SELECT c.* FROM `clientes` c where user_created = '$usuario' ORDER BY c.id ASC ");
+                          $select_sql = ("SELECT c.* FROM `clientes` c  ORDER BY c.id ASC ");
                             
                             $recebidos = mysqli_query($conn, $select_sql);
                             
@@ -54,21 +54,24 @@ include_once("conexao.php");
                                 $ftcliente = $row_usuario['ftcliente'];
                                 $cpf = $row_usuario['cpf'];
                                 $cnpj = $row_usuario['cnpj'];
-                                if($id_cliente == 1){
+                                $id_cliente = $row_usuario['id_cliente'];
+                                
+                            if($id_cliente == 1){
 
-                                    $id_cliente = 'VS';
-    
-                                }else{
-    
-                                    $id_cliente = 'Guerra';
-    
-                                }
+                                $id_cliente = 'VS';
+
+                            }else{
+
+                                $id_cliente = 'Guerra';
+
+                            }
+
                                 echo "<tr>";
                                 echo "<td >$cliente $sobrenome </td>";
                                 echo "<td >$cnpj </td>";
                                 echo "<td >$cpf </td>";
-                                echo "<td >$id_cliente </td>";
-                               
+                                echo "<td > $id_cliente </td>";
+
                                
                                 // echo "<td>$status</td>";
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
@@ -76,13 +79,13 @@ include_once("conexao.php");
                                 // echo "<td> <ion-icon name='eye-outline' href='teste.php' ></ion-icon> </td>";
                                 // echo "<td class='text-center'> <a target='_blank' href='detalhes.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
                               echo "<td class='project-actions text-center'>
-                                <a class='btn btn-primary btn-sm' href='profile.php?id=$id''>
+                                <a class='btn btn-primary btn-sm' href='profile_adm.php?id=$id''>
                                     <i class='fas fa-folder'>
                                     </i>
                                     Ver
                                 </a>
                                
-                                <a class='btn btn-info btn-sm' href='cdclienteeditar.php?id=$id'>
+                                <a class='btn btn-info btn-sm' href='cdclienteeditar_adm.php?id=$id'>
                                 <i class='fas fa-pencil-alt'>
                                 </i>
                                 Editar

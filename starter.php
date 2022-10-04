@@ -60,6 +60,7 @@ $id_user = $_SESSION['id_user'];
 
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+      <script src="dist/js/adminlte.min.js"></script>
 
   <!-- Google Font: Source Sans Pro -->
   <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
@@ -242,7 +243,7 @@ $id_user = $_SESSION['id_user'];
       <!-- Bootstrap 4 -->
       <!-- <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
       <!-- AdminLTE App -->
-      <script src="dist/js/adminlte.min.js"></script>
+      <!-- <script src="dist/js/adminlte.min.js"></script> -->
 
 </body>
 

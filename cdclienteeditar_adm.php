@@ -7,7 +7,7 @@ include_once("starter.php");
  $id_edit = $_GET['id'];
  $usuario = $_SESSION['login'];
 
- $select_sql = ("SELECT c.*, ft.* FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id = $id_edit and c.user_created = '$usuario' ");
+ $select_sql = ("SELECT c.*, ft.* FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id = $id_edit  ");
                             
  $recebidos = mysqli_query($conn, $select_sql);
  

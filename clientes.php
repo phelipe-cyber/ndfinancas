@@ -41,7 +41,7 @@ include_once("conexao.php");
                                     <?php
                                     $usuario = $_SESSION['login'];
 
-                          $select_sql = ("SELECT * FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' ORDER BY c.id ASC ");
+                          $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' ORDER BY c.id ASC ");
                             
                             $recebidos = mysqli_query($conn, $select_sql);
                             

@@ -101,22 +101,23 @@ include_once("starter.php");
                   <div class="form-group">
                   <label>VS ou Guerra</label>
                   <select name="servico" required class="form-control select2bs4" style="width: 100%;" placeholder="Select a State">
-                    
-                    <?php 
-                            if($id_cliente == 1){
-
-                                $id_cliente = 'VS';
-
-                            }else{
-
-                                $id_cliente = 'Guerra';
-
-                            }
-
-                    ?>
                   <option selected=""></option>
-                    <option value="1" >VS</option>
-                    <option value="2">Guerra</option>
+                    
+                  <?php 
+                    $select_sql = ("SELECT c.* FROM `nome_cliente` c  ORDER BY c.id ASC ");
+                            
+                    $recebidos = mysqli_query($conn, $select_sql);
+                    
+                    while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
+                        // print_r($row_usuario);
+                      
+                        $id = $row_usuario['id'];
+                        $cliente = $row_usuario['nome_servico'];
+                        ?>
+                            <option value="<?php echo $id ?>"><?php echo $cliente ?></option>
+                        <?php
+                    }
+                  ?>
                   </select>
                 </div>
                 </div>

@@ -101,7 +101,7 @@ include_once("conexao.php");
 
                                     <div class="col-1">
                                         <label>Juros:</label>
-                                        <input readonly id="juros" name="juros" onkeyup="formatarMoeda();" name="valor"
+                                        <input readonly id="juros" name="juros" onkeyup="formatarMoeda();"
                                             type="text" class="form-control">
                                     </div>
 

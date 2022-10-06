@@ -50,7 +50,6 @@ while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
     // print_r($row_vl_pgto);
 
     $sum_pgto = $row_vl_pgto['valor_pago'];
-    $total_em_atraso = $row_vl_pgto['total_em_atraso'];
     $parcelas = $row_vl_pgto['parcelas'];
     $atraso_diaria = $row_vl_pgto['atraso_diaria'];
 
@@ -58,6 +57,14 @@ while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
   
  $sum_pgto;
 
+ $select_em_atraso = ("SELECT em_aberto as total_em_atraso FROM `valor_pago` where id_solicitacao =  $id_solicitacao ORDER BY id DESC limit 1 ");
+ $result_em_atraso = mysqli_query($conn, $select_em_atraso);
+ 
+ while ($row_em_atraso = mysqli_fetch_assoc($result_em_atraso)) {
+     
+    $total_em_atraso = $row_em_atraso['total_em_atraso'];
+ 
+   }
  
 // if($data_compro == "" ){
 
@@ -205,7 +212,7 @@ if( $data_hoje == $ultimadata ){
                         </div>
 
                           <?php
-                          if($total_em_atraso == ""){
+                          if($total_em_atraso == "0.00" || $total_em_atraso == "" ){
 
                           }else{
                             ?>

@@ -50,8 +50,16 @@ if($parcela_pgto == 20){
   $salve_pgto = mysqli_query($conn, $update_status);
   
 };
+// echo $total_atraso;
+if( $total_atraso == "0.00" || $total_atraso == "" ){
+  $em_aberto = "0.00";
+}else{
+  $em_aberto = $total_atraso - $valor_pago;
+}
 
-$em_aberto = $total_atraso - $valor_pago;
+// echo $em_aberto;
+// print_r($_POST);
+// exit();
 
 $nome_arquivo = $id_solicitacao."_".$data_hora_salve."_".$nome;
 
@@ -95,7 +103,7 @@ if( $salvar == 1 ){
                   Salvo com Sucesso
                 </div>
     <?php
-       echo '<meta http-equiv="refresh" content="3;URL=diaria.php" />';
+       echo '<meta http-equiv="refresh" content="3;URL=mes.php" />';
       //  echo '<meta http-equiv="refresh" content="3;URL=starter.php" />';
   }else{
     ?>

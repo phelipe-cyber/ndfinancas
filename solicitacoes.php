@@ -39,6 +39,7 @@ $data_hoje = (date('Y-m-d'));
           <th>Valor Parcela</th>
           <th>Data Inicio</th>
           <th>Usuário</th>
+          <th>Status Online</th>
           <th>Status</th>
           <th>Ações</th>
         </tr>
@@ -70,7 +71,9 @@ $data_hoje = (date('Y-m-d'));
                                 $id_servico = $row_usuario['id_servico'];
                                 $id_soli = $row_usuario['id_soli'];
 
-                                $status = $row_usuario['descricao'];
+                                $descricao = $row_usuario['descricao'];
+                                $class = $row_usuario['class'];
+
                                 $usuario = $row_usuario['usuario'];
                                 $data_hora = date('d/m/Y', strtotime($row_usuario['dt_solicitacao']));
                                 $dt_pgto = date('Y-m-d', strtotime($row_usuario['dt_pgto']));
@@ -109,6 +112,9 @@ $data_hoje = (date('Y-m-d'));
                                 }else{
                                   echo "<td ><span class='badge badge-danger'>EM ATRASO</span></td>";
                                 }
+
+                                echo "<td ><span class='badge $class'>$descricao</span></td>";
+
                                 // echo "<td>$status</td>";
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
 

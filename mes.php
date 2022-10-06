@@ -31,6 +31,7 @@ $data_hoje = (date('Y-m-d'));
     <table id="example1" class="table table-bordered table-striped">
       <thead>
         <tr>
+          <th>Tipo Cliente</th>
           <th>Cliente</th>
           <th>Valor</th>
           <th>Juros</th>
@@ -38,6 +39,7 @@ $data_hoje = (date('Y-m-d'));
           <!-- <th>Valor Parcela</th> -->
           <th>Data Inicio</th>
           <!-- <th>Data Final</th> -->
+          <th>Status Online</th>
           <th>Status</th>
           <th>Ações</th>
         </tr>
@@ -47,7 +49,7 @@ $data_hoje = (date('Y-m-d'));
         <?php
                                     $usuario = $_SESSION['login'];
 
-                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id  where s.id_servico = 2  and c.status_cliente = 1 and s.usuario = '$usuario' ORDER by s.id ASC ");
+                          $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, nc.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id LEFT JOIN nome_cliente cl on cl.id = c.id_cliente INNER JOIN nome_cliente nc on nc.id = c.id_cliente  where s.id_servico in (2, 3) AND s.status_solicitacao in (1, 3) and c.status_cliente = 1 and s.usuario = '$usuario' ORDER by s.id ASC ");
                           //  $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, comp.*
                           // FROM `solicitacao` s 
                           // INNER JOIN clientes c on s.id_cliente = c.id 
@@ -67,6 +69,9 @@ $data_hoje = (date('Y-m-d'));
                                 $id = $row_usuario['id'];
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $id_soli = $row_usuario['id_soli'];
+                                $nome_servico = $row_usuario['nome_servico'];
+                                $descricao = $row_usuario['descricao'];
+                                $class = $row_usuario['class'];
                                 // $valor_bruto = $row_usuario['valor_bruto'];
                                 // $valor = $row_usuario['valor'];
                                 // $juros = $row_usuario['juros'];
@@ -81,6 +86,7 @@ $data_hoje = (date('Y-m-d'));
                                 $data_hora = date('d/m/Y', strtotime($row_usuario['dt_solicitacao']));
                                 $dt_pgto = date('Y-m-d', strtotime($row_usuario['dt_pgto']));
                                 echo "<tr>";
+                                echo "<td >$nome_servico</td>";
                                 echo "<td >$cliente $sobrenome </td>";
                                 echo "<td >$valor</td>";
                                 echo "<td >$juros</td>";
@@ -94,6 +100,9 @@ $data_hoje = (date('Y-m-d'));
                                 }else{
                                   echo "<td ><span class='badge badge-danger'>EM ATRASO</span></td>";
                                 }
+
+                                echo "<td ><span class='badge $class'>$descricao</span></td>";
+
                                 // echo "<td>$status</td>";
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
 

@@ -41,7 +41,7 @@ $data_hoje = (date('Y-m-d'));
           <!-- <th>Data Final</th> -->
           <th>Status Online</th>
           <th>Status</th>
-          <th>Ações</th>
+          <th class='text-center'>Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -76,6 +76,8 @@ $data_hoje = (date('Y-m-d'));
                                 // $valor = $row_usuario['valor'];
                                 // $juros = $row_usuario['juros'];
                                 // $valor_parcela = $row_usuario['valor_parcela'];
+                                $tel = $row_usuario['tel'];
+                                $tel = preg_replace("/[^0-9,]+/i","",$tel);
 
                                 $valor_bruto = "R$ ". number_format($row_usuario['valor_bruto'], 2, ',', '.'); 
                                 $valor = "R$ ". number_format($row_usuario['valor'], 2, ',', '.');
@@ -105,12 +107,21 @@ $data_hoje = (date('Y-m-d'));
 
                                 // echo "<td>$status</td>";
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
+                                    $msg = "Você tem um valor de $valor_bruto em atraso";
 
                                 // echo "<td> <ion-icon name='eye-outline' href='teste.php' ></ion-icon> </td>";
-                                echo "<td class='text-center'> <a href='detalhes_guerra.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
-
+                                echo "<td class='text-center'> 
+                                <a href='detalhes_guerra.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a>
+                                <a id='btn' target='_blank' href='https://api.whatsapp.com/send?phone=55$tel&text=$msg'> <i class='fa fa-whatsapp' style='font-size:30px;color:green;'></i> </a>
+                                
+                                </td>";
                                 // <i class="fas fa-search"></i>
                                 echo "</tr>";
+
+                                ?> 
+
+                              
+                                <?php
                                 }
                 ?>
         

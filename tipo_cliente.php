@@ -5,7 +5,7 @@ include_once("conexao.php");
 ?>
 
 
-<form id="Form" action="salvar_solicitacao.php" method="POST">
+<form id="Form" action="salvar_tipo_cliente.php" method="POST">
 
     <div id="add_pedido"></div>
     <br>

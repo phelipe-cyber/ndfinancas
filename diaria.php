@@ -39,7 +39,7 @@ $data_hoje = (date('Y-m-d'));
           <th>Data Inicio</th>
           <th>Data Final</th>
           <th>Status</th>
-          <th>Ações</th>
+          <th class='text-center'>Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -67,7 +67,9 @@ $data_hoje = (date('Y-m-d'));
                                 $id = $row_usuario['id'];
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $id_soli = $row_usuario['id_soli'];
-                                
+                                $tel = $row_usuario['tel'];
+                                $tel = preg_replace("/[^0-9,]+/i","",$tel);
+                                // echo $tel;
                                 // $valor_bruto = $row_usuario['valor_bruto'];
                                 // $valor = $row_usuario['valor'];
                                 // $juros = $row_usuario['juros'];
@@ -97,10 +99,13 @@ $data_hoje = (date('Y-m-d'));
                                 }
                                 // echo "<td>$status</td>";
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
-
+                                    $msg = "Você tem um valor de $valor_parcela em atraso";
                                 // echo "<td> <ion-icon name='eye-outline' href='teste.php' ></ion-icon> </td>";
-                                echo "<td class='text-center'> <a  href='detalhes.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
-
+                                echo "<td class='text-center'> 
+                                <a  href='detalhes.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
+                                <a target='_blank' href='https://api.whatsapp.com/send?phone=55$tel&text=$msg'> <i class='fa fa-whatsapp' style='font-size:30px;color:green;'></i> </a>
+                                </td>";
+                               
                                 // <i class="fas fa-search"></i>
                                 echo "</tr>";
                                 }

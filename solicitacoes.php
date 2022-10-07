@@ -73,7 +73,8 @@ $data_hoje = (date('Y-m-d'));
 
                                 $descricao = $row_usuario['descricao'];
                                 $class = $row_usuario['class'];
-
+                                $tel = $row_usuario['tel'];
+                                $tel = preg_replace("/[^0-9,]+/i","",$tel);
                                 $usuario = $row_usuario['usuario'];
                                 $data_hora = date('d/m/Y', strtotime($row_usuario['dt_solicitacao']));
                                 $dt_pgto = date('Y-m-d', strtotime($row_usuario['dt_pgto']));
@@ -117,9 +118,15 @@ $data_hoje = (date('Y-m-d'));
 
                                 // echo "<td>$status</td>";
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
+                                $msg = "Você tem um valor de $valor_parcela em atraso";
 
                                 // echo "<td> <ion-icon name='eye-outline' href='teste.php' ></ion-icon> </td>";
-                                echo "<td class='text-center'> <a href='$page?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye'> </i> </a> </td>";
+                                echo "<td class='text-center'> 
+                                <a href='$page?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a>
+                                <a target='_blank' href='https://api.whatsapp.com/send?phone=55$tel&text=$msg'> <i class='fa fa-whatsapp' style='font-size:30px;color:green;'></i> </a>
+                                
+                                
+                                </td>";
 
                                 // <i class="fas fa-search"></i>
                                 echo "</tr>";

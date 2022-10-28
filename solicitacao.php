@@ -134,6 +134,8 @@ include_once("conexao.php");
 
                                 </div>
                               <br><br>
+                              <br><br>
+                              <br><br>
                                 <div id="button" class="col-2">
                                     <button type="submit" class="btn btn-block btn-success">Salvar</button>
                                 </div>

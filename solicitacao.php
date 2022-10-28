@@ -39,7 +39,7 @@ include_once("conexao.php");
 
                                     <!-- <div class="container"> -->
                                     <!-- <div class="row"> -->
-                                    <div class="col-1">
+                                    <div class="col-2">
                                         <div class="form-group">
                                             <label>Data Solicitação:</label>
                                             <div class="input-group date" id="datetimepicker4"

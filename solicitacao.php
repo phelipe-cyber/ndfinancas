@@ -114,7 +114,7 @@ include_once("conexao.php");
                                         
                                         <div id="valor_parcela" class="col-2">
                                             <label>Valor da parcela:</label>
-                                            <input readonly name="valor_parcela"
+                                            <input id="value_parcela" readonly name="valor_parcela"
                                             onkeyup="formatarMoeda();" name="valor" type="text" class="form-control">
                                         </div>
                                 </div>
@@ -173,7 +173,6 @@ include_once("conexao.php");
                                         // console.log(juros);
                                         // console.log(valor_bruto);
                                         var valor_parcela = (valor_bruto / 20);
-                                        // console.log(valor_parcela);
                                         var juros = juros.toLocaleString('pt-br', {
                                             style: 'currency',
                                             currency: 'BRL'
@@ -186,9 +185,10 @@ include_once("conexao.php");
                                             style: 'currency',
                                             currency: 'BRL'
                                         });
+                                        console.log(valor_parcela);
                                         document.getElementById("juros").value = juros;
                                         document.getElementById("valor_bruto").value = valor_bruto;
-                                        document.getElementById("valor_parcela").value = valor_parcela;
+                                        document.getElementById("value_parcela").value = valor_parcela;
 
                                     }else{
 
@@ -295,7 +295,7 @@ include_once("conexao.php");
                         <!-- dropzonejs -->
                         <script src="../../plugins/dropzone/min/dropzone.min.js"></script>
                         <!-- AdminLTE App -->
-                        <script src="../../dist/js/adminlte.min.js"></script>
+                        <!-- <script src="../../dist/js/adminlte.min.js"></script> -->
                         <!-- AdminLTE for demo purposes -->
 
                         <!-- Page specific script -->

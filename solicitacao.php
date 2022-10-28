@@ -90,32 +90,35 @@ include_once("conexao.php");
                                             </select>
                                         </div>
                                     </div>
+                                    
+                                    <div class="input-group mb-5">
 
-                                    <input id="id_cliente" name="id_servico" type="hidden" value="" class="form-control">
-                                    <div class="col-2">
-                                        <label>Valor:</label>
-                                        <input id="valor" onkeyup="formatarMoeda();" name="valor" type="text"
-                                            class="form-control">
-                                    </div>
+                                        <input id="id_cliente" name="id_servico" type="hidden" value="" class="form-control">
+                                        <div class="col-2">
+                                            <label>Valor:</label>
+                                            <input id="valor" onkeyup="formatarMoeda();" name="valor" type="text"
+                                                class="form-control">
+                                        </div>
 
-                                    <div class="col-2">
-                                        <label>Juros:</label>
-                                        <input readonly id="juros" name="juros" onkeyup="formatarMoeda();"
-                                            type="text" class="form-control">
-                                    </div>
+                                        <div class="col-2">
+                                            <label>Juros:</label>
+                                            <input readonly id="juros" name="juros" onkeyup="formatarMoeda();"
+                                                type="text" class="form-control">
+                                        </div>
 
-                                    <div class="col-2">
-                                        <label>Valor Bruto:</label>
-                                        <input id="valor_bruto" readonly name="valor_bruto" onkeyup="formatarMoeda();"
-                                            name="valor" type="text" class="form-control">
-                                    </div>
-
-                                    <div class="col-2">
-                                        <label>Valor da parcela:</label>
-                                        <input id="valor_parcela" readonly name="valor_parcela"
+                                        <div class="col-2">
+                                            <label>Valor Bruto:</label>
+                                            <input id="valor_bruto" readonly name="valor_bruto" onkeyup="formatarMoeda();"
+                                                name="valor" type="text" class="form-control">
+                                        </div>
+                                        
+                                        <div id="valor_parcela" class="col-2">
+                                            <label>Valor da parcela:</label>
+                                            <input readonly name="valor_parcela"
                                             onkeyup="formatarMoeda();" name="valor" type="text" class="form-control">
-                                    </div>
-
+                                        </div>
+                                </div>
+                            </div>
                                     <script>
                                         function formatarMoeda() {
                                             var elemento = document.getElementById('valor');
@@ -131,11 +134,6 @@ include_once("conexao.php");
                                         }
                                     </script>
                                     <!-- </div> -->
-
-                                </div>
-                              <br><br>
-                              <br><br>
-                              <br><br>
                                 <div id="button" class="col-2">
                                     <button type="submit" class="btn btn-block btn-success">Salvar</button>
                                 </div>

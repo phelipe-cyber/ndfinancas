@@ -93,25 +93,25 @@ include_once("conexao.php");
 
                                     <input id="id_cliente" name="id_servico" type="hidden" value="" class="form-control">
 
-                                    <div class="col-1">
+                                    <div class="col-2">
                                         <label>Valor:</label>
                                         <input id="valor" onkeyup="formatarMoeda();" name="valor" type="text"
                                             class="form-control">
                                     </div>
 
-                                    <div class="col-1">
+                                    <div class="col-2">
                                         <label>Juros:</label>
                                         <input readonly id="juros" name="juros" onkeyup="formatarMoeda();"
                                             type="text" class="form-control">
                                     </div>
 
-                                    <div class="col-1">
+                                    <div class="col-2">
                                         <label>Valor Bruto:</label>
                                         <input id="valor_bruto" readonly name="valor_bruto" onkeyup="formatarMoeda();"
                                             name="valor" type="text" class="form-control">
                                     </div>
 
-                                    <div class="col-1">
+                                    <div class="col-2">
                                         <label>Valor da parcela:</label>
                                         <input id="valor_parcela" readonly name="valor_parcela"
                                             onkeyup="formatarMoeda();" name="valor" type="text" class="form-control">

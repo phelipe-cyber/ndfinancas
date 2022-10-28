@@ -92,7 +92,6 @@ include_once("conexao.php");
                                     </div>
 
                                     <input id="id_cliente" name="id_servico" type="hidden" value="" class="form-control">
-
                                     <div class="col-2">
                                         <label>Valor:</label>
                                         <input id="valor" onkeyup="formatarMoeda();" name="valor" type="text"

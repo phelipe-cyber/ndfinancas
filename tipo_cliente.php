@@ -77,7 +77,7 @@ include_once("conexao.php");
                     <!-- dropzonejs -->
                     <script src="../../plugins/dropzone/min/dropzone.min.js"></script>
                     <!-- AdminLTE App -->
-                    <script src="../../dist/js/adminlte.min.js"></script>
+                    <!-- <script src="../../dist/js/adminlte.min.js"></script> -->
                     <!-- AdminLTE for demo purposes -->
 
                     <!-- Page specific script -->

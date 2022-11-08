@@ -87,11 +87,11 @@ $id_servico = $_POST['id_servico'];
                                     </div>
 
 
-                                    <div class="col-2">
+                                    <!-- <div class="col-2">
                                         <label>Valor Bruto:</label>
-                                        <input id="valor_bruto" readonly name="valor_bruto" value="<?php  echo "R$ " .number_format($total_em_atraso *2 , 2, ',', '.'); ?>"
+                                        <input id="valor_bruto" readonly name="valor_bruto" value="<?php  echo "R$ " .number_format($total_em_atraso , 2, ',', '.'); ?>"
                                             name="valor" type="text" class="form-control">
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-2">
                                         <label>Valor da parcela:</label>
@@ -128,7 +128,7 @@ $id_servico = $_POST['id_servico'];
                                         let total_parcelas = document.getElementById("total_parcelas").value;
                                         
                                         // var percentual = 2;
-                                        var valor_atual = valor * 2;
+                                        var valor_atual = valor ;
                                         // console.log(valor_atual);
 
                                         var valor_parcela = valor_atual / total_parcelas;
@@ -151,7 +151,7 @@ $id_servico = $_POST['id_servico'];
                                         });
 
                                         // document.getElementById("juros").value = valor_atual;
-                                        document.getElementById("valor_bruto").value = valor_atual;
+                                        // document.getElementById("valor_bruto").value = valor_atual;
                                         document.getElementById("valor_parcela").value = valor_parcela;
 
 
@@ -185,7 +185,7 @@ $id_servico = $_POST['id_servico'];
                         <!-- dropzonejs -->
                         <script src="../../plugins/dropzone/min/dropzone.min.js"></script>
                         <!-- AdminLTE App -->
-                        <script src="../../dist/js/adminlte.min.js"></script>
+                        <!-- <script src="../../dist/js/adminlte.min.js"></script> -->
                         <!-- AdminLTE for demo purposes -->
 
                         <!-- Page specific script -->

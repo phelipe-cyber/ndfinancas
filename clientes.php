@@ -57,7 +57,9 @@ include_once("conexao.php");
                                 $cnpj = $row_usuario['cnpj'];
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $nome_servico = $row_usuario['nome_servico'];
-                                $nome_cliente = $cliente = "" ? : $sobrenome;
+                                $nome_cliente = $cliente ? : $sobrenome;
+                                
+                                // $salve->parcela = $this->input->post('parcela') ? : "";
 
                                 echo "<tr>";
                                 echo "<td >$id</td>";

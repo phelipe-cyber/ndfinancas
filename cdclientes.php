@@ -41,7 +41,7 @@ include_once("starter.php");
                   <div class="col-2">
                   <div class="form-group">
                   <label>VS ou Guerra</label>
-                  <select name="servico" required class="form-control select2bs4" style="width: 100%;" placeholder="Select a State">
+                  <select id="servico" name="servico" required class="form-control select2bs4" style="width: 100%;" placeholder="Select a State">
                     <option selected=""></option>
                    
                   <?php 
@@ -63,7 +63,7 @@ include_once("starter.php");
                 </div>
                 </div>
 
-                    <div class="col-2">
+                    <div id="cnpj_2" class="col-2">
                       <label>CNPJ:</label>
                       <input  id="cnpj" name="cnpj" type="text" class="form-control"
                         data-inputmask="'mask': ['99.999.999/9999-99']" data-mask>
@@ -153,6 +153,28 @@ include_once("starter.php");
                       });
                     </script>
 
+                    <script>
+                      $(document).ready(function() {
+                        document.getElementById("razao_social").value = "";
+                          $("#servico").on('change', function(event) {
+
+                           let servico = document.getElementById("servico").value;
+
+                            console.log("ID SERVICO", servico);
+                            if( servico == 1 ){
+                            }else{
+
+                                document.getElementById('cnpj_2').style = 'display:none;';
+                                document.getElementById('razao_social').style = 'display:none;';
+
+
+                            }
+
+                          // };
+                        });
+                      });
+                    </script>
+
                     <div class="col-2">
                       <label>CEP:</label>
                       <input  id="cep" name="cep" type="text" class="form-control"
@@ -220,7 +242,7 @@ include_once("starter.php");
                       });
                     </script>
 
-                    <div class="col-5">
+                    <div id="razao_social" class="col-5">
                       <label>Razão social:</label>
                       <input  id="razao_social" name="razao_social" type="text" class="form-control">
                     </div>

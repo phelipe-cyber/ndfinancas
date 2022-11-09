@@ -7,7 +7,7 @@ include_once("starter.php");
  $id_edit = $_GET['id'];
  $usuario = $_SESSION['login'];
 
- $select_sql = ("SELECT c.*, ft.* FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id where c.id = $id_edit and c.user_created = '$usuario' ");
+ $select_sql = ("SELECT *, nc.id as id_servico FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id  LEFT JOIN nome_cliente nc on c.id_cliente = nc.id where c.id = $id_edit and c.user_created = '$usuario' ");
                             
  $recebidos = mysqli_query($conn, $select_sql);
  
@@ -17,7 +17,7 @@ include_once("starter.php");
     $id_cliente = $row_usuario['id_cliente'];
     $status_solicitacao = $row_usuario['status_solicitacao'];
     $class = $row_usuario['class'];
-    $cliente = $row_usuario['nome'];
+    $cliente_c = $row_usuario['nome'];
     $cnpj = $row_usuario['cnpj'];
     $cep = $row_usuario['cep'];
     $sobrenome = $row_usuario['sobrenome'];
@@ -43,7 +43,8 @@ include_once("starter.php");
     $bairro_emp = $row_usuario['bairro_emp'];
     $complemento_emp = $row_usuario['complemento_emp'];
     $referencia_emp = $row_usuario['referencia_emp'];
-
+    $nome_servico = $row_usuario['nome_servico'];
+    $id_servico = $row_usuario['id_servico'];
     $ftcliente = $row_usuario['ftcliente'];
     $ftrg = $row_usuario['ftrg'];
     $ftcpf = $row_usuario['ftcpf'];
@@ -101,8 +102,8 @@ include_once("starter.php");
                   <div class="form-group">
                   <label>VS ou Guerra</label>
                   <select name="servico" required class="form-control select2bs4" style="width: 100%;" placeholder="Select a State">
-                  <option selected=""></option>
-                    
+                  <option selected disabled value="<?php echo $id_servico ?>"><?php echo $nome_servico ?></option>
+
                   <?php 
                     $select_sql = ("SELECT c.* FROM `nome_cliente` c  ORDER BY c.id ASC ");
                             
@@ -138,7 +139,7 @@ include_once("starter.php");
 
                     <div class="col-5">
                       <label>Razão social:</label>
-                      <input  id="razao_social" value="<?php echo $cliente ?>" name="razao_social" type="text" class="form-control">
+                      <input  id="razao_social" value="<?php echo $cliente_c ?>" name="razao_social" type="text" class="form-control">
                     </div>
                     <div class="col-4">
                       <label>Nome Fantasia:</label>

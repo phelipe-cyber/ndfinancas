@@ -98,7 +98,7 @@ include_once("starter.php");
                             url: 'https://brasilapi.com.br/api/cnpj/v1/' + cnpj,
                             method: "GET",
                             success: function(response) {
-                              console.log(response.qsa[0].nome_socio);
+                              // console.log(response.qsa[0].nome_socio);
                               // console.log(response.message);
                               document.getElementById("spiner").style = 'display:none;';
                               
@@ -123,7 +123,10 @@ include_once("starter.php");
                               document.getElementById("sobrenome").value = nome_fantasia;
 
                               nome_socios = response.qsa[0].nome_socio;
-                              document.getElementById("nome").value = nome_socios;
+                              if( nome_socios == "" ){
+                              }else{
+                                document.getElementById("nome").value = nome_socios;
+                              }
 
                               // document.getElementById("pedido").focus();
                             },
@@ -155,7 +158,6 @@ include_once("starter.php");
 
                     <script>
                       $(document).ready(function() {
-                        document.getElementById("razao_social").value = "";
                           $("#servico").on('change', function(event) {
 
                            let servico = document.getElementById("servico").value;
@@ -163,11 +165,11 @@ include_once("starter.php");
                             console.log("ID SERVICO", servico);
                             if( servico == 1 ){
                               document.getElementById('cnpj_2').style = 'display:block;';
-                                document.getElementById('razao_social').style = 'display:block;';
+                                document.getElementById('razao_social_2').style = 'display:block;';
                             }else{
 
                                 document.getElementById('cnpj_2').style = 'display:none;';
-                                document.getElementById('razao_social').style = 'display:none;';
+                                document.getElementById('razao_social_2').style = 'display:none;';
 
 
                             }
@@ -244,7 +246,7 @@ include_once("starter.php");
                       });
                     </script>
 
-                    <div id="razao_social" class="col-5">
+                    <div id="razao_social_2" class="col-5">
                       <label>Razão social:</label>
                       <input  id="razao_social" name="razao_social" type="text" class="form-control">
                     </div>

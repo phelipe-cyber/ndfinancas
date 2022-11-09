@@ -29,6 +29,7 @@ include_once("conexao.php");
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
+                                        <th>ID Cliente</th>
                                         <th>Cliente</th>
                                         <th>CNPJ</th>
                                         <th>CPF</th>
@@ -41,7 +42,7 @@ include_once("conexao.php");
                                     <?php
                                     $usuario = $_SESSION['login'];
 
-                          $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' ORDER BY c.id ASC ");
+                          $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' ORDER BY c.nome, c.sobrenome ASC ");
                             
                             $recebidos = mysqli_query($conn, $select_sql);
                             
@@ -56,9 +57,11 @@ include_once("conexao.php");
                                 $cnpj = $row_usuario['cnpj'];
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $nome_servico = $row_usuario['nome_servico'];
+                                $nome_cliente = $cliente == "" ?: $sobrenome;
 
                                 echo "<tr>";
-                                echo "<td >$cliente $sobrenome </td>";
+                                echo "<td >$id  </td>";
+                                echo "<td >$nome_cliente  </td>";
                                 echo "<td >$cnpj </td>";
                                 echo "<td >$cpf </td>";
                                 echo "<td >$nome_servico </td>";

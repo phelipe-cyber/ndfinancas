@@ -57,11 +57,11 @@ include_once("conexao.php");
                                 $cnpj = $row_usuario['cnpj'];
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $nome_servico = $row_usuario['nome_servico'];
-                                $nome_cliente = $cliente == "" ?: $sobrenome;
+                                $nome_cliente = $cliente = "" ? : $sobrenome;
 
                                 echo "<tr>";
-                                echo "<td >$id  </td>";
-                                echo "<td >$nome_cliente  </td>";
+                                echo "<td >$id</td>";
+                                echo "<td >$nome_cliente</td>";
                                 echo "<td >$cnpj </td>";
                                 echo "<td >$cpf </td>";
                                 echo "<td >$nome_servico </td>";

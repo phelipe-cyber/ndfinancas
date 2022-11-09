@@ -2,6 +2,8 @@
 include_once("starter.php");
 include_once("conexao.php");
 // exit();
+$usuario = $_SESSION['login'];
+
 ?>
 
 <form id="Form" action="salvar_solicitacao.php" method="POST">
@@ -72,7 +74,7 @@ include_once("conexao.php");
                                                 style="width: 100%;">
                                                 <option selected=""></option>
                                                 <?php
-                                                    $select_sql = ("SELECT * FROM `clientes`");
+                                                    $select_sql = ("SELECT * FROM `clientes` where user_created = '$usuario' ");
                                                     
                                                     $recebidos = mysqli_query($conn, $select_sql);
                                                     

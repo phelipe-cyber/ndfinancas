@@ -162,6 +162,8 @@ include_once("starter.php");
 
                             console.log("ID SERVICO", servico);
                             if( servico == 1 ){
+                              document.getElementById('cnpj_2').style = 'display:block;';
+                                document.getElementById('razao_social').style = 'display:block;';
                             }else{
 
                                 document.getElementById('cnpj_2').style = 'display:none;';

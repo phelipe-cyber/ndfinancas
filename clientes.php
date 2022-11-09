@@ -42,7 +42,7 @@ include_once("conexao.php");
                                     <?php
                                     $usuario = $_SESSION['login'];
 
-                          $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' ORDER BY c.nome, c.sobrenome ASC ");
+                          $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' and c.status_cliente <> 0 ORDER BY c.nome, c.sobrenome ASC ");
                             
                             $recebidos = mysqli_query($conn, $select_sql);
                             
@@ -52,12 +52,13 @@ include_once("conexao.php");
                                 $cliente = $row_usuario['nome'];
                                 $id = $row_usuario['id'];
                                 $sobrenome = $row_usuario['sobrenome'];
+                                $socio = $row_usuario['socio'];
                                 $ftcliente = $row_usuario['ftcliente'];
                                 $cpf = $row_usuario['cpf'];
                                 $cnpj = $row_usuario['cnpj'];
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $nome_servico = $row_usuario['nome_servico'];
-                                $nome_cliente = $cliente ? : $sobrenome;
+                                $nome_cliente = $cliente ? : $sobrenome ? : $socio ;
                                 
                                 // $salve->parcela = $this->input->post('parcela') ? : "";
 

@@ -12,7 +12,7 @@ $login = mysqli_real_escape_string($conn, $_POST['login']);
 $password = mysqli_real_escape_string($conn, $_POST['password']);
 $status = mysqli_real_escape_string($conn, $_POST['status']);
 
- $query = "select * from user where usuario = '{$login}' and senha = md5('{$password}') and status_login = 1 ";
+ $query = "select * from user where usuario = '{$login}' and senha = md5('{$password}') and status_login = 1 and session = '' ";
 
 $result = mysqli_query($conn, $query);
 // print_r($result);
@@ -32,9 +32,10 @@ if($row == 1) {
 	$_SESSION['id_user'] = $id_user;
 	$_SESSION['unique_id'] = $unique_id;
 	$_SESSION['status_login'] = $status_login;
-
 	$status = "Ativo agora";
-	$sql = "UPDATE user SET status = '{$status}' WHERE unique_id= {$unique_id} ";
+	$session_id = session_id();
+
+	$sql = "UPDATE user SET status = '{$status}', session = '{$session_id}' WHERE unique_id= {$unique_id} ";
 	$query = mysqli_query($conn, $sql);
 
 	header('Location: starter.php');

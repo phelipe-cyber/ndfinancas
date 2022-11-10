@@ -239,7 +239,7 @@ $usuario = $_SESSION['login'];
 
                                     document.getElementById("id_cliente").value = id_cliente;
                                     // console.log(id_cliente);
-                                    if (id == "" || id == 2 ) {
+                                    if (id == "" || id == 2 || id == 3 ) {
 
                                         document.getElementById('button').style = 'display:flex;';
 

@@ -4,10 +4,6 @@ include_once("verifica_login.php");
 include_once("verifica_acesso.php");
 include_once("conexao.php");
 
-$id_user = $_SESSION['id_user'];
-// print_r($_SESSION);
-
-
 ?>
 <!DOCTYPE html>
 
@@ -247,6 +243,8 @@ $id_user = $_SESSION['id_user'];
       <!-- AdminLTE App -->
       <!-- <script src="dist/js/adminlte.min.js"></script> -->
 
+
 </body>
+
 
 </html>

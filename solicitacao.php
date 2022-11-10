@@ -233,13 +233,13 @@ $usuario = $_SESSION['login'];
                                     
                                     let id_result = document.getElementById("cliente").value;
                                     var idarray = id_result.split(".");
-                                    console.log(idarray);
+                                    // console.log(idarray);
                                     var id = idarray[0];
                                     var id_cliente = idarray[1];
 
                                     document.getElementById("id_cliente").value = id_cliente;
                                     // console.log(id_cliente);
-                                    if (id == "" || id == 2 || id == 3 ) {
+                                    if (id_cliente == "" || id_cliente == 2 || id_cliente == 3 ) {
 
                                         document.getElementById('button').style = 'display:flex;';
 

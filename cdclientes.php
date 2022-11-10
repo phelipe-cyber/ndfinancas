@@ -165,11 +165,14 @@ include_once("starter.php");
                             console.log("ID SERVICO", servico);
                             if( servico == 1 ){
                               document.getElementById('cnpj_2').style = 'display:block;';
-                                document.getElementById('razao_social_2').style = 'display:block;';
+                              document.getElementById('razao_social_2').style = 'display:block;';
+                              document.getElementById('nome_fantasia_2').style = 'display:block;';
+
                             }else{
 
                                 document.getElementById('cnpj_2').style = 'display:none;';
                                 document.getElementById('razao_social_2').style = 'display:none;';
+                                document.getElementById('nome_fantasia_2').style = 'display:none;';
 
 
                             }
@@ -250,7 +253,7 @@ include_once("starter.php");
                       <label>Razão social:</label>
                       <input  id="razao_social" name="razao_social" type="text" class="form-control">
                     </div>
-                    <div class="col-4">
+                    <div id="nome_fantasia_2" class="col-4">
                       <label>Nome Fantasia:</label>
                       <input  id="sobrenome" name="sobrenome" type="text" class="form-control">
                     </div>

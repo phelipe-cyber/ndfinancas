@@ -277,8 +277,11 @@ if( $data_hoje == $ultimadata ){
                                         <span class="info-box-text text-center text-muted">Dias em Atraso</span>
                                         <span class="info-box-number text-center text-muted mb-0">
                                           <?php
-                                            
-                                              if( $data_hoje == $ultimadata ){
+                                              // echo $data_hoje;
+                                              // echo "<>";
+                                              // echo $ultimadata;
+
+                                              if( $data_hoje < $ultimadata ){
                                                   // echo $dia_atraso = 0;
                                               }else{
                                                 $data1 = new DateTime($ult_array_data);

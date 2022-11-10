@@ -74,7 +74,7 @@ $usuario = $_SESSION['login'];
                                                 style="width: 100%;">
                                                 <option selected=""></option>
                                                 <?php
-                                                    $select_sql = ("SELECT * FROM `clientes` where user_created = '$usuario' ");
+                                                   echo $select_sql = ("SELECT * FROM `clientes` where user_created = '$usuario' ");
                                                     
                                                     $recebidos = mysqli_query($conn, $select_sql);
                                                     
@@ -84,8 +84,11 @@ $usuario = $_SESSION['login'];
                                                         $cliente = $row_usuario['nome'];
                                                         $sobrenome = $row_usuario['sobrenome'];
                                                         $id = $row_usuario['id'];
-                                                        $id_cliente = $row_usuario['id_cliente'];    
-                                                        echo "<option value='$id.$id_cliente'>$cliente $sobrenome</option>";
+                                                        $socio = $row_usuario['socio'];
+                                                        $id_cliente = $row_usuario['id_cliente'];
+                                                        $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
+
+                                                        echo "<option value='$id.$id_cliente'>$nome_cliente</option>";
                                                         
                                                     }
                                                     ?>

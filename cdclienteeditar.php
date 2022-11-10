@@ -102,7 +102,7 @@ include_once("starter.php");
                   <div class="form-group">
                   <label>VS ou Guerra</label>
                   <select name="servico" required class="form-control select2bs4" style="width: 100%;" placeholder="Select a State">
-                  <option selected disabled value="<?php echo $id_servico ?>"><?php echo $nome_servico ?></option>
+                  <option selected readonly value="<?php echo $id_servico ?>"><?php echo $nome_servico ?></option>
 
                   <?php 
                     $select_sql = ("SELECT c.* FROM `nome_cliente` c  ORDER BY c.id ASC ");

@@ -98,8 +98,9 @@ $data_hoje = (date('Y-m-d'));
                                 echo "<td >$valor_bruto</td>";
                                 // echo "<td >$valor_parcela</td>";
                                 echo "<td >$data_hora</td>";
-                               
 
+                                $dt_pgto = date('Y-m-d', strtotime($dt_pgto . '+1 month' ));
+                                
                                 if( $data_hoje < $dt_pgto ){
                                   echo "<td ><span class='badge badge-success'>EM DIA</span></td>";
                                 }else{

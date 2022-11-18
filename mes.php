@@ -31,6 +31,7 @@ $data_hoje = (date('Y-m-d'));
     <table id="example1" class="table table-bordered table-striped">
       <thead>
         <tr>
+          <th>ID Cliente</th>
           <th>Tipo Cliente</th>
           <th>Cliente</th>
           <th>Valor</th>
@@ -91,6 +92,7 @@ $data_hoje = (date('Y-m-d'));
                                 $data_hora = date('d/m/Y', strtotime($row_usuario['dt_solicitacao']));
                                 $dt_pgto = date('Y-m-d', strtotime($row_usuario['dt_pgto']));
                                 echo "<tr>";
+                                echo "<td >$id_cliente</td>";
                                 echo "<td >$nome_servico</td>";
                                 echo "<td >$nome_cliente</td>";
                                 echo "<td >$valor</td>";

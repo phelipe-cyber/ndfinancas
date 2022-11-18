@@ -50,7 +50,7 @@ $data_hoje = (date('Y-m-d'));
         <?php
                                     $usuario = $_SESSION['login'];
 
-                          $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, nc.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id LEFT JOIN nome_cliente cl on cl.id = c.id_cliente INNER JOIN nome_cliente nc on nc.id = c.id_cliente  where s.id_servico in (2, 3) AND s.status_solicitacao in (1, 3) and c.status_cliente = 1 and s.usuario = '$usuario' ORDER by s.id ASC ");
+                          $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, nc.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id LEFT JOIN nome_cliente cl on cl.id = c.id_cliente INNER JOIN nome_cliente nc on nc.id = c.id_cliente  where s.id_servico in (2, 3) AND s.status_solicitacao in (1, 3) and c.status_cliente = 1 and s.usuario = '$usuario' ORDER by c.id ASC ");
                           //  $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, comp.*
                           // FROM `solicitacao` s 
                           // INNER JOIN clientes c on s.id_cliente = c.id 

@@ -103,7 +103,7 @@ while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
 
 // }
 
-$ultimadata = date('Y-m-d', strtotime($ult_array_data));
+$ultimadata = date('Y-m-d', strtotime($ult_array_data . '+1 month' ));
 
 
 
@@ -116,7 +116,7 @@ if( $data_hoje == $ultimadata ){
     // echo "Diferente";
 }
 
-//  $ultimadata;
+// $ultimadata;
 
 
 ?>
@@ -284,7 +284,7 @@ if( $data_hoje == $ultimadata ){
                                               if( $data_hoje < $ultimadata ){
                                                   // echo $dia_atraso = 0;
                                               }else{
-                                                $data1 = new DateTime($ult_array_data);
+                                                $data1 = new DateTime($ultimadata);
                                                 $data2 = new DateTime();
                                                 $intervalo = $data1->diff($data2);
                                                 echo $dia_atraso = $intervalo->format('%a') + 1 ;

@@ -45,6 +45,9 @@ while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
     $id_cliente = $row_usuario['id_cliente'];
     $id_servico = $row_usuario['id_servico'];
     $valor_parcela = $row_usuario['valor_parcela'];
+    $socio = $row_usuario['socio'];
+
+    $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
     // $valor_parcela = $row_usuario['valor_parcela'];
     $data_hora = date('Y-m-d', strtotime($row_usuario['data_hora_solicitacao']));
     // $data_hora = date('d/m/Y H:i:s', strtotime($row_usuario['data_hora_solicitacao']));
@@ -93,6 +96,7 @@ while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
         // print_r($row_vl_pgto);
     
         $ult_array_data = $row_sol['dt_pgto'];
+        $dt_solicitacao = $row_sol['dt_solicitacao'];
     
       }
 //   $ult_array_data = $data_hora;
@@ -451,7 +455,7 @@ if( $data_hoje == $ultimadata ){
                     </div>
                     <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                       <h3 class="text-primary"><i class="fas fa-paint-brush"></i>
-                        <?php echo $cliente . " " . $sobrenome ?> </h3>
+                        <?php echo "ID: ". $id_cliente . " | " . $nome_cliente ?> </h3>
                       <p class="text-muted">
                         <!-- <td class='project-state text-center'><span class='<?php echo $class ?>'> <?php echo $status ?></span></td> -->
                       </p>
@@ -577,6 +581,35 @@ if( $data_hoje == $ultimadata ){
                                     <input type="hidden" name="id_cliente" value="<?php echo $id_cliente ?>">
                                       <button type="submit" class="btn btn-block btn-info">Finalizar</button>
                                    </form>
+                                  </div>
+                                 
+                                  <div class="col">
+                                    <input type="hidden" id="id_solicitacao" name="id_solicitacao" value="<?php echo $id_solicitacao ?>">
+                                    <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $id_cliente ?>">
+                                        
+                                      <?php 
+                                         $dia_solicitacao = date('d', strtotime($dt_solicitacao));
+                                         $dt_alt = date('Y-m-'.$dia_solicitacao, strtotime($data_hoje));
+                                      
+                                      ?>
+                                    <input type="hidden" id="$dt_alt" name="$dt_alt" value="<?php echo $dt_alt ?>">
+
+                                      <label id="alt_dt" class="btn btn-block btn-dark">Alterar Data</label>
+                                   
+                                   <script>
+                                        $(document).ready(function() {
+                                            $("#alt_dt").on('click', function(event) {
+
+                                            <?php 
+                                              $update = " UPDATE `solicitacao` SET `dt_pgto`='$dt_alt' WHERE id = '$id_solicitacao' ";
+                                              $sql_update = mysqli_query($conn, $update);
+                                               
+                                            ?>
+                                                document.location.reload(true);
+
+                                          });
+                                        });
+                                     </script>
                                   </div>
                                 </div>
                               </div>

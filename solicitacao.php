@@ -99,6 +99,11 @@ $usuario = $_SESSION['login'];
                                     <div class="input-group mb-5">
 
                                         <input id="id_cliente" name="id_servico" type="hidden" value="" class="form-control">
+                                        <div class="col-1">
+                                            <label>Porcentagem:</label>
+                                            <input id="porcento" name="porcento" type="text"
+                                                class="form-control">
+                                        </div>
                                         <div class="col-2">
                                             <label>Valor:</label>
                                             <input id="valor" onkeyup="formatarMoeda();" name="valor" type="text"
@@ -162,22 +167,31 @@ $usuario = $_SESSION['login'];
 
                                     let id_result = document.getElementById("cliente").value;
                                     var idarray = id_result.split(".");
-                                    console.log(idarray);
+                                    // console.log(idarray);
                                     var id = idarray[0];
                                     var id_cliente = idarray[1];
 
                                     // console.log(id_cliente);
-
+                                        
                                     if( id_cliente == 1){
 
                                         let valor = conversor(document.getElementById("valor").value);
-                                        //   console.log(valor);
-                                        var percentual = 0.20;
+                                        var porcento = document.getElementById("porcento").value;
+                                        
+                                        if(  porcento == "" ){
+                                            var percentual = 0.20;
+                                            var percentual_parcela =  "20";
+                                        }else{
+                                            var percentual = "0." + porcento;
+                                            var percentual_parcela =  porcento ;
+                                        }
+
+                                        // var percentual = 0.20;
                                         var juros = valor * percentual;
                                         var valor_bruto = valor + juros;
                                         // console.log(juros);
                                         // console.log(valor_bruto);
-                                        var valor_parcela = (valor_bruto / 20);
+                                        var valor_parcela = (valor_bruto / percentual_parcela);
                                         var juros = juros.toLocaleString('pt-br', {
                                             style: 'currency',
                                             currency: 'BRL'
@@ -190,7 +204,7 @@ $usuario = $_SESSION['login'];
                                             style: 'currency',
                                             currency: 'BRL'
                                         });
-                                        console.log(valor_parcela);
+                                        // console.log(valor_parcela);
                                         document.getElementById("juros").value = juros;
                                         document.getElementById("valor_bruto").value = valor_bruto;
                                         document.getElementById("value_parcela").value = valor_parcela;
@@ -198,14 +212,16 @@ $usuario = $_SESSION['login'];
                                     }else{
 
                                         let valor = conversor(document.getElementById("valor").value);
-                                        //   console.log(valor);
-                                        var percentual = 0.20;
+                                        var porcento = document.getElementById("porcento").value;
+                                        
+                                        if(  porcento == "" ){
+                                            var percentual = 0.20;
+                                        }else{
+                                            var percentual = "0." + porcento;
+                                        }
                                         var juros = valor * percentual;
                                         var valor_bruto = valor + juros;
-                                        // console.log(juros);
-                                        // console.log(valor_bruto);
-                                        // var valor_parcela = (valor_bruto / 20);
-                                        // console.log(valor_parcela);
+                                       
                                         var juros = juros.toLocaleString('pt-br', {
                                             style: 'currency',
                                             currency: 'BRL'
@@ -214,10 +230,7 @@ $usuario = $_SESSION['login'];
                                             style: 'currency',
                                             currency: 'BRL'
                                         });
-                                        // var valor_parcela = valor_parcela.toLocaleString('pt-br', {
-                                        //     style: 'currency',
-                                        //     currency: 'BRL'
-                                        // });
+                                       
                                         document.getElementById("juros").value = juros;
                                         document.getElementById("valor_bruto").value = valor_bruto;
                                         document.getElementById("valor_parcela").style = 'display: none';

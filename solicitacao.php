@@ -215,11 +215,12 @@ $usuario = $_SESSION['login'];
                                         var porcento = document.getElementById("porcento").value;
                                         
                                         if(  porcento == "" ){
-                                            var percentual = 0.20;
+                                            var percentual = 20;
                                         }else{
-                                            var percentual = "0." + porcento;
+                                            var percentual =  porcento;
+
                                         }
-                                        var juros = valor * percentual;
+                                        var juros = (valor / 100) * percentual;
                                         var valor_bruto = valor + juros;
                                        
                                         var juros = juros.toLocaleString('pt-br', {

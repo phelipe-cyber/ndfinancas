@@ -6,11 +6,11 @@ services:
     build:
       context: ..
       dockerfile: Dockerfile
-    container_name: app_nf_financas
+    container_name: app_chat
     restart: unless-stopped
     ports:
-      - "1974:80"
-      - "197:443"
+      - "1984:80"
+      - "198:443"
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
@@ -27,27 +27,27 @@ services:
   #MySQL Service
   db:
     image: mariadb:10.5.11
-    container_name: db_nf_financas
+    container_name: db_chat
     restart: unless-stopped
     ports:
-      - "3399:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_USER: "root"
       MYSQL_ROOT_PASSWORD: "#tr0caf0ne#"
       MYSQL_USER: "root"
       MYSQL_PASSWORD: "#tr0caf0ne#"
-      MYSQL_DATABASE: "u841971040_ndfinancas"
+      MYSQL_DATABASE: "chatapp"
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
       - ./mysql/my.cnf:/etc/mysql/my.cnf
-      - ./mysql/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      - ./mysql/chatapp.sql:/docker-entrypoint-initdb.d/chatapp.sql
     networks:
       - app-network
   db_sql:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "1975:80"
+      - "1985:80"
     depends_on:
       - db
     networks:

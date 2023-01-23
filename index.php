@@ -58,7 +58,7 @@ session_start();
 
       <form action="login.php" method="post">
         <div class="input-group mb-3">
-          <input name="login" type="text" class="form-control" placeholder="LOGIN">
+          <input name="login" type="text" autocomplete = "false" class="form-control" placeholder="LOGIN">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>

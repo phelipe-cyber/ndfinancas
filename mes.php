@@ -50,7 +50,10 @@ $data_hoje = (date('Y-m-d'));
         <?php
                                     $usuario = $_SESSION['login'];
 
-                          $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, nc.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id LEFT JOIN nome_cliente cl on cl.id = c.id_cliente INNER JOIN nome_cliente nc on nc.id = c.id_cliente  where s.id_servico in (2, 3) AND s.status_solicitacao in (1, 3) and c.status_cliente = 1 and s.usuario = '$usuario' ORDER by c.id ASC ");
+                          $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, nc.*, CASE WHEN TRIM(LTRIM(c.sobrenome)) = '' and TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.socio))
+                          WHEN TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.sobrenome))
+                          ELSE TRIM(LTRIM(c.nome))
+                         END nome_cliente FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id LEFT JOIN nome_cliente cl on cl.id = c.id_cliente INNER JOIN nome_cliente nc on nc.id = c.id_cliente  where s.id_servico in (2, 3) AND s.status_solicitacao in (1, 3) and c.status_cliente = 1 and s.usuario = '$usuario' and c.id_cliente <> '0' ORDER by `nome_cliente` ASC ");
                           //  $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, comp.*
                           // FROM `solicitacao` s 
                           // INNER JOIN clientes c on s.id_cliente = c.id 
@@ -74,7 +77,8 @@ $data_hoje = (date('Y-m-d'));
                                 $nome_servico = $row_usuario['nome_servico'];
                                 $descricao = $row_usuario['descricao'];
                                 $class = $row_usuario['class'];
-                                $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
+                                // $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
+                                $nome_cliente = $row_usuario['nome_cliente'] ;
                                 
                                 // $valor_bruto = $row_usuario['valor_bruto'];
                                 // $valor = $row_usuario['valor'];

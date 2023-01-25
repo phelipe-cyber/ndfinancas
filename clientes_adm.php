@@ -42,7 +42,10 @@ include_once("conexao.php");
                                     <?php
                                     $usuario = $_SESSION['login'];
 
-                                    $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente  where c.id_cliente <> '0'  ORDER BY c.id ASC ");
+                                    $select_sql = ("SELECT *, c.id as id,  CASE WHEN TRIM(LTRIM(c.sobrenome)) = '' and TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.socio))
+                                    WHEN TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.sobrenome))
+                                    ELSE TRIM(LTRIM(c.nome))
+                                END nome_cliente FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente  where c.id_cliente <> '0'  ORDER BY `nome_cliente` ASC ");
 
                             
                             $recebidos = mysqli_query($conn, $select_sql);
@@ -59,10 +62,10 @@ include_once("conexao.php");
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $usuario_criacao = $row_usuario['user_created'];
                                 $nome_servico = $row_usuario['nome_servico'];
-                                
+                                $nome_cliente = $row_usuario['nome_cliente'];
 
                                 echo "<tr>";
-                                echo "<td >$cliente $sobrenome </td>";
+                                echo "<td >$nome_cliente</td>";
                                 echo "<td >$cnpj </td>";
                                 echo "<td >$cpf </td>";
                                 echo "<td > $nome_servico </td>";

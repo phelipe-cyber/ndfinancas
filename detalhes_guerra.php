@@ -26,7 +26,10 @@ date_default_timezone_set('America/Recife');
 
 $id = $_GET['id'];
 
- $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id where s.id = $id and s.id_servico = 2 ORDER by s.id DESC");
+ $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, CASE WHEN TRIM(LTRIM(c.sobrenome)) = '' and TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.socio))
+ WHEN TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.sobrenome))
+ ELSE TRIM(LTRIM(c.nome))
+END nome_cliente FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id where s.id = $id and s.id_servico = 2 and c.id_cliente <> '0' ORDER by `nome_cliente` ASC");
                            
 $recebidos = mysqli_query($conn, $select_sql);
 
@@ -46,8 +49,8 @@ while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
     $id_servico = $row_usuario['id_servico'];
     $valor_parcela = $row_usuario['valor_parcela'];
     $socio = $row_usuario['socio'];
-
-    $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
+    // $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
+    $nome_cliente = $row_usuario['nome_cliente'] ;
     // $valor_parcela = $row_usuario['valor_parcela'];
     $data_hora = date('Y-m-d', strtotime($row_usuario['data_hora_solicitacao']));
     // $data_hora = date('d/m/Y H:i:s', strtotime($row_usuario['data_hora_solicitacao']));

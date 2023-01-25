@@ -32,6 +32,9 @@ include_once("starter.php");
                 <h5><i class="icon fas fa-ban"></i> Erro!</h5> <label id="msg_error"></label>
               </div>
 
+                  <div id="response_validacao_cadastro"></div>
+
+
               <div class="card card-info">
                 <div class="card-header">
                   <h3 class="card-title">Cadastro Cliente</h3>
@@ -71,12 +74,8 @@ include_once("starter.php");
 
                     <script>
                       $(document).ready(function() {
-                        document.getElementById("razao_social").value = "";
+                        // document.getElementById("razao_social").value = "";
                         $("#cnpj").on('keyup', function(event) {
-                          // $("#cnpj").on('keydown', function(event) {
-                          // $("#cnpj").on('onclick', function(event) {
-                          // console.log(event);
-                          // if (event.keyCode === 9 || event.keyCode === 13 || event.keyCode === 86) {
                           document.getElementById("razao_social").value = "";
                           document.getElementById("nome").value = "";
                           document.getElementById("sobrenome").value = "";
@@ -91,67 +90,86 @@ include_once("starter.php");
                           var cnpj_completo = document.getElementById("cnpj").value
                           var cnpj = cnpj_completo.replace(/[^0-9]/g, '');
                           console.log(cnpj);
+
                           var vData = {
-                            cnpj: cnpj
+                            cnpj: cnpj,
+                            cnpj_completo:cnpj_completo
                           };
+
                           $.ajax({
-                            url: 'https://brasilapi.com.br/api/cnpj/v1/' + cnpj,
-                            method: "GET",
-                            success: function(response) {
-                              // console.log(response.qsa[0].nome_socio);
-                              // console.log(response.message);
+                            url: 'validar_cadastro_cliente.php',
+                            dataType: 'html',
+                            type: 'POST',
+                            data: vData,
+                            success: function(reponse){
+                              $('#response_validacao_cadastro').html(reponse);
                               document.getElementById("spiner").style = 'display:none;';
-                              
-                              nomeRazao = response.razao_social;
-                              document.getElementById("razao_social").value = nomeRazao;
-                              
-                              municipio = response.municipio;
-                              document.getElementById("municipio").value = municipio;
-                              uf = response.uf
-                              document.getElementById("uf").value = uf;
-                              cnpj = response.cnpj
-                              document.getElementById("cnpj").value = cnpj;
-                              bairro = response.bairro
-                              document.getElementById("bairro").value = bairro;
-                              logradouro = response.logradouro
-                              document.getElementById("lougadouro").value = logradouro;
-                              cep = response.cep
-                              document.getElementById("cep").value = cep;
-                              complemento = response.complemento
-                              document.getElementById("complemento").value = complemento;
-                              nome_fantasia = response.nome_fantasia
-                              document.getElementById("sobrenome").value = nome_fantasia;
-
-                              nome_socios = response.qsa[0].nome_socio;
-                              if( nome_socios == "" ){
-                              }else{
-                                document.getElementById("nome").value = nome_socios;
-                              }
-
-                              // document.getElementById("pedido").focus();
+                              document.getElementById("cnpj").value = "";
                             },
-                            error: function(err) {
-                              document.getElementById("spiner").style = 'display:none;';
-                              // console.log(err.responseJSON.message);
-                              // console.log(err.message);
-                              Erro = err.responseJSON.message;
-                              // document.getElementById("nome").value = Erro;
-                              document.getElementById("sobrenome").value = "";
-                              document.getElementById("cep").value = "";
-                              document.getElementById("lougadouro").value = "";
-                              document.getElementById("bairro").value = "";
-                              document.getElementById("municipio").value = "";
-                              document.getElementById("uf").value = "";
-                              document.getElementById("complemento").value = "";
-                              document.getElementById("msg_error").innerText = Erro;
-                              document.getElementById("danger-alert").style = "display: block";
-                              $("#danger-alert").fadeTo(4000, 500).slideUp(500, function() {
-                                $("#danger-alert").slideUp(500);
-                              });
+                            error: function(err){
                             },
-                            complete: () => loading(false),
+                            // complete: () => loading(false),
+
                           });
-                          // };
+
+                          // $.ajax({
+                          //   url: 'https://brasilapi.com.br/api/cnpj/v1/' + cnpj,
+                          //   method: "GET",
+                          //   success: function(response) {
+                          //     // console.log(response.qsa[0].nome_socio);
+                          //     // console.log(response.message);
+                          //     document.getElementById("spiner").style = 'display:none;';
+                              
+                          //     nomeRazao = response.razao_social;
+                          //     document.getElementById("razao_social").value = nomeRazao;
+                              
+                          //     municipio = response.municipio;
+                          //     document.getElementById("municipio").value = municipio;
+                          //     uf = response.uf
+                          //     document.getElementById("uf").value = uf;
+                          //     cnpj = response.cnpj
+                          //     document.getElementById("cnpj").value = cnpj;
+                          //     bairro = response.bairro
+                          //     document.getElementById("bairro").value = bairro;
+                          //     logradouro = response.logradouro
+                          //     document.getElementById("lougadouro").value = logradouro;
+                          //     cep = response.cep
+                          //     document.getElementById("cep").value = cep;
+                          //     complemento = response.complemento
+                          //     document.getElementById("complemento").value = complemento;
+                          //     nome_fantasia = response.nome_fantasia
+                          //     document.getElementById("sobrenome").value = nome_fantasia;
+
+                          //     nome_socios = response.qsa[0].nome_socio;
+                          //     if( nome_socios == "" ){
+                          //     }else{
+                          //       document.getElementById("nome").value = nome_socios;
+                          //     }
+
+                          //     // document.getElementById("pedido").focus();
+                          //   },
+                          //   error: function(err) {
+                          //     document.getElementById("spiner").style = 'display:none;';
+                          //     // console.log(err.responseJSON.message);
+                          //     // console.log(err.message);
+                          //     Erro = err.responseJSON.message;
+                          //     // document.getElementById("nome").value = Erro;
+                          //     document.getElementById("sobrenome").value = "";
+                          //     document.getElementById("cep").value = "";
+                          //     document.getElementById("lougadouro").value = "";
+                          //     document.getElementById("bairro").value = "";
+                          //     document.getElementById("municipio").value = "";
+                          //     document.getElementById("uf").value = "";
+                          //     document.getElementById("complemento").value = "";
+                          //     document.getElementById("msg_error").innerText = Erro;
+                          //     document.getElementById("danger-alert").style = "display: block";
+                          //     $("#danger-alert").fadeTo(4000, 500).slideUp(500, function() {
+                          //       $("#danger-alert").slideUp(500);
+                          //     });
+                          //   },
+                          //   complete: () => loading(false),
+                          // });
+
                         });
                       });
                     </script>
@@ -270,6 +288,43 @@ include_once("starter.php");
                       <input  id="cpf" name="cpf" type="text" class="form-control"
                         data-inputmask="'mask': ['999.999.999-99']" data-mask>
                     </div>
+
+                    <script>
+                      $(document).ready(function() {
+                        $("#cpf").on('keyup', function(event) {
+                         
+                            document.getElementById("spiner").style = 'display:block;';
+                            document.getElementById("danger-alert").style = "display: none";
+                            
+                            var cpf_completo = document.getElementById("cpf").value
+                              var cpf = cpf_completo.replace(/[^0-9]/g, '');
+                              // console.log(cnpj);
+
+                              var vData = {
+                                cpf: cpf,
+                                cpf:cpf_completo
+                              };
+
+                              $.ajax({
+                                url: 'validar_cadastro_cliente.php',
+                                dataType: 'html',
+                                type: 'POST',
+                                data: vData,
+                                success: function(reponse){
+                                  $('#response_validacao_cadastro').html(reponse);
+                                  document.getElementById("spiner").style = 'display:none;';
+                                  document.getElementById("cnpj").value = "";
+                                },
+                                error: function(err){
+                                },
+
+                              });
+                           
+
+                        });
+                      });
+                    </script>
+
                     <div class="col-2">
                       <label>Telefone 1:</label>
                       <input  id="tel" name="tel" type="text" class="form-control"
@@ -553,13 +608,42 @@ include_once("starter.php");
 
                               <li class="nav-item active">
                                 <a class="nav-link">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Foto Cliente Self
-                                    <input accept="image/*" onchange="getFileData_ftcliente(this);" type="file" name="foto[ftcliente]">
+
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
+                                            <div class="btn btn-default btn-file">
+                                              <i class="fas fa-paperclip"></i> Foto Cliente Self
+                                              <input accept="image/*" onchange="getFileData_ftcliente(this);" type="file" name="foto[ftcliente]">
+                                            </div>
+                                        </div>
+                                      </div>
+                                </div>
+
+                                    <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-1">
+                                          <span id="remove_ftcliente" class="fa fa-times-circle fa-lg closeBtn" onclick="removeLine(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="ftcliente" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
                                   </div>
-                                  <span id="ftcliente" class="badge float-right" style="display: none!important;"></span>
+
                                 </a>
 
+                                <script>
+                                  function removeLine() {
+                                    document.getElementById('ftcliente').value = ""
+                                    document.getElementById('ftcliente').style = "display: none!important;"
+
+                                    document.getElementById('remove_ftcliente').value = ""
+                                    document.getElementById('remove_ftcliente').style = "display: none!important;"
+
+                                    }
+                                </script>
+                                
                                 <script>
                                   function getFileData_ftcliente(myFile) {
                                     var file = myFile.files[0];
@@ -567,19 +651,50 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('ftcliente').style = '';
                                     var labe1 = document.getElementById('ftcliente');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_ftcliente').style = "display: flex!important;"
+                                    
                                   }
                                 </script>
+
 
                               </li>
 
                               <li class="nav-item active">
                                 <a class="nav-link">
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> RG
                                     <input accept="image/*" onchange="getFileData_ftrg(this);" type="file" name="foto[ftrg]">
                                   </div>
-                                  <span id="ftrg" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+
+                                  <div class="container text-center">
+                                        <div class="row">
+                                          <div class="col">
+                                            <span id="remove_ftrg" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftrg(this)" title="remove" style="display: none!important;"></span>
+                                          </div>
+                                          <div class="col">
+                                            <span id="ftrg" class="badge float-right" style="display: none!important;"></span>
+                                          </div>
+                                        </div>
+                                    </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_ftrg() {
+                                    document.getElementById('ftrg').value = ""
+                                    document.getElementById('ftrg').style = "display: none!important;"
+
+                                    document.getElementById('remove_ftrg').value = ""
+                                    document.getElementById('remove_ftrg').style = "display: none!important;"
+
+                                    }
+                                </script>
 
                                 <script>
                                   function getFileData_ftrg(myFile) {
@@ -588,6 +703,7 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('ftrg').style = '';
                                     var labe1 = document.getElementById('ftrg');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_ftrg').style = "display: flex!important;"
                                   }
                                 </script>
 
@@ -595,12 +711,40 @@ include_once("starter.php");
 
                               <li class="nav-item active">
                                 <a class="nav-link">
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> CPF
                                     <input accept="image/*" onchange="getFileData_ftcpf(this);" type="file" name="foto[ftcpf]">
                                   </div>
-                                  <span id="ftcpf" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col">
+                                          <span id="remove_ftcpf" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftcpf(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="ftcpf" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
+                                  </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_ftcpf() {
+                                    document.getElementById('ftcpf').value = ""
+                                    document.getElementById('ftcpf').style = "display: none!important;"
+
+                                    document.getElementById('remove_ftcpf').value = ""
+                                    document.getElementById('remove_ftcpf').style = "display: none!important;"
+
+                                    }
+                                </script>
 
                                 <script>
                                   function getFileData_ftcpf(myFile) {
@@ -609,6 +753,8 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('ftcpf').style = '';
                                     var labe1 = document.getElementById('ftcpf');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_ftcpf').style = "display: flex!important;"
+
                                   }
                                 </script>
 
@@ -616,12 +762,40 @@ include_once("starter.php");
 
                               <li class="nav-item active">
                                 <a class="nav-link">
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Comprovante Residência
                                     <input accept="image/*,.pdf" onchange="getFileData_ftcomresi(this);" type="file" name="foto[ftcompres]">
                                   </div>
-                                  <span id="ftcomresi" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+                                  
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col">
+                                          <span id="remove_ftcomresi" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftcomresi(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="ftcomresi" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
+                                  </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_ftcomresi() {
+                                    document.getElementById('ftcomresi').value = ""
+                                    document.getElementById('ftcomresi').style = "display: none!important;"
+
+                                    document.getElementById('remove_ftcomresi').value = ""
+                                    document.getElementById('remove_ftcomresi').style = "display: none!important;"
+
+                                    }
+                                </script>
 
                                 <script>
                                   function getFileData_ftcomresi(myFile) {
@@ -630,17 +804,48 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('ftcomresi').style = '';
                                     var labe1 = document.getElementById('ftcomresi');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_ftcomresi').style = "display: flex!important;"
+
                                   }
                                 </script>
                               </li>
+
                               <li class="nav-item active">
                                 <a class="nav-link">
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Comprovante Comercial
                                     <input accept="image/*,.pdf" onchange="getFileData_ftcomercial(this);" type="file" name="foto[ftcompcomer]">
                                   </div>
-                                  <span id="ftcomercial" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+                                 
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col">
+                                          <span id="remove_ftcomercial" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftcomercial(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="ftcomercial" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
+                                  </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_ftcomercial() {
+                                    document.getElementById('ftcomercial').value = ""
+                                    document.getElementById('ftcomercial').style = "display: none!important;"
+
+                                    document.getElementById('remove_ftcomercial').value = ""
+                                    document.getElementById('remove_ftcomercial').style = "display: none!important;"
+
+                                    }
+                                </script>
 
                                 <script>
                                   function getFileData_ftcomercial(myFile) {
@@ -649,18 +854,49 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('ftcomercial').style = '';
                                     var labe1 = document.getElementById('ftcomercial');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_ftcomercial').style = "display: flex!important;"
+
                                   }
                                 </script>
                               </li>
 
                               <li class="nav-item active">
                                 <a class="nav-link">
+
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Termo
                                     <input accept="image/*,.pdf" onchange="getFileData_fttermo(this);" type="file" name="foto[fttermo]">
                                   </div>
-                                  <span id="fttermo" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+                                
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col">
+                                          <span id="remove_fttermo" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_fttermo(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="fttermo" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
+                                  </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_fttermo() {
+                                    document.getElementById('fttermo').value = ""
+                                    document.getElementById('fttermo').style = "display: none!important;"
+
+                                    document.getElementById('remove_fttermo').value = ""
+                                    document.getElementById('remove_fttermo').style = "display: none!important;"
+
+                                    }
+                                </script>
 
                                 <script>
                                   function getFileData_fttermo(myFile) {
@@ -669,18 +905,49 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('fttermo').style = '';
                                     var labe1 = document.getElementById('fttermo');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_fttermo').style = "display: flex!important;"
+
                                   }
                                 </script>
                               </li>
 
                               <li class="nav-item active">
                                 <a class="nav-link">
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Certificado
                                     <input accept="image/*,.pdf" onchange="getFileData_ftcertificado(this);" type="file" name="foto[ftcertificado]">
                                   </div>
-                                  <span id="ftcertificado" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+                                
+
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col">
+                                          <span id="remove_ftcertificado" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftcertificado(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="ftcertificado" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
+                                  </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_ftcertificado() {
+                                    document.getElementById('ftcertificado').value = ""
+                                    document.getElementById('ftcertificado').style = "display: none!important;"
+
+                                    document.getElementById('remove_ftcertificado').value = ""
+                                    document.getElementById('remove_ftcertificado').style = "display: none!important;"
+
+                                    }
+                                </script>
 
                                 <script>
                                   function getFileData_ftcertificado(myFile) {
@@ -689,6 +956,8 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('ftcertificado').style = '';
                                     var labe1 = document.getElementById('ftcertificado');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_ftcertificado').style = "display: flex!important;"
+
                                   }
                                 </script>
                               </li>
@@ -705,6 +974,7 @@ include_once("starter.php");
 
                     <!-- /.card-footer -->
                   </div>
+                  
                   <div class="col-md-4">
                     <div class="card card-primary card-outline">
                       <div class="card-header">
@@ -719,12 +989,42 @@ include_once("starter.php");
 
                               <li class="nav-item active">
                                 <a class="nav-link">
+
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Local 1
                                     <input accept="image/*" onchange="getFileData_local(this);" type="file" name="foto[ftlocal]"   name="pecadetalhe[<?= $index ?>][destino]">
                                   </div>
-                                  <span id="label_local" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col">
+                                          <span id="remove_label_local" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_label_local(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="label_local" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
+                                  </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_label_local() {
+                                    document.getElementById('label_local').value = ""
+                                    document.getElementById('label_local').style = "display: none!important;"
+
+                                    document.getElementById('remove_label_local').value = ""
+                                    document.getElementById('remove_label_local').style = "display: none!important;"
+
+                                    }
+                                </script>
+
 
                                 <script>
                                   function getFileData_local(myFile) {
@@ -733,6 +1033,8 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('label_local').style = '';
                                     var labe1 = document.getElementById('label_local');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_label_local').style = "display: flex!important;"
+
                                   }
                                 </script>
 
@@ -740,12 +1042,40 @@ include_once("starter.php");
 
                               <li class="nav-item active">
                                 <a class="nav-link">
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Local 2
                                     <input accept="image/*" onchange="getFileData_local_2(this);" type="file" name="foto[ftlocal2]">
                                   </div>
-                                  <span id="label_local2" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+                                
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col">
+                                          <span id="remove_label_local2" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_label_local2(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="label_local2" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
+                                  </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_label_local2() {
+                                    document.getElementById('label_local2').value = ""
+                                    document.getElementById('label_local2').style = "display: none!important;"
+
+                                    document.getElementById('remove_label_local2').value = ""
+                                    document.getElementById('remove_label_local2').style = "display: none!important;"
+
+                                    }
+                                </script>
 
                                 <script>
                                   function getFileData_local_2(myFile) {
@@ -754,6 +1084,8 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('label_local2').style = '';
                                     var labe1 = document.getElementById('label_local2');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_label_local2').style = "display: flex!important;"
+
                                   }
                                 </script>
 
@@ -761,12 +1093,41 @@ include_once("starter.php");
 
                               <li class="nav-item active">
                                 <a class="nav-link">
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Local 3
                                     <input accept="image/*" onchange="getFileData_local_3(this);" type="file" name="foto[ftlocal3]">
                                   </div>
-                                  <span id="label_local3" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+                                 
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col">
+                                          <span id="remove_label_local3" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_label_local3(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="label_local3" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
+                                  </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_label_local3() {
+                                    document.getElementById('label_local3').value = ""
+                                    document.getElementById('label_local3').style = "display: none!important;"
+
+                                    document.getElementById('remove_label_local3').value = ""
+                                    document.getElementById('remove_label_local3').style = "display: none!important;"
+
+                                    }
+                                </script>
+
 
                                 <script>
                                   function getFileData_local_3(myFile) {
@@ -775,6 +1136,8 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('label_local3').style = '';
                                     var labe1 = document.getElementById('label_local3');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_label_local3').style = "display: flex!important;"
+
                                   }
                                 </script>
 
@@ -782,12 +1145,42 @@ include_once("starter.php");
                             
                               <li class="nav-item active">
                                 <a class="nav-link">
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col-12">
                                   <div class="btn btn-default btn-file">
                                     <i class="fas fa-paperclip"></i> Local 4
                                     <input accept="image/*" onchange="getFileData_local_4(this);" type="file" name="foto[ftlocal4]">
                                   </div>
-                                  <span id="label_local4" class="badge float-right" style="display: none!important;"></span>
+                                  </div>
+                                  </div>
+                                  </div>
+                              
+
+                                <div class="container text-center">
+                                      <div class="row">
+                                        <div class="col">
+                                          <span id="remove_label_local4" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_label_local4(this)" title="remove" style="display: none!important;"></span>
+                                        </div>
+                                        <div class="col">
+                                          <span id="label_local4" class="badge float-right" style="display: none!important;"></span>
+                                        </div>
+                                      </div>
+                                  </div>
+
                                 </a>
+
+                                <script>
+                                  function remove_label_local4() {
+                                    document.getElementById('label_local4').value = ""
+                                    document.getElementById('label_local4').style = "display: none!important;"
+
+                                    document.getElementById('remove_label_local4').value = ""
+                                    document.getElementById('remove_label_local4').style = "display: none!important;"
+
+                                    }
+                                </script>
+
 
                                 <script>
                                   function getFileData_local_4(myFile) {
@@ -796,6 +1189,8 @@ include_once("starter.php");
                                     var error_gb = document.getElementById('label_local4').style = '';
                                     var labe1 = document.getElementById('label_local4');
                                     labe1.innerHTML = filename;
+                                    document.getElementById('remove_label_local4').style = "display: flex!important;"
+
                                   }
                                 </script>
 

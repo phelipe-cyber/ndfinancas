@@ -42,7 +42,15 @@ include_once("conexao.php");
                                     <?php
                                     $usuario = $_SESSION['login'];
 
-                         $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' and c.id_cliente <> '0' ORDER BY c.socio, c.sobrenome, c.nome ASC ");
+                        //  $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' and c.id_cliente <> '0' ORDER BY c.socio, c.sobrenome, c.nome ASC ");
+                         $select_sql = ("SELECT *, c.id as id,
+                         CASE WHEN TRIM(LTRIM(c.sobrenome)) = '' and TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.socio))
+                             WHEN TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.sobrenome))
+                             ELSE TRIM(LTRIM(c.nome))
+                         END nome_cliente
+                         FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' and c.id_cliente <> '0'
+                         ORDER BY `nome_cliente` ASC;
+                         ");
                             
                             $recebidos = mysqli_query($conn, $select_sql);
                             
@@ -58,7 +66,8 @@ include_once("conexao.php");
                                 $cnpj = $row_usuario['cnpj'];
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $nome_servico = $row_usuario['nome_servico'];
-                                $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
+                                // $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
+                                $nome_cliente = $row_usuario['nome_cliente'];
                                 
                                 // $salve->parcela = $this->input->post('parcela') ? : "";
 

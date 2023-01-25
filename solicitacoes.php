@@ -49,7 +49,10 @@ $data_hoje = (date('Y-m-d'));
         <?php
                                     $usuario = $_SESSION['login'];
 
-                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id  ORDER by s.id ASC ");
+                           $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.* , CASE WHEN TRIM(LTRIM(c.sobrenome)) = '' and TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.socio))
+                           WHEN TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.sobrenome))
+                           ELSE TRIM(LTRIM(c.nome))
+                          END nome_cliente FROM `solicitacao` s INNER JOIN clientes c on s.id_cliente = c.id INNER JOIN status st on s.status_solicitacao = st.id  ORDER by `nome_cliente` ASC ");
                           //  $select_sql = ("SELECT c.*, c.id as 'id_cliente', s.id as id_soli, s.*, st.*, comp.*
                           // FROM `solicitacao` s 
                           // INNER JOIN clientes c on s.id_cliente = c.id 
@@ -70,6 +73,7 @@ $data_hoje = (date('Y-m-d'));
                                 $id_cliente = $row_usuario['id_cliente'];
                                 $id_servico = $row_usuario['id_servico'];
                                 $id_soli = $row_usuario['id_soli'];
+                                $nome_cliente = $row_usuario['nome_cliente'];
 
                                 $descricao = $row_usuario['descricao'];
                                 $class = $row_usuario['class'];
@@ -79,9 +83,9 @@ $data_hoje = (date('Y-m-d'));
                                 $data_hora = date('d/m/Y', strtotime($row_usuario['dt_solicitacao']));
                                 $dt_pgto = date('Y-m-d', strtotime($row_usuario['dt_pgto']));
                                 
-                                $valor_bruto = "R$ ". number_format($row_usuario['valor_bruto'], 2, ',', '.'); 
+                                @$valor_bruto = "R$ ". number_format($row_usuario['valor_bruto'], 2, ',', '.'); 
                                 $valor = "R$ ". number_format($row_usuario['valor'], 2, ',', '.');
-                                $juros = "R$ ". number_format($row_usuario['juros'], 2, ',', '.');
+                                @$juros = "R$ ". number_format($row_usuario['juros'], 2, ',', '.');
                                 @$valor_parcela = "R$ ". number_format($row_usuario['valor_parcela'], 2, ',', '.');
                                 
                                 if($id_servico == 1){
@@ -99,7 +103,7 @@ $data_hoje = (date('Y-m-d'));
 
                                 echo "<tr>";
                                 echo "<td >$id_servico</td>";
-                                echo "<td >$cliente $sobrenome </td>";
+                                echo "<td >$nome_cliente</td>";
                                 echo "<td > $valor</td>";
                                 echo "<td >$juros</td>";
                                 echo "<td >$valor_bruto</td>";

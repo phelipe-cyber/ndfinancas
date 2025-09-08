@@ -12,7 +12,7 @@ $login = mysqli_real_escape_string($conn, $_POST['login']);
 $password = mysqli_real_escape_string($conn, $_POST['password']);
 $status = mysqli_real_escape_string($conn, $_POST['status']);
 
- $query = "select * from user where usuario = '{$login}' and senha = md5('{$password}') and status_login = 1 and session = '' ";
+$query = "select * from user where usuario = '{$login}' and senha = md5('{$password}') and status_login = 1 and sessionn = '' ";
 
 $result = mysqli_query($conn, $query);
 // print_r($result);

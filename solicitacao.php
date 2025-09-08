@@ -3,7 +3,7 @@ include_once("starter.php");
 include_once("conexao.php");
 // exit();
 $usuario = $_SESSION['login'];
-
+$id_user = $_SESSION['id_user'];
 ?>
 
 <form id="Form" action="salvar_solicitacao.php" method="POST">
@@ -74,10 +74,7 @@ $usuario = $_SESSION['login'];
                                                 style="width: 100%;">
                                                 <option selected=""></option>
                                                 <?php
-                                                    $select_sql = ("SELECT *, CASE WHEN TRIM(LTRIM(c.sobrenome)) = '' and TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.socio))
-                                                   WHEN TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.sobrenome))
-                                                   ELSE TRIM(LTRIM(c.nome))
-                                                  END nome_cliente FROM `clientes` c where c.user_created = '$usuario' and c.id_cliente <> '0' ORDER BY `nome_cliente` ASC ");
+                                                    $select_sql = ("SELECT *FROM `clientes` c where c.user_created = '$id_user' and c.id_cliente = '0'  ORDER BY `nome` ASC ");
                                                     
                                                     $recebidos = mysqli_query($conn, $select_sql);
                                                     
@@ -92,7 +89,7 @@ $usuario = $_SESSION['login'];
                                                         // $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
                                                         $nome_cliente = $row_usuario['nome_cliente'] ;
 
-                                                        echo "<option value='$id.$id_cliente'>$nome_cliente</option>";
+                                                        echo "<option value='$id.$id_cliente'>$cliente</option>";
                                                         
                                                     }
                                                     ?>

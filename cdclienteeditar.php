@@ -6,8 +6,34 @@ include_once("starter.php");
 
  $id_edit = $_GET['id'];
  $usuario = $_SESSION['login'];
+ $id_user = $_SESSION['id_user'];
 
- $select_sql = ("SELECT *, nc.id as id_servico FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id  LEFT JOIN nome_cliente nc on c.id_cliente = nc.id where c.id = $id_edit and c.user_created = '$usuario' ");
+
+  $select_sql = ("SELECT *, nc.id as id_servico FROM `clientes` c LEFT JOIN fotos_clientes ft on ft.id_cliente = c.id  LEFT JOIN nome_cliente nc on c.id_cliente = nc.id where c.id = $id_edit and c.user_created = '$id_user' ");
+  $select_sql = ("SELECT
+                        c.*,
+                        ft.*,
+                        nc.*,
+                        nc.id as id_servico,
+                        ces.endereco as endereco_servico,
+                        ces.cep as cep_servico,
+                        ces.numero as numero_servico,
+                        ces.bairro as bairro_servico,
+                        ces.municipio as municipio_servico,
+                        ces.uf as uf_servico,
+                        ces.complemento as complemento_servico,
+                        ces.referencia as referencia_servico
+                        FROM
+                        `clientes` c
+                        LEFT JOIN fotos_clientes ft on
+                        ft.id_cliente = c.id
+                        LEFT JOIN nome_cliente nc on
+                        c.id_cliente = nc.id
+                        left join clientes_endereco_servico ces on ces.id_cliente = c.id 
+                        where
+                        c.id = $id_edit
+                        and c.user_created = $id_user
+");
                             
  $recebidos = mysqli_query($conn, $select_sql);
  
@@ -17,11 +43,10 @@ include_once("starter.php");
     $id_cliente = $row_usuario['id_cliente'];
     $status_solicitacao = $row_usuario['status_solicitacao'];
     $class = $row_usuario['class'];
-    $cliente_c = $row_usuario['nome'];
+    $nome = $row_usuario['nome'];
     $cnpj = $row_usuario['cnpj'];
     $cep = $row_usuario['cep'];
     $sobrenome = $row_usuario['sobrenome'];
-    $socio = $row_usuario['socio'];
     $id = $row_usuario['id'];
     $atividade = $row_usuario['atividade'];
     $endereco = $row_usuario['endereco'];
@@ -36,13 +61,6 @@ include_once("starter.php");
     $uf_emp = $row_usuario['uf_emp'];
     $complemento = $row_usuario['complemento'];
     $referencia = $row_usuario['referencia'];
-    $cep_emp = $row_usuario['cep_emp'];
-    $lougadouro_emp = $row_usuario['lougadouro_emp'];
-    $number_emp = $row_usuario['number_emp'];
-    $municipio_emp = $row_usuario['municipio_emp'];
-    $bairro_emp = $row_usuario['bairro_emp'];
-    $complemento_emp = $row_usuario['complemento_emp'];
-    $referencia_emp = $row_usuario['referencia_emp'];
     $nome_servico = $row_usuario['nome_servico'];
     $id_servico = $row_usuario['id_servico'];
     $ftcliente = $row_usuario['ftcliente'];
@@ -55,6 +73,14 @@ include_once("starter.php");
     $ftlocal2 = $row_usuario['ftlocal2'];
     $ftlocal3 = $row_usuario['ftlocal3'];
     
+    $endereco_servico=$row_usuario['endereco_servico'];
+    $cep_servico=$row_usuario['cep_servico'];
+    $numero_servico=$row_usuario['numero_servico'];
+    $bairro_servico=$row_usuario['bairro_servico'];
+    $municipio_servico=$row_usuario['municipio_servico'];
+    $uf_servico=$row_usuario['uf_servico'];
+    $complemento_servico=$row_usuario['complemento_servico'];
+    $referencia_servico=$row_usuario['referencia_servico'];
 
  }
 
@@ -68,18 +94,6 @@ include_once("starter.php");
       <div class="row">
         <div class="col-lg-12">
           <div class="col-12">
-
-            <div id="spiner" style="display: none;">
-              <!-- <div class="spinner-border"></div> -->
-              <div class="text-center">
-                <div class="spinner-border" role="status">
-
-                </div>
-              </div>
-              <div class="text-center">
-                <!-- <label>Buscando...</label> -->
-              </div>
-            </div>
 
             <!-- <form id="Form" action="salvar_cliente.php" method="POST"> -->
 
@@ -98,58 +112,16 @@ include_once("starter.php");
                 </div>
                 <div class="card-body">
                   <div class="row">
-                  <div class="col-2">
-                  <div class="form-group">
-                  <label>VS ou Guerra</label>
-                  <select name="servico" required class="form-control select2bs4" style="width: 100%;" placeholder="Select a State">
-                  <option selected readonly value="<?php echo $id_servico ?>"><?php echo $nome_servico ?></option>
-
-                  <?php 
-                    $select_sql = ("SELECT c.* FROM `nome_cliente` c  ORDER BY c.id ASC ");
-                            
-                    $recebidos = mysqli_query($conn, $select_sql);
-                    
-                    while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
-                        // print_r($row_usuario);
-                      
-                        $id = $row_usuario['id'];
-                        $cliente = $row_usuario['nome_servico'];
-                        ?>
-                            <option value="<?php echo $id ?>"><?php echo $cliente ?></option>
-                        <?php
-                    }
-                  ?>
-                  </select>
-                </div>
-                </div>
-
-                    <div class="col-2">
-                      <label>CNPJ:</label>
-                      <input  id="cnpj" value="<?php echo $cnpj ?>" name="cnpj" type="text" class="form-control"
-                        data-inputmask="'mask': ['99.999.999/9999-99']" data-mask>
-                    </div>
-
-                    <div class="col-2">
-                      <label>CEP:</label>
-                      <input  id="cep" name="cep" value="<?php echo $cep ?>" type="text" class="form-control"
-                        data-inputmask="'mask': ['99999-999']" data-mask>
-                    </div>
-
                   
-
-                    <div class="col-5">
-                      <label>Razão social:</label>
-                      <input  id="razao_social" value="<?php echo $cliente_c ?>" name="razao_social" type="text" class="form-control">
+                    <div class="col-2">
+                      <label>Serviço:</label>
+                      <input required id="servico" name="servico" value="Guerra" type="text" class="form-control" style="text-transform: uppercase;">
                     </div>
-                    <div class="col-4">
-                      <label>Nome Fantasia:</label>
-                      <input  id="sobrenome" value="<?php echo $sobrenome ?>" name="sobrenome" type="text" class="form-control">
-                    </div>
-                    <div class="col-5">
+                    <div class="col-8">
                       <label>Nome:</label>
-                      <input  id="nome" name="nome" value="<?php echo $socio ?>" type="text" class="form-control">
+                      <input id="nome" name="nome" value="<?php echo $nome ?>" type="text" class="form-control" style="text-transform: uppercase;">
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
                       <label>RG:</label>
                       <input  id="rg" name="rg" value="<?php echo $rg ?>" type="text" class="form-control">
                     </div>
@@ -161,84 +133,33 @@ include_once("starter.php");
                     <div class="col-2">
                       <label>Telefone 1:</label>
                       <input  id="tel" name="tel" value="<?php echo $tel ?>" type="text" class="form-control"
-                        data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']" data-mask>
+                        data-inputmask="'mask': ['99 (99) 99999-9999', '(99) 99999-9999']" data-mask>
                     </div>
-
                     <div class="col-2">
                       <label>Telefone 2:</label>
                       <input id="tel2" name="tel2" value="<?php echo $tel2 ?>" type="text" class="form-control"
-                        data-inputmask="'mask': ['(99) 9999-9999', '(99) 99999-9999']" data-mask>
+                        data-inputmask="'mask': ['99 (99) 99999-9999', '(99) 99999-9999']" data-mask>
                     </div>
                     <div class="col-3">
                       <label>Atidade:</label>
-                      <input  id="atividade" name="atividade" value="<?php echo $atividade ?>" type="text" class="form-control">
+                      <input  id="atividade" name="atividade" value="<?php echo $atividade ?>" type="text" class="form-control" style="text-transform: uppercase;">
                     </div>
-
-                    <div class="col-4">
-                      <label>Endereço:</label>
-                      <input  id="lougadouro" name="lougadouro" value="<?php echo $endereco ?>" type="text" class="form-control">
-                    </div>
-
-                    <div class="col-1">
-                      <label>Número:</label>
-                      <input  id="number" name="number" value="<?php echo $numero ?>" type="text" class="form-control">
-                    </div>
-
-                    <div class="col-2">
-                      <label>Bairro:</label>
-                      <input  id="bairro" name="bairro" value="<?php echo $bairro ?>" type="text" class="form-control">
-                    </div>
-
-                    <div class="col-2">
-                      <label>Municipio:</label>
-                      <input  id="municipio" name="municipio" value="<?php echo $municipio ?>" type="text" class="form-control">
-                    </div>
-
-                    <div class="col-1">
-                      <label>UF:</label>
-                      <input  id="uf" name="uf" value="<?php echo $uf ?>" type="text" class="form-control">
-                    </div>
-
-                    <div class="col-4">
-                      <label>Complemento:</label>
-                      <input id="complemento" name="complemento" value="<?php echo $complemento ?>" type="text" class="form-control">
-                    </div>
-
-                    <div class="col-4">
-                      <label>Referencia:</label>
-                      <input id="referencia" name="referencia" value="<?php echo $referencia ?>" type="text" class="form-control">
-                    </div>
-
-                    <!-- <div class="col-2">
-                  <label>Valor:</label>
-                      <input id="valor" onkeyup="formatarMoeda();" name="valor" type="text" class="form-control"  >
-                  </div>
-
-                      <script>
-                                        function formatarMoeda() {
-                                            var elemento = document.getElementById('valor');
-                                            var valor = elemento.value;
-                                            
-                                            valor = valor + '';
-                                            valor = parseInt(valor.replace(/[\D]+/g,''));
-                                            valor = valor + '';
-                                            valor = valor.replace(/([0-9]{2})$/g, ",$1");
-
-                                            if (valor.length > 6) {
-                                                valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
-                                            }
-
-                                            elemento.value = valor;
-                                            }
-                        </script> -->
 
                   </div>
                 </div>
-              
                 <br>
-                <!-- /.card-body -->
               </div>
+              <div id="spiner" style="display: none;">
+              <!-- <div class="spinner-border"></div> -->
+              <div class="text-center">
+                <div class="spinner-border" role="status">
 
+                </div>
+              </div>
+              <div class="text-center">
+                <!-- <label>Buscando...</label> -->
+              </div>
+            </div>
               <div class="card card-info">
                 <div class="card-header">
                   <h3 class="card-title">Endereço Cliente</h3>
@@ -248,71 +169,229 @@ include_once("starter.php");
 
                     <div class="col-2">
                       <label>CEP:</label>
-                      <input  id="cep_emp" name="cep_emp" value="<?php echo $cep_emp ?>" type="text" class="form-control"
+                      <input required id="cep" value="<? echo $cep ?>" name="cep" type="text" class="form-control"
                         data-inputmask="'mask': ['99999-999']" data-mask>
                     </div>
 
+                    <script>
+                      $(document).ready(function() {
+                        $("#cep").on('keyup', function(event) {
+                          // $("#cnpj").on('keydown', function(event) {
+                          // $("#cnpj").on('onclick', function(event) {
+                          // console.log(event);
+                          // if (event.keyCode === 9 || event.keyCode === 13 || event.keyCode === 86) {
+                          var cep = $(this).val().replace(/\D/g, ''); // Remove tudo que não é dígito
+
+                          if (cep.length === 8) {
+                            document.getElementById("lougadouro").value = "";
+                            document.getElementById("municipio").value = "";
+                            document.getElementById("uf").value = "";
+                            document.getElementById("bairro").value = "";
+                            document.getElementById("number").value = "";
+                            document.getElementById("complemento").value = "";
+                            document.getElementById("referencia").value = "";
+                            document.getElementById("spiner").style = 'display:block;';
+                            var cep = document.getElementById("cep").value
+                            var cep = cep.replace(/[^0-9]/g, '');
+                            console.log(cep);
+                            var vData = {
+                              cep: cep
+                            };
+                            $.ajax({
+                              url: 'https://brasilapi.com.br/api/cep/v1/' + cep,
+                              method: "GET",
+                              success: function(response) {
+                                console.log(response);
+                                // console.log(response.message);
+                                document.getElementById("spiner").style = 'display:none;';
+                                street = response.street;
+                                document.getElementById("lougadouro").value = street;
+                                municipio = response.city;
+                                document.getElementById("municipio").value = municipio;
+                                uf = response.state
+                                document.getElementById("uf").value = uf;
+                                cep = response.cep
+                                document.getElementById("cep").value = cep;
+                                bairro = response.neighborhood
+                                document.getElementById("bairro").value = bairro;
+                                // document.getElementById("pedido").focus();
+                              },
+                              error: function(err) {
+                                document.getElementById("spiner").style = 'display:none;';
+                                // console.log(err.responseJSON.message);
+                                // console.log(err.message);
+                                Erro = err.responseJSON.message;
+                                document.getElementById("lougadouro").value = Erro;
+                                document.getElementById("municipio").value = "";
+                                document.getElementById("uf").value = "";
+                                document.getElementById("bairro").value = "";
+                                document.getElementById("number").value = "";
+                              },
+                              complete: () => loading(false),
+                            });
+                          };
+
+                        });
+                      });
+                    </script>
+
                     <div class="col-4">
                       <label>Endereço:</label>
-                      <input  id="lougadouro_emp" value="<?php echo $lougadouro_emp ?>" name="lougadouro_emp" type="text" class="form-control">
+                      <input required id="lougadouro" value="<? echo $endereco ?>" name="lougadouro" type="text" class="form-control" style="text-transform: uppercase;">
                     </div>
 
                     <div class="col-1">
                       <label>Número:</label>
-                      <input  id="number_emp" name="number_emp" value="<?php echo $number_emp ?>" type="text" class="form-control">
+                      <input required id="number" value="<? echo $numero ?>" name="number" type="text" class="form-control">
                     </div>
 
                     <div class="col-2">
                       <label>Bairro:</label>
-                      <input  id="bairro_emp" name="bairro_emp" value="<?php echo $bairro_emp ?>" type="text" class="form-control">
+                      <input required id="bairro" value="<? echo $bairro ?>" name="bairro" type="text" class="form-control" style="text-transform: uppercase;">
                     </div>
 
                     <div class="col-2">
                       <label>Municipio:</label>
-                      <input  id="municipio_emp" name="municipio_emp" value="<?php echo $municipio_emp ?>" type="text" class="form-control">
+                      <input required id="municipio" value="<? echo $municipio ?>" name="municipio" type="text" class="form-control" style="text-transform: uppercase;">
                     </div>
 
                     <div class="col-1">
                       <label>UF:</label>
-                      <input  id="uf_emp" name="uf_emp" value="<?php echo $uf_emp ?>" type="text" class="form-control">
+                      <input required id="uf" value="<? echo $uf ?>" name="uf" type="text" class="form-control" style="text-transform: uppercase;">
                     </div>
 
                     <div class="col-4">
                       <label>Complemento:</label>
-                      <input id="complemento_emp" name="complemento_emp" value="<?php echo $complemento_emp ?>" type="text" class="form-control">
+                      <input id="complemento" value="<? echo $complemento ?>" name="complemento" type="text" class="form-control" style="text-transform: uppercase;">
                     </div>
 
                     <div class="col-4">
                       <label>Referencia:</label>
-                      <input id="referencia_emp" name="referencia_emp" value="<?php echo $referencia_emp ?>" type="text" class="form-control">
+                      <input id="referencia" value="<? echo $referencia ?>" name="referencia" type="text" class="form-control" style="text-transform: uppercase;">
                     </div>
-
-                    <!-- <div class="col-2">
-                  <label>Valor:</label>
-                      <input id="valor" onkeyup="formatarMoeda();" name="valor" type="text" class="form-control"  >
-                  </div>
-
-                      <script>
-                                        function formatarMoeda() {
-                                            var elemento = document.getElementById('valor');
-                                            var valor = elemento.value;
-                                            
-                                            valor = valor + '';
-                                            valor = parseInt(valor.replace(/[\D]+/g,''));
-                                            valor = valor + '';
-                                            valor = valor.replace(/([0-9]{2})$/g, ",$1");
-
-                                            if (valor.length > 6) {
-                                                valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
-                                            }
-
-                                            elemento.value = valor;
-                                            }
-                        </script> -->
 
                   </div>
                 </div>
-             
+                <br>
+              </div>
+
+              <div class="card card-info">
+                <div class="card-header">
+                  <h3 class="card-title">Endereço Serviço</h3>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+
+                    <div class="col-2">
+                      <label>CEP Serviço:</label>
+                      <input required id="cep_servico" value="<? echo $cep_servico ?>" name="cep_servico" type="text" class="form-control"
+                        data-inputmask="'mask': ['99999-999']" data-mask>
+                    </div>
+
+                    <script>
+                      $(document).ready(function() {
+                        $("#cep_servico").on('keyup', function(event) {
+                          // $("#cnpj").on('keydown', function(event) {
+                          // $("#cnpj").on('onclick', function(event) {
+                          // console.log(event);
+                          // if (event.keyCode === 9 || event.keyCode === 13 || event.keyCode === 86) {
+                          var cep = $(this).val().replace(/\D/g, ''); // Remove tudo que não é dígito
+
+                          if (cep.length === 8) {
+                            document.getElementById("lougadouro_servico").value = "";
+                            document.getElementById("municipio_servico").value = "";
+                            document.getElementById("uf_servico").value = "";
+                            document.getElementById("number_servico").value = "";
+                            document.getElementById("bairro_servico").value = "";
+                            document.getElementById("complemento_servico").value = "";
+                            document.getElementById("referencia_servico").value = "";
+
+                            document.getElementById("spiner").style = 'display:block;';
+                            var cep = document.getElementById("cep_servico").value
+                            var cep = cep.replace(/[^0-9]/g, '');
+                            console.log(cep);
+                            var vData = {
+                              cep: cep
+                            };
+                            $.ajax({
+                              url: 'https://brasilapi.com.br/api/cep/v1/' + cep,
+                              method: "GET",
+                              success: function(response) {
+                                console.log(response);
+                                // console.log(response.message);
+                                document.getElementById("spiner").style = 'display:none;';
+                                street = response.street;
+                                document.getElementById("lougadouro_servico").value = street;
+                                municipio = response.city;
+                                document.getElementById("municipio_servico").value = municipio;
+                                uf = response.state
+                                document.getElementById("uf_servico").value = uf;
+                                cep = response.cep
+                                document.getElementById("cep_servico").value = cep;
+                                bairro = response.neighborhood
+                                document.getElementById("bairro_servico").value = bairro;
+                                // document.getElementById("pedido").focus();
+                              },
+                              error: function(err) {
+                                document.getElementById("spiner").style = 'display:none;';
+                                // console.log(err.responseJSON.message);
+                                // console.log(err.message);
+                                Erro = err.responseJSON.message;
+                                document.getElementById("lougadouro_servico").value = Erro;
+                                document.getElementById("municipio_servico").value = "";
+                                document.getElementById("uf_servico").value = "";
+                                document.getElementById("bairro_servico").value = "";
+                                document.getElementById("number_servico").value = "";
+                                document.getElementById("complemento_servico").value = "";
+                                document.getElementById("referencia_servico").value = "";
+
+                              },
+                              complete: () => loading(false),
+                            });
+                          };
+
+                        });
+                      });
+                    </script>
+
+                    <div class="col-4">
+                      <label>Endereço:</label>
+                      <input required id="lougadouro_servico" value="<? echo $endereco_servico ?>" name="lougadouro_servico" type="text" class="form-control" style="text-transform: uppercase;">
+                    </div>
+
+                    <div class="col-1">
+                      <label>Número:</label>
+                      <input required id="number_servico" value="<? echo $numero_servico ?>" name="number_servico" type="text" class="form-control">
+                    </div>
+
+                    <div class="col-2">
+                      <label>Bairro:</label>
+                      <input required id="bairro_servico" value="<? echo $bairro_servico ?>" name="bairro_servico" type="text" class="form-control" style="text-transform: uppercase;">
+                    </div>
+
+                    <div class="col-2">
+                      <label>Municipio:</label>
+                      <input required id="municipio_servico" value="<? echo $municipio_servico ?>" name="municipio_servico" type="text" class="form-control" style="text-transform: uppercase;">
+                    </div>
+
+                    <div class="col-1">
+                      <label>UF:</label>
+                      <input required id="uf_servico" value="<? echo $uf_servico ?>" name="uf_servico" type="text" class="form-control" style="text-transform: uppercase;">
+                    </div>
+
+                    <div class="col-4">
+                      <label>Complemento:</label>
+                      <input id="complemento_servico" value="<? echo $complemento_servico ?>" name="complemento_servico" type="text" class="form-control" style="text-transform: uppercase;">
+                    </div>
+
+                    <div class="col-4">
+                      <label>Referencia:</label>
+                      <input id="referencia_servico" value="<? echo $referencia_servico ?>" name="referencia_servico" type="text" class="form-control" style="text-transform: uppercase;">
+                    </div>
+
+                  </div>
+                </div>
+
                 <br>
                 <!-- /.card-body -->
               </div>
@@ -320,244 +399,295 @@ include_once("starter.php");
               <div class="container-fluid">
                 <div class="row">
 
-                  <div class="col-md-4">
+                <div class="col-md-4">
                     <div class="card card-primary card-outline">
                       <div class="card-header">
                         <h3 class="card-title">Comprovantes do Cliente</h3>
                       </div>
-                      <!-- /.card-header -->
+                      
                       <div class="card-body">
                         <div class="card">
-                          <!-- /.card-header -->
+                          
                           <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
 
+                              <li class="nav-item active">
+                                <a class="nav-link">
+
+                                  <div class="container text-center">
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <label class="btn btn-default btn-file">
+                                          <i class="fas fa-paperclip"></i> Foto Cliente Self
+                                          <input id="input_ftcliente" accept="image/*" onchange="getFileData_ftcliente(this);" type="file" name="foto[ftcliente]" hidden>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="container text-center mt-3" id="preview_container" style="display: none;">
+                                    <div class="card d-inline-block shadow-sm p-2" style="position: relative; max-width: 220px; border-radius: 10px;">
+
+                                      <!-- Botão remover -->
+                                      <span id="remove_ftcliente"
+                                        class="fa fa-times-circle fa-lg"
+                                        onclick="removeLine()"
+                                        title="Remover"
+                                        style="position: absolute; top: 5px; right: 5px; cursor:pointer; color:red; background:white; border-radius:50%;">
+                                      </span>
+
+                                      <!-- Preview (miniatura clicável) -->
+                                      <img id="preview_ftcliente" src="" alt="Preview" class="img-fluid" style="max-height: 180px; border-radius: 8px; cursor: zoom-in;" onclick="openModal()" />
+
+                                      <!-- Nome do arquivo -->
+                                      <div class="mt-2">
+                                        <small id="ftcliente" class="text-muted text-break"></small>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- Modal -->
+                                  <div id="imgModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content:center; align-items:center;">
+                                    <span onclick="closeModal()"
+                                      style="position:absolute; top:20px; right:30px; color:white; font-size:40px; cursor:pointer;">&times;</span>
+                                    <img id="modalImg" src="" style="max-width:90%; max-height:90%; border-radius: 10px; box-shadow: 0px 0px 15px #000;">
+                                  </div>
+
+                                  <script>
+                                    function removeLine() {
+                                      document.getElementById('preview_container').style.display = "none";
+                                      document.getElementById('preview_ftcliente').src = "";
+                                      document.getElementById('ftcliente').innerHTML = "";
+                                      document.getElementById('input_ftcliente').value = "";
+                                      closeModal();
+                                    }
+
+                                    function getFileData_ftcliente(myFile) {
+                                      if (myFile.files.length > 0) {
+                                        var file = myFile.files[0];
+                                        var filename = file.name;
+
+                                        var label = document.getElementById('ftcliente');
+                                        label.innerHTML = filename;
+
+                                        if (file.type.startsWith("image/")) {
+                                          var reader = new FileReader();
+                                          reader.onload = function(e) {
+                                            var preview = document.getElementById('preview_ftcliente');
+                                            preview.src = e.target.result;
+                                            document.getElementById('modalImg').src = e.target.result;
+                                            document.getElementById('preview_container').style.display = "block";
+                                          }
+                                          reader.readAsDataURL(file);
+                                        }
+                                      } else {
+                                        removeLine();
+                                      }
+                                    }
+
+                                    function openModal() {
+                                      document.getElementById("imgModal").style.display = "flex";
+                                    }
+
+                                    function closeModal() {
+                                      document.getElementById("imgModal").style.display = "none";
+                                    }
+                                  </script>
+                                </a>
+                              </li>
+
+                              <li class="nav-item active">
+                                <a class="nav-link">
+
+                                  <div class="container text-center">
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <label class="btn btn-default btn-file">
+                                          <i class="fas fa-paperclip"></i> Foto RG
+                                          <input id="input_rg" accept="image/*" onchange="getFileData_rg(this);" type="file" name="foto[ftrg]" hidden>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="container text-center mt-3" id="preview_container_rg" style="display: none;">
+                                    <div class="card d-inline-block shadow-sm p-2" style="position: relative; max-width: 220px; border-radius: 10px;">
+
+                                      <!-- Botão remover -->
+                                      <span id="remove_rg"
+                                        class="fa fa-times-circle fa-lg"
+                                        onclick="removeLineRg()"
+                                        title="Remover"
+                                        style="position: absolute; top: 5px; right: 5px; cursor:pointer; color:red; background:white; border-radius:50%;">
+                                      </span>
+
+                                      <!-- Preview (miniatura clicável) -->
+                                      <img id="preview_rg" src="" alt="Preview" class="img-fluid" style="max-height: 180px; border-radius: 8px; cursor: zoom-in;" onclick="openModalRg()" />
+
+                                      <!-- Nome do arquivo -->
+                                      <div class="mt-2">
+                                        <small id="ftrg" class="text-muted text-break"></small>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- Modal -->
+                                  <div id="imgModalRg" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content:center; align-items:center;">
+                                    <span onclick="closeModalRg()"
+                                      style="position:absolute; top:20px; right:30px; color:white; font-size:40px; cursor:pointer;">&times;</span>
+                                    <img id="modalImgRg" src="" style="max-width:90%; max-height:90%; border-radius: 10px; box-shadow: 0px 0px 15px #000;">
+                                  </div>
+
+                                  <script>
+                                    function removeLineRg() {
+                                      document.getElementById('preview_container_rg').style.display = "none";
+                                      document.getElementById('preview_rg').src = "";
+                                      document.getElementById('ftrg').innerHTML = "";
+                                      document.getElementById('input_rg').value = "";
+                                      closeModalRg();
+                                    }
+
+                                    function getFileData_rg(myFile) {
+                                      if (myFile.files.length > 0) {
+                                        var file = myFile.files[0];
+                                        var filename = file.name;
+
+                                        var label = document.getElementById('ftrg');
+                                        label.innerHTML = filename;
+
+                                        if (file.type.startsWith("image/")) {
+                                          var reader = new FileReader();
+                                          reader.onload = function(e) {
+                                            var preview = document.getElementById('preview_rg');
+                                            preview.src = e.target.result;
+                                            document.getElementById('modalImgRg').src = e.target.result;
+                                            document.getElementById('preview_container_rg').style.display = "block";
+                                          }
+                                          reader.readAsDataURL(file);
+                                        }
+                                      } else {
+                                        removeLineRg();
+                                      }
+                                    }
+
+                                    function openModalRg() {
+                                      document.getElementById("imgModalRg").style.display = "flex";
+                                    }
+
+                                    function closeModalRg() {
+                                      document.getElementById("imgModalRg").style.display = "none";
+                                    }
+                                  </script>
+                                </a>
+                              </li>
+
+                              <li class="nav-item active">
+                                <a class="nav-link">
+
+                                  <div class="container text-center">
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <label class="btn btn-default btn-file">
+                                          <i class="fas fa-paperclip"></i> Foto CPF
+                                          <input id="input_cpf" accept="image/*" onchange="getFileData_cpf(this);" type="file" name="foto[ftcpf]" hidden>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="container text-center mt-3" id="preview_container_cpf" style="display: none;">
+                                    <div class="card d-inline-block shadow-sm p-2" style="position: relative; max-width: 220px; border-radius: 10px;">
+
+                                      <!-- Botão remover -->
+                                      <span id="remove_cpf"
+                                        class="fa fa-times-circle fa-lg"
+                                        onclick="removeLineCpf()"
+                                        title="Remover"
+                                        style="position: absolute; top: 5px; right: 5px; cursor:pointer; color:red; background:white; border-radius:50%;">
+                                      </span>
+
+                                      <!-- Preview (miniatura clicável) -->
+                                      <img id="preview_cpf" src="" alt="Preview" class="img-fluid" style="max-height: 180px; border-radius: 8px; cursor: zoom-in;" onclick="openModalCpf()" />
+
+                                      <!-- Nome do arquivo -->
+                                      <div class="mt-2">
+                                        <small id="ftcpf" class="text-muted text-break"></small>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- Modal -->
+                                  <div id="imgModalCpf" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background: rgba(0,0,0,0.8); justify-content:center; align-items:center;">
+                                    <span onclick="closeModalCpf()"
+                                      style="position:absolute; top:20px; right:30px; color:white; font-size:40px; cursor:pointer;">&times;</span>
+                                    <img id="modalImgCpf" src="" style="max-width:90%; max-height:90%; border-radius: 10px; box-shadow: 0px 0px 15px #000;">
+                                  </div>
+
+                                  <script>
+                                    function removeLineCpf() {
+                                      document.getElementById('preview_container_cpf').style.display = "none";
+                                      document.getElementById('preview_cpf').src = "";
+                                      document.getElementById('ftcpf').innerHTML = "";
+                                      document.getElementById('input_cpf').value = "";
+                                      closeModalCpf();
+                                    }
+
+                                    function getFileData_cpf(myFile) {
+                                      if (myFile.files.length > 0) {
+                                        var file = myFile.files[0];
+                                        var filename = file.name;
+
+                                        var label = document.getElementById('ftcpf');
+                                        label.innerHTML = filename;
+
+                                        if (file.type.startsWith("image/")) {
+                                          var reader = new FileReader();
+                                          reader.onload = function(e) {
+                                            var preview = document.getElementById('preview_cpf');
+                                            preview.src = e.target.result;
+                                            document.getElementById('modalImgCpf').src = e.target.result;
+                                            document.getElementById('preview_container_cpf').style.display = "block";
+                                          }
+                                          reader.readAsDataURL(file);
+                                        }
+                                      } else {
+                                        removeLineCpf();
+                                      }
+                                    }
+
+                                    function openModalCpf() {
+                                      document.getElementById("imgModalCpf").style.display = "flex";
+                                    }
+
+                                    function closeModalCpf() {
+                                      document.getElementById("imgModalCpf").style.display = "none";
+                                    }
+                                  </script>
+                                </a>
+                              </li>
+
                               <!-- <li class="nav-item active">
                                 <a class="nav-link">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Foto Cliente
-                                    <input type="file" name="attachment">
-                                  </div>
-                                  <span class="badge float-right">12</span>
-                                </a>
-                              </li>
-                              <li class="nav-item active">
-                                <a class="nav-link">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> RG
-                                    <input type="file" name="attachment">
-                                  </div>
-                                </a>
-                              </li>
-                              <li class="nav-item active">
-                                <a class="nav-link">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> CPF
-                                    <input type="file" name="attachment">
-                                  </div>
-                                </a>
-                              </li>
-                              <li class="nav-item active">
-                                <a class="nav-link">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Comprovante Residência
-                                    <input type="file" name="attachment">
-                                  </div>
-                                </a>
-                              </li>
-                              <li class="nav-item active">
-                                <a class="nav-link">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Comprovante Comercial
-                                    <input type="file" name="attachment">
-                                  </div>
-                                </a>
-                              </li>
-                              <li class="nav-item active">
-                                <a class="nav-link">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Termo
-                                    <input type="file" name="attachment">
-                                  </div>
-                                </a>
-                              </li> -->
-
-                              <li class="nav-item active">
-                                <a class="nav-link">
-
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col-12">
-                                            <div class="btn btn-default btn-file">
-                                              <i class="fas fa-paperclip"></i> Foto Cliente Self
-                                              <input accept="image/*" onchange="getFileData_ftcliente(this);" type="file" name="foto[ftcliente]">
-                                            </div>
+                                  <div class="container text-center">
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <div class="btn btn-default btn-file">
+                                          <i class="fas fa-paperclip"></i> Comprovante Residência
+                                          <input accept="image/*,.pdf" onchange="getFileData_ftcomresi(this);" type="file" name="foto[ftcompres]">
                                         </div>
                                       </div>
-                                </div>
-
-                                    <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col-1">
-                                          <span id="remove_ftcliente" class="fa fa-times-circle fa-lg closeBtn" onclick="removeLine(this)" title="remove" style="display: none!important;"></span>
-                                        </div>
-                                        <div class="col">
-                                          <span id="ftcliente" class="badge float-right" style="display: none!important;"></span>
-                                        </div>
-                                      </div>
-                                  </div>
-
-                                </a>
-
-                                <script>
-                                  function removeLine() {
-                                    document.getElementById('ftcliente').value = ""
-                                    document.getElementById('ftcliente').style = "display: none!important;"
-
-                                    document.getElementById('remove_ftcliente').value = ""
-                                    document.getElementById('remove_ftcliente').style = "display: none!important;"
-
-                                    }
-                                </script>
-                                
-                                <script>
-                                  function getFileData_ftcliente(myFile) {
-                                    var file = myFile.files[0];
-                                    var filename = file.name;
-                                    var error_gb = document.getElementById('ftcliente').style = '';
-                                    var labe1 = document.getElementById('ftcliente');
-                                    labe1.innerHTML = filename;
-                                    document.getElementById('remove_ftcliente').style = "display: flex!important;"
-                                    
-                                  }
-                                </script>
-
-
-                              </li>
-
-                              <li class="nav-item active">
-                                <a class="nav-link">
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col-12">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> RG
-                                    <input accept="image/*" onchange="getFileData_ftrg(this);" type="file" name="foto[ftrg]">
-                                  </div>
-                                  </div>
-                                  </div>
+                                    </div>
                                   </div>
 
                                   <div class="container text-center">
-                                        <div class="row">
-                                          <div class="col">
-                                            <span id="remove_ftrg" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftrg(this)" title="remove" style="display: none!important;"></span>
-                                          </div>
-                                          <div class="col">
-                                            <span id="ftrg" class="badge float-right" style="display: none!important;"></span>
-                                          </div>
-                                        </div>
+                                    <div class="row">
+                                      <div class="col">
+                                        <span id="remove_ftcomresi" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftcomresi(this)" title="remove" style="display: none!important;"></span>
+                                      </div>
+                                      <div class="col">
+                                        <span id="ftcomresi" class="badge float-right" style="display: none!important;"></span>
+                                      </div>
                                     </div>
-
-                                </a>
-
-                                <script>
-                                  function remove_ftrg() {
-                                    document.getElementById('ftrg').value = ""
-                                    document.getElementById('ftrg').style = "display: none!important;"
-
-                                    document.getElementById('remove_ftrg').value = ""
-                                    document.getElementById('remove_ftrg').style = "display: none!important;"
-
-                                    }
-                                </script>
-
-                                <script>
-                                  function getFileData_ftrg(myFile) {
-                                    var file = myFile.files[0];
-                                    var filename = file.name;
-                                    var error_gb = document.getElementById('ftrg').style = '';
-                                    var labe1 = document.getElementById('ftrg');
-                                    labe1.innerHTML = filename;
-                                    document.getElementById('remove_ftrg').style = "display: flex!important;"
-                                  }
-                                </script>
-
-                              </li>
-
-                              <li class="nav-item active">
-                                <a class="nav-link">
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col-12">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> CPF
-                                    <input accept="image/*" onchange="getFileData_ftcpf(this);" type="file" name="foto[ftcpf]">
-                                  </div>
-                                  </div>
-                                  </div>
-                                  </div>
-
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col">
-                                          <span id="remove_ftcpf" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftcpf(this)" title="remove" style="display: none!important;"></span>
-                                        </div>
-                                        <div class="col">
-                                          <span id="ftcpf" class="badge float-right" style="display: none!important;"></span>
-                                        </div>
-                                      </div>
-                                  </div>
-
-                                </a>
-
-                                <script>
-                                  function remove_ftcpf() {
-                                    document.getElementById('ftcpf').value = ""
-                                    document.getElementById('ftcpf').style = "display: none!important;"
-
-                                    document.getElementById('remove_ftcpf').value = ""
-                                    document.getElementById('remove_ftcpf').style = "display: none!important;"
-
-                                    }
-                                </script>
-
-                                <script>
-                                  function getFileData_ftcpf(myFile) {
-                                    var file = myFile.files[0];
-                                    var filename = file.name;
-                                    var error_gb = document.getElementById('ftcpf').style = '';
-                                    var labe1 = document.getElementById('ftcpf');
-                                    labe1.innerHTML = filename;
-                                    document.getElementById('remove_ftcpf').style = "display: flex!important;"
-
-                                  }
-                                </script>
-
-                              </li>
-
-                              <li class="nav-item active">
-                                <a class="nav-link">
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col-12">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Comprovante Residência
-                                    <input accept="image/*,.pdf" onchange="getFileData_ftcomresi(this);" type="file" name="foto[ftcompres]">
-                                  </div>
-                                  </div>
-                                  </div>
-                                  </div>
-                                  
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col">
-                                          <span id="remove_ftcomresi" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftcomresi(this)" title="remove" style="display: none!important;"></span>
-                                        </div>
-                                        <div class="col">
-                                          <span id="ftcomresi" class="badge float-right" style="display: none!important;"></span>
-                                        </div>
-                                      </div>
                                   </div>
 
                                 </a>
@@ -570,7 +700,7 @@ include_once("starter.php");
                                     document.getElementById('remove_ftcomresi').value = ""
                                     document.getElementById('remove_ftcomresi').style = "display: none!important;"
 
-                                    }
+                                  }
                                 </script>
 
                                 <script>
@@ -584,81 +714,31 @@ include_once("starter.php");
 
                                   }
                                 </script>
-                              </li>
+                              </li> -->
 
-                              <li class="nav-item active">
-                                <a class="nav-link">
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col-12">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Comprovante Comercial
-                                    <input accept="image/*,.pdf" onchange="getFileData_ftcomercial(this);" type="file" name="foto[ftcompcomer]">
-                                  </div>
-                                  </div>
-                                  </div>
-                                  </div>
-                                 
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col">
-                                          <span id="remove_ftcomercial" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftcomercial(this)" title="remove" style="display: none!important;"></span>
-                                        </div>
-                                        <div class="col">
-                                          <span id="ftcomercial" class="badge float-right" style="display: none!important;"></span>
-                                        </div>
-                                      </div>
-                                  </div>
-
-                                </a>
-
-                                <script>
-                                  function remove_ftcomercial() {
-                                    document.getElementById('ftcomercial').value = ""
-                                    document.getElementById('ftcomercial').style = "display: none!important;"
-
-                                    document.getElementById('remove_ftcomercial').value = ""
-                                    document.getElementById('remove_ftcomercial').style = "display: none!important;"
-
-                                    }
-                                </script>
-
-                                <script>
-                                  function getFileData_ftcomercial(myFile) {
-                                    var file = myFile.files[0];
-                                    var filename = file.name;
-                                    var error_gb = document.getElementById('ftcomercial').style = '';
-                                    var labe1 = document.getElementById('ftcomercial');
-                                    labe1.innerHTML = filename;
-                                    document.getElementById('remove_ftcomercial').style = "display: flex!important;"
-
-                                  }
-                                </script>
-                              </li>
-
-                              <li class="nav-item active">
+                              <!-- <li class="nav-item active">
                                 <a class="nav-link">
 
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col-12">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Termo
-                                    <input accept="image/*,.pdf" onchange="getFileData_fttermo(this);" type="file" name="foto[fttermo]">
-                                  </div>
-                                  </div>
-                                  </div>
-                                  </div>
-                                
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col">
-                                          <span id="remove_fttermo" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_fttermo(this)" title="remove" style="display: none!important;"></span>
-                                        </div>
-                                        <div class="col">
-                                          <span id="fttermo" class="badge float-right" style="display: none!important;"></span>
+                                  <div class="container text-center">
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <div class="btn btn-default btn-file">
+                                          <i class="fas fa-paperclip"></i> Termo
+                                          <input accept="image/*,.pdf" onchange="getFileData_fttermo(this);" type="file" name="foto[fttermo]">
                                         </div>
                                       </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="container text-center">
+                                    <div class="row">
+                                      <div class="col">
+                                        <span id="remove_fttermo" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_fttermo(this)" title="remove" style="display: none!important;"></span>
+                                      </div>
+                                      <div class="col">
+                                        <span id="fttermo" class="badge float-right" style="display: none!important;"></span>
+                                      </div>
+                                    </div>
                                   </div>
 
                                 </a>
@@ -671,7 +751,7 @@ include_once("starter.php");
                                     document.getElementById('remove_fttermo').value = ""
                                     document.getElementById('remove_fttermo').style = "display: none!important;"
 
-                                    }
+                                  }
                                 </script>
 
                                 <script>
@@ -685,71 +765,70 @@ include_once("starter.php");
 
                                   }
                                 </script>
-                              </li>
+                              </li> -->
 
-                              <li class="nav-item active">
+                              <!-- <li class="nav-item active">
                                 <a class="nav-link">
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col-12">
-                                  <div class="btn btn-default btn-file">
-                                    <i class="fas fa-paperclip"></i> Certificado
-                                    <input accept="image/*,.pdf" onchange="getFileData_ftcertificado(this);" type="file" name="foto[ftcertificado]">
-                                  </div>
-                                  </div>
-                                  </div>
-                                  </div>
-                                
-
-                                <div class="container text-center">
-                                      <div class="row">
-                                        <div class="col">
-                                          <span id="remove_ftcertificado" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftcertificado(this)" title="remove" style="display: none!important;"></span>
-                                        </div>
-                                        <div class="col">
-                                          <span id="ftcertificado" class="badge float-right" style="display: none!important;"></span>
+                                  <div class="container text-center">
+                                    <div class="row">
+                                      <div class="col-12">
+                                        <div class="btn btn-default btn-file">
+                                          <i class="fas fa-paperclip"></i> Holerite
+                                          <input accept="image/*,.pdf" onchange="getFileData_ftholerite(this);" type="file" name="foto[ftholerite]">
                                         </div>
                                       </div>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="container text-center">
+                                    <div class="row">
+                                      <div class="col">
+                                        <span id="remove_ftholerite" class="fa fa-times-circle fa-lg closeBtn" onclick="remove_ftholerite(this)" title="remove" style="display: none!important;"></span>
+                                      </div>
+                                      <div class="col">
+                                        <span id="ftholerite" class="badge float-right" style="display: none!important;"></span>
+                                      </div>
+                                    </div>
                                   </div>
 
                                 </a>
 
                                 <script>
-                                  function remove_ftcertificado() {
-                                    document.getElementById('ftcertificado').value = ""
-                                    document.getElementById('ftcertificado').style = "display: none!important;"
+                                  function remove_ftholerite() {
+                                    document.getElementById('ftholerite').value = ""
+                                    document.getElementById('ftholerite').style = "display: none!important;"
 
-                                    document.getElementById('remove_ftcertificado').value = ""
-                                    document.getElementById('remove_ftcertificado').style = "display: none!important;"
-
-                                    }
-                                </script>
-
-                                <script>
-                                  function getFileData_ftcertificado(myFile) {
-                                    var file = myFile.files[0];
-                                    var filename = file.name;
-                                    var error_gb = document.getElementById('ftcertificado').style = '';
-                                    var labe1 = document.getElementById('ftcertificado');
-                                    labe1.innerHTML = filename;
-                                    document.getElementById('remove_ftcertificado').style = "display: flex!important;"
+                                    document.getElementById('remove_ftholerite').value = ""
+                                    document.getElementById('remove_ftholerite').style = "display: none!important;"
 
                                   }
                                 </script>
-                              </li>
+
+                                <script>
+                                  function getFileData_ftholerite(myFile) {
+                                    var file = myFile.files[0];
+                                    var filename = file.name;
+                                    var error_gb = document.getElementById('ftholerite').style = '';
+                                    var labe1 = document.getElementById('ftholerite');
+                                    labe1.innerHTML = filename;
+                                    document.getElementById('remove_ftholerite').style = "display: flex!important;"
+
+                                  }
+                                </script>
+                              </li> -->
 
                             </ul>
                           </div>
-                          <!-- /.card-body -->
+                          
                         </div>
 
                       </div>
 
                     </div>
-                    <!-- /.card-body -->
+                   
+                </div>
 
-                    <!-- /.card-footer -->
-                  </div>
                   
                   <div class="col-md-4">
                     <div class="card card-primary card-outline">

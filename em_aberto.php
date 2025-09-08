@@ -65,6 +65,8 @@ $data_hoje = (date('Y-m-d'));
                       left join clientes c on c.id = s.id_cliente
                       left join status st on st.id = s.status_solicitacao
                       left join valor_pago vp on vp.id_solicitacao = s.id
+                      where
+                        s.usuario = '$id_user'
                       ");
 
                   $recebidos = mysqli_query($conn, $select_sql);
@@ -171,39 +173,31 @@ $data_hoje = (date('Y-m-d'));
           <!-- AdminLTE App -->
           <!-- <script src="../../dist/js/adminlte.min.js"></script> -->
           <!-- AdminLTE for demo purposes -->
-          <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-                    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
-                    
-                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+          <!-- Page specific script -->
+          <script>
+            $(function() {
+              $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": true,
+                "ordering": false,
+                "searching": true,
+                // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                "buttons": ["excel"],
+                "language": {
+                  "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/pt-BR.json"
+                }
+              }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
-                    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-                    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-                    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
-                    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
-                    <!-- Page specific script -->
-                    <script>
-                        $(function() {
-                            $("#example1").DataTable({
-                                // Adiciona os botões e define a ordem dos elementos
-                                "dom": 'Bfrtip',
-                                "responsive": true,
-                                "lengthChange": false,
-                                "autoWidth": false, // Recomenda-se false com responsive
-                                "ordering": false,
-                                "searching": true,
-                                
-                                // Define quais botões serão exibidos
-                                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-
-                                // Tradução para Português-Brasil
-                                "language": {
-                                    "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/pt-BR.json"
-                                }
-                            });
-                        });
-                    </script>
+              // $('#example2').DataTable({
+              //   "paging": true,
+              //   "lengthChange": false,
+              //   "searching": false,
+              //   "ordering": false,
+              //   "info": true,
+              //   "autoWidth": false,
+              //   "responsive": true,
+              // });
+            });
+          </script>

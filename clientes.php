@@ -31,9 +31,8 @@ include_once("conexao.php");
                                     <tr>
                                         <th>ID Cliente</th>
                                         <th>Cliente</th>
-                                        <th>CNPJ</th>
                                         <th>CPF</th>
-                                        <th>VS | Guerra</th>
+                                        <th>Telefone</th>
                                         <th class="text-center" >Ações</th>
                                     </tr>
                                 </thead>
@@ -41,31 +40,27 @@ include_once("conexao.php");
 
                                     <?php
                                     $usuario = $_SESSION['login'];
+                                    $id_user = $_SESSION['id_user'];
 
                         //  $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' and c.id_cliente <> '0' ORDER BY c.socio, c.sobrenome, c.nome ASC ");
-                         $select_sql = ("SELECT *, c.id as id,
-                         CASE WHEN TRIM(LTRIM(c.sobrenome)) = '' and TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.socio))
-                             WHEN TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.sobrenome))
-                             ELSE TRIM(LTRIM(c.nome))
-                         END nome_cliente
-                         FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' and c.id_cliente <> '0'
-                         ORDER BY `nome_cliente` ASC;
+                         $select_sql = ("SELECT *, c.id as id
+                         FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$id_user' and c.id_cliente <> '0'
+                         ORDER BY `nome` ASC;
                          ");
                             
                             $recebidos = mysqli_query($conn, $select_sql);
                             
                             while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
                                 // print_r($row_usuario);
-                              
+                                // die();
                                 $cliente = $row_usuario['nome'];
                                 $id = $row_usuario['id'];
                                 $sobrenome = $row_usuario['sobrenome'];
                                 $socio = $row_usuario['socio'];
                                 $ftcliente = $row_usuario['ftcliente'];
                                 $cpf = $row_usuario['cpf'];
-                                $cnpj = $row_usuario['cnpj'];
+                                $telefone = $row_usuario['tel'];
                                 $id_cliente = $row_usuario['id_cliente'];
-                                $nome_servico = $row_usuario['nome_servico'];
                                 // $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
                                 $nome_cliente = $row_usuario['nome_cliente'];
                                 
@@ -73,10 +68,9 @@ include_once("conexao.php");
 
                                 echo "<tr>";
                                 echo "<td >$id</td>";
-                                echo "<td >$nome_cliente</td>";
-                                echo "<td >$cnpj </td>";
-                                echo "<td >$cpf </td>";
-                                echo "<td >$nome_servico </td>";
+                                echo "<td >$cliente</td>";
+                                echo "<td >$cpf</td>";
+                                echo "<td >$telefone</td>";
                                
                                
                                 // echo "<td>$status</td>";

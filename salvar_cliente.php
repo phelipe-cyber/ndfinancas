@@ -5,48 +5,75 @@ include_once("conexao.php");
 date_default_timezone_set('America/Recife');
  $data_hora = (date('Y-m-d H:i:s'));
  $usuario = $_SESSION['login'];
+ $id_user = $_SESSION['id_user'];
+
  $data_hora_salve = (date('Y-m-d_H:i:s'));
 
-$cpf = $_POST['cpf'];
-$cep = $_POST['cep'];
-$cnpj = $_POST['cnpj'];
-$nome=$_POST['nome'];
-$sobrenome=$_POST['sobrenome'];
-$razao_social=$_POST['razao_social'];
-$rg=$_POST['rg'];
-$tel=$_POST['tel'];
-$tel2=$_POST['tel2'];
-$atividade=$_POST['atividade'];
-$lougadouro=$_POST['lougadouro'];
-$number=$_POST['number'];
-$bairro=$_POST['bairro'];
-$municipio=$_POST['municipio'];
-$uf=$_POST['uf'];
-$complemento=$_POST['complemento'];
-$referencia=$_POST['referencia'];
+ function format_post_automatic($post) {
+  $new_post = [];
+  foreach ($post as $key => $value) {
+      if (is_string($value)) {
+          // Converter para maiúsculas
+          $value = strtoupper($value);
 
-$cep_emp = $_POST['cep_emp'];
-$lougadouro_emp=$_POST['lougadouro_emp'];
-$number_emp=$_POST['number_emp'];
-$bairro_emp=$_POST['bairro_emp'];
-$uf_emp=$_POST['uf_emp'];
-$municipio_emp=$_POST['municipio_emp'];
-$complemento_emp=$_POST['complemento_emp'];
-$referencia_emp=$_POST['referencia_emp'];
-$servico = $_POST['servico'];
-$socio = $_POST['servico'];
+          // Se o campo for telefone (contém "tel" no nome)
+          if (stripos($key, 'tel') !== false) {
+              // Remove tudo que não for número
+              $numbers = preg_replace('/\D/', '', $value);
 
+              // Adiciona prefixo 55 (Brasil) se não tiver
+              if ($numbers && substr($numbers, 0, 2) != '55') {
+                  $numbers = '55' . $numbers;
+              }
 
+              $value = $numbers;
+          }
+      }
+      $new_post[$key] = $value;
+  }
+  return $new_post;
+}
 
-    $Sql = "INSERT INTO `clientes`(`id`, `nome`, `sobrenome`, `socio`,`cpf`, `rg`, `tel`, `tel2`, `atividade`, `endereco`, `cep`, `cnpj`, `numero`, `bairro`, `municipio`, `uf`, `complemento`, `referencia`, `cep_emp`, `lougadouro_emp`, `number_emp`, `municipio_emp`, `uf_emp`, `bairro_emp`, `complemento_emp`, `referencia_emp`, `status_cliente`, `id_cliente`, `user_created`, `data_hora_cliente`)
-     VALUES (null,'$razao_social', '$sobrenome', '$nome','$cpf', '$rg', '$tel', '$tel2', '$atividade', '$lougadouro', '$cep', '$cnpj', '$number',
-    '$bairro', '$municipio', '$uf', '$complemento', '$referencia', '$cep_emp', '$lougadouro_emp', '$number_emp', 
-    '$municipio_emp', '$uf_emp', '$bairro_emp', '$complemento_emp', '$referencia_emp', '0', '$servico', '$usuario', '$data_hora')";
+// Aplicar no $_POST
+$_POST = format_post_automatic($_POST);
 
+// Criar variáveis automaticamente
+extract($_POST);
+
+$cpf;$cep;$nome;$rg;$tel;$tel2;$atividade;$lougadouro;$number;$bairro;$municipio;$uf;$complemento;$referencia;
+
+$cep_servico;$lougadouro_servico;$number_servico;$bairro_servico;$uf_servico;$municipio_servico;$complemento_servico;
+$referencia_servico;$servico = 2;
+
+// dump($_FILES);
+// echo "</br>";
+// dump($_POST);
+// die();
+
+$Sql = "INSERT INTO clientes
+(nome, cpf, rg, tel, tel2, atividade, endereco, cep, numero, bairro, municipio, uf, complemento, 
+referencia, status_cliente, id_cliente, user_created)
+VALUES('$nome', '$cpf', '$rg', '$tel', '$tel2', '$atividade', 
+'$lougadouro', '$cep', '$number', '$bairro', '$municipio', '$uf', '$complemento', '$referencia', 0, $servico, $id_user)";
 $salvar = mysqli_query($conn, $Sql);
 $id_insert = mysqli_insert_id($conn);
 // print_r($id_insert);
-// exit();
+
+$call = "CALL sp_clientes_after_insert(
+  $id_insert,'$nome','$cpf','$rg','$tel','$tel2','$atividade','$lougadouro','$cep','$number',
+  '$bairro','$municipio','$uf','$complemento','$referencia',0, $servico, $id_user, NOW(), NOW(), NULL)";
+$executar_proc = mysqli_query($conn, $call);
+
+$Sql_servico = "INSERT INTO clientes_endereco_servico
+(id_cliente, endereco, cep, numero, bairro, municipio, uf, complemento, referencia,user_created) 
+VALUES ('$id_insert', '$lougadouro_servico', '$cep_servico', '$number_servico', '$bairro_servico', '$municipio_servico'
+,'$uf_servico', '$complemento_servico', '$referencia_servico', '$id_user')";
+$salvar_end_servico = mysqli_query($conn, $Sql_servico);
+
+$call_end_servico = "CALL sp_clientes_endereco_servico_after_insert(
+$id_insert, '$lougadouro_servico', '$cep_servico', '$number_servico', '$bairro_servico','$municipio_servico',
+'$uf_servico', '$complemento_servico', '$referencia_servico', '$id_user', NOW(), NOW(), NULL)";
+$executar_proc_end_sevico = mysqli_query($conn, $call_end_servico);
 
 
 $nome_arquivo_inport = $_FILES['foto']['name']['ftcliente'];
@@ -126,14 +153,19 @@ $nome_arquivoftlocal4 = $id_insert ."_". "local4". "_". $data_hora_salve ."_". $
 move_uploaded_file($_FILES['foto']['tmp_name']['ftlocal4'], "imagens_cliente/" . $nome_arquivoftlocal4);
 }
 
-$salve_foto = "INSERT INTO `fotos_clientes`(`id`, `id_cliente`,`ftcliente`, `ftrg`, `ftcpf`, `ftcompres`, 
+$salve_foto = "INSERT INTO `fotos_clientes`(`id_cliente`,`ftcliente`, `ftrg`, `ftcpf`, `ftcompres`, 
 `ftcompcomer`, `fttermo`, `ftcertificado`,  `ftlocal`, `ftlocal2`, `ftlocal3`,`ftlocal4`, `usuario`, 
 `data_fotos_clientes`) 
-VALUES (null,'$id_insert','$nome_arquivoftcliente','$nome_arquivoftrg','$nome_arquivoftcpf','$nome_arquivoftcompres','$nome_arquivoftcompcomer',
-'$nome_arquivofttermo','$nome_arquivoftcertificado', '$nome_arquivoftlocal','$nome_arquivoftlocal2','$nome_arquivoftlocal3', '$nome_arquivoftlocal4', '$usuario','$data_hora')";
-
+VALUES ($id_insert,'$nome_arquivoftcliente','$nome_arquivoftrg','$nome_arquivoftcpf','$nome_arquivoftcompres','$nome_arquivoftcompcomer',
+'$nome_arquivofttermo','$nome_arquivoftcertificado', '$nome_arquivoftlocal','$nome_arquivoftlocal2','$nome_arquivoftlocal3', '$nome_arquivoftlocal4', '$id_user','$data_hora')";
 $salvar_foto = mysqli_query($conn, $salve_foto) or die(mysqli_error($conn));
+$id_insert_foto = mysqli_insert_id($conn);
 
+$callfoto ="CALL sp_fotos_clientes_after_insert(
+  $id_insert_foto, $id_insert,'$nome_arquivoftcliente','$nome_arquivoftrg','$nome_arquivoftcpf','$nome_arquivoftcompres',
+  '$nome_arquivoftcompcomer','$nome_arquivofttermo','$nome_arquivoftcertificado', '$nome_arquivoftlocal',
+  '$nome_arquivoftlocal2','$nome_arquivoftlocal3', '$nome_arquivoftlocal4', '$id_user', NOW(), NOW(),NOW(), NULL)";
+$executar_proc_foto = mysqli_query($conn, $callfoto) or die(mysqli_error($conn));
 
 // exit();
 if( $salvar == 1 ){

@@ -5,8 +5,8 @@ date_default_timezone_set('America/Recife');
 $data_hora = (date('Y-m-d H:i:s'));
 $usuario = $_SESSION['login'];
 
-// print_r($_POST);
-// exit();
+print_r($_POST);
+exit();
 
 $id_solicitacao = $_POST['id_solicitacao'];
 $id_cliente = $_POST['id_cliente'];
@@ -27,14 +27,18 @@ $valor_parcela = $_POST['valor_parcela'];
 $valor_parcela = preg_replace("/[^0-9,]+/i","",$valor_parcela);
 $valor_parcela = str_replace(",",".",$valor_parcela);
 
- $sql_update_par = "UPDATE `solicitacao` SET `status_solicitacao` = 6 WHERE `id` = '$id_solicitacao' " ;
+ $sql_update_par = "UPDATE `solicitacao` SET `status_solicitacao` = 3 WHERE `id` = '$id_solicitacao' " ;
 $sql_update_solicitacao = mysqli_query($conn, $sql_update_par);
 
  $select_sql = "INSERT INTO `solicitacao`(`id`, `id_cliente`, `id_servico`,`valor`, `valor_parcela`, `status_solicitacao`, `juros`, `valor_bruto`, `dt_solicitacao`, `dt_pgto`,`usuario`, `data_hora_solicitacao`)
 VALUES (null,'$id_cliente', '$id_servico', '$total_em_atraso', '$valor_parcela', '3', '$total_em_atraso','$valor_bruto', '$dt_solicitacao', '$dt_solicitacao','$usuario','$data_hora')";
 $sql_parce = mysqli_query($conn, $select_sql);
 
-// exit();
+$sql_update_par_cliente = "UPDATE clientes	SET status_cliente = 3 WHERE `id` = '$id_solicitacao' " ;
+$sql_update_cliente = mysqli_query($conn, $sql_update_par_cliente);
+
+
+exit();
 
     if( $sql_update_solicitacao == 1 or $sql_parce == 1){
 
@@ -69,7 +73,7 @@ $sql_parce = mysqli_query($conn, $select_sql);
                     </script>
 
                     <?php
-                        echo '<meta http-equiv="refresh" content="3;URL=mes.php" />';
+                        echo '<meta http-equiv="refresh" content="3;URL=em_aberto.php" />';
 
         }else{
 

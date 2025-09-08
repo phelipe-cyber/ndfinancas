@@ -5,7 +5,7 @@ include_once("conexao.php");
 date_default_timezone_set('America/Recife');
  $data_hora = (date('Y-m-d H:i:s'));
  $usuario = $_SESSION['login'];
- 
+ $id_user = $_SESSION['id_user']; 
  //  print_r($_POST);
 //  exit();
 $id = $_POST['cliente'];
@@ -31,6 +31,8 @@ $id_servico = $_POST['id_servico'];
 $dt_solicitcao = $_POST['dt_solicitcao'];
 $dt_solicitcao = date('Y-m-d', strtotime($_POST['dt_solicitcao']));
 
+$porcento = $_POST['porcento'];
+
 $id = explode('.', $id);
 $id = $id[0];
 
@@ -45,8 +47,8 @@ if($id_servico == 1){
 
 }
 
- $select_sql = "INSERT INTO `solicitacao`(`id`, `id_cliente`, `id_servico`,`valor`, `valor_parcela`, `status_solicitacao`, `juros`, `valor_bruto`, `dt_solicitacao`, `dt_pgto`,`usuario`, `data_hora_solicitacao`)
-VALUES (null,'$id', '$id_servico', '$valor', '$valor_parcelado', '1', '$juros','$valor_bruto', '$dt_solicitcao', '$dt_pgto','$usuario','$data_hora')";
+ $select_sql = "INSERT INTO `solicitacao`(`id`, `id_cliente`, `id_servico`,`valor`, `valor_parcela`, `status_solicitacao`, `porcento`,`juros`, `valor_bruto`, `dt_solicitacao`, `dt_pgto`,`usuario`, `data_hora_solicitacao`)
+VALUES (null,'$id', '$id_servico', '$valor', '$valor_parcelado', '1', '$juros','$porcento','$valor_bruto', '$dt_solicitcao', '$dt_pgto','$id_user','$data_hora')";
 $salvar = mysqli_query($conn, $select_sql);
 
 $update = "UPDATE clientes SET status_cliente = '1' WHERE id = $id";

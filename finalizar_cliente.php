@@ -5,7 +5,7 @@ date_default_timezone_set('America/Recife');
  $data_hora = (date('Y-m-d H:i:s'));
  $usuario = $_SESSION['login'];
 
-// print_r($_POST);
+// dump($_POST);
 // exit();
 $id_solicitacao = $_POST['id_solicitacao'];
 $id_cliente = $_POST['id_cliente'];
@@ -50,7 +50,7 @@ $salve_update_cliente = mysqli_query($conn, $sql_update);
                     </script>
 
                     <?php
-                        echo '<meta http-equiv="refresh" content="3;URL=mes.php" />';
+                        echo '<meta http-equiv="refresh" content="3;URL=em_aberto.php" />';
 
         }else{
 

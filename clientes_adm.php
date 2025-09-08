@@ -29,11 +29,11 @@ include_once("conexao.php");
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
+                                        <th>ID Cliente</th>
                                         <th>Cliente</th>
-                                        <th>CNPJ</th>
                                         <th>CPF</th>
-                                        <th>VS | Guerra</th>
-                                        <th>Usuário</th>
+                                        <th>Telefone</th>
+                                        <th>Usuario | Carteira</th>
                                         <th class="text-center" >Ações</th>
                                     </tr>
                                 </thead>
@@ -41,36 +41,43 @@ include_once("conexao.php");
 
                                     <?php
                                     $usuario = $_SESSION['login'];
+                                    $id_user = $_SESSION['id_user'];
 
-                                    $select_sql = ("SELECT *, c.id as id,  CASE WHEN TRIM(LTRIM(c.sobrenome)) = '' and TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.socio))
-                                    WHEN TRIM(LTRIM(c.nome)) = '' THEN TRIM(LTRIM(c.sobrenome))
-                                    ELSE TRIM(LTRIM(c.nome))
-                                END nome_cliente FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente  where c.id_cliente <> '0'  ORDER BY `nome_cliente` ASC ");
-
+                        //  $select_sql = ("SELECT *, c.id as id FROM `clientes` c LEFT JOIN nome_cliente cl on cl.id = c.id_cliente where c.user_created = '$usuario' and c.id_cliente <> '0' ORDER BY c.socio, c.sobrenome, c.nome ASC ");
+                         $select_sql = ("SELECT *, c.id as id, u.usuario as user_usuario
+                         FROM `clientes` c 
+                         LEFT JOIN nome_cliente cl on cl.id = c.id_cliente
+                         LEFT JOIN user u on u.id = c.user_created 
+                         where c.id_cliente <> '0'
+                         ORDER BY `nome` ASC;
+                         ");
                             
                             $recebidos = mysqli_query($conn, $select_sql);
                             
                             while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
                                 // print_r($row_usuario);
-                              
+                                // die();
                                 $cliente = $row_usuario['nome'];
                                 $id = $row_usuario['id'];
                                 $sobrenome = $row_usuario['sobrenome'];
+                                $socio = $row_usuario['socio'];
                                 $ftcliente = $row_usuario['ftcliente'];
                                 $cpf = $row_usuario['cpf'];
-                                $cnpj = $row_usuario['cnpj'];
+                                $telefone = $row_usuario['tel'];
                                 $id_cliente = $row_usuario['id_cliente'];
-                                $usuario_criacao = $row_usuario['user_created'];
-                                $nome_servico = $row_usuario['nome_servico'];
+                                // $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
                                 $nome_cliente = $row_usuario['nome_cliente'];
+                                $user_usuario = $row_usuario['user_usuario'];
+                                
+                                // $salve->parcela = $this->input->post('parcela') ? : "";
 
                                 echo "<tr>";
-                                echo "<td >$nome_cliente</td>";
-                                echo "<td >$cnpj </td>";
-                                echo "<td >$cpf </td>";
-                                echo "<td > $nome_servico </td>";
-                                echo "<td > $usuario_criacao </td>";
-
+                                echo "<td >$id</td>";
+                                echo "<td >$cliente</td>";
+                                echo "<td >$cpf</td>";
+                                echo "<td >$telefone</td>";
+                                echo "<td >$user_usuario</td>";
+                               
                                
                                 // echo "<td>$status</td>";
                                 // echo "<td class='project-state'><span class='$class'>$status</span></td>";
@@ -122,30 +129,39 @@ include_once("conexao.php");
                     <!-- AdminLTE App -->
                     <!-- <script src="../../dist/js/adminlte.min.js"></script> -->
                     <!-- AdminLTE for demo purposes -->
+                    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+                    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+                    
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+                    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+                    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+                    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+                    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+                    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.colVis.min.js"></script>
                     <!-- Page specific script -->
                     <script>
                         $(function() {
                             $("#example1").DataTable({
+                                // Adiciona os botões e define a ordem dos elementos
+                                "dom": 'Bfrtip',
                                 "responsive": true,
                                 "lengthChange": false,
-                                "autoWidth": true,
+                                "autoWidth": false, // Recomenda-se false com responsive
                                 "ordering": false,
                                 "searching": true,
-                                // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                                "buttons": ["excel"],
+                                
+                                // Define quais botões serão exibidos
+                                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+
+                                // Tradução para Português-Brasil
                                 "language": {
                                     "url": "https://cdn.datatables.net/plug-ins/1.12.1/i18n/pt-BR.json"
                                 }
-                            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-                            // $('#example2').DataTable({
-                            //   "paging": true,
-                            //   "lengthChange": false,
-                            //   "searching": false,
-                            //   "ordering": false,
-                            //   "info": true,
-                            //   "autoWidth": false,
-                            //   "responsive": true,
-                            // });
+                            });
                         });
                     </script>

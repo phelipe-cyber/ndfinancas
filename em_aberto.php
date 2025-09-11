@@ -113,7 +113,7 @@ $data_hoje = (date('Y-m-d'));
                     // echo "<td >$valor_parcela</td>";
                     echo "<td >$data_hora</td>";
                     echo "<td >$dt_pgto</td>";
-                    
+
                     $dt_pgto = date('Y-m-d', strtotime($row_usuario['dt_pgto']));
                     $dt_pgto = date('Y-m-d', strtotime($dt_pgto));
 

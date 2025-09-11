@@ -40,6 +40,7 @@ $data_hoje = (date('Y-m-d'));
                     <!-- <th>Valor Parcela</th> -->
                     <th>Data Inicio</th>
                     <th>Data Proximo PGTO</th>
+                    <th>Usuario | Carteira</th>
                     <th>Status Online</th>
                     <th>Status</th>
                     <th class='text-center'>Ações</th>
@@ -57,6 +58,7 @@ $data_hoje = (date('Y-m-d'));
 
                   $select_sql = ("SELECT
                         *,
+                        s.id as id_soli,
                         u.usuario,
                         vp.juros_mensal
                       from
@@ -85,6 +87,7 @@ $data_hoje = (date('Y-m-d'));
                     $class = $row_usuario['class'];
                     // $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
                     $nome_cliente = $row_usuario['nome'];
+                    $usuario_name = $row_usuario['usuario'];
 
                     // $valor_bruto = $row_usuario['valor_bruto'];
                     // $valor = $row_usuario['valor'];
@@ -102,7 +105,7 @@ $data_hoje = (date('Y-m-d'));
                     $status = $row_usuario['descricao'];
                     $data_hora = date('d/m/Y', strtotime($row_usuario['dt_solicitacao']));
                     echo "<tr>";
-                    echo "<td >$id</td>";
+                    echo "<td >$id_soli</td>";
                     // echo "<td >$nome_servico</td>";
                     echo "<td >$cliente</td>";
                     echo "<td >$valor</td>";
@@ -111,10 +114,11 @@ $data_hoje = (date('Y-m-d'));
                     // echo "<td >$valor_parcela</td>";
                     echo "<td >$data_hora</td>";
                     echo "<td >$dt_pgto</td>";
+                    echo "<td >$usuario_name</td>";
                     
                     $dt_pgto = date('Y-m-d', strtotime($row_usuario['dt_pgto']));
                     $dt_pgto = date('Y-m-d', strtotime($dt_pgto));
-
+                    
                     if ($status_solicitacao == 4) {
                       echo "<td ><span class='badge badge-success'></span></td>";
                     } elseif ($data_hoje <= $dt_pgto) {
@@ -128,19 +132,16 @@ $data_hoje = (date('Y-m-d'));
 
                     if ($status_solicitacao == 4) {
                       echo "<td class='text-center'> 
-                                <a href='detalhes_guerra.php?id=$id'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
+                                <a href='detalhes_guerra_adm.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
                                 </td>";
                       echo "</tr>";
                     } else {
                       echo "<td class='text-center'> 
-                                <a href='detalhes_guerra.php?id=$id'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
+                                <a href='detalhes_guerra_adm.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
                                 <a id='btn' target='_blank' href='https://api.whatsapp.com/send?phone=55$tel&text=$msg'> <i class='fa fa-whatsapp' style='font-size:30px;color:green;'></i> </a> 
                                 </td>";
                       echo "</tr>";
                     }
-                  ?>
-
-                  <?php
                   }
                   ?>
 

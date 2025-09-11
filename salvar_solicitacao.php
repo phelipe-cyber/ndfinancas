@@ -50,9 +50,15 @@ if($id_servico == 1){
  $select_sql = "INSERT INTO `solicitacao`(`id`, `id_cliente`, `id_servico`,`valor`, `valor_parcela`, `status_solicitacao`, `porcento`,`juros`, `valor_bruto`, `dt_solicitacao`, `dt_pgto`,`usuario`, `data_hora_solicitacao`)
 VALUES (null,'$id', '$id_servico', '$valor', '$valor_parcelado', '1', '$juros','$porcento','$valor_bruto', '$dt_solicitcao', '$dt_pgto','$id_user','$data_hora')";
 $salvar = mysqli_query($conn, $select_sql);
+$id_insert_solicitacao = mysqli_insert_id($conn);
+
+$select_sql_valor_pago ="INSERT INTO `valor_pago` (`id_solicitacao`, `valor_pago`, `atraso_diaria`, `juros_mensal`, `juros_diaria`, `abatimento`, `quitacao`, `atraso_parcela`, `total_atraso`, `em_aberto`, `usuario`, `data_valor_pago`, `updated_at`, `created_at`, `deleted_at`) VALUES
+ ($id_insert_solicitacao, '', '', '', NULL, NULL, NULL, '', '', '', '', NOW(), current_timestamp(), current_timestamp(), NULL)";
+$salvar_insert_valor_pago = mysqli_query($conn, $select_sql_valor_pago);
 
 $update = "UPDATE clientes SET status_cliente = '1' WHERE id = $id";
 $salvar_update = mysqli_query($conn, $update);
+
 
 if( $salvar == 1 ){
     ?>

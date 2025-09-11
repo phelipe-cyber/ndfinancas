@@ -88,7 +88,7 @@ if ($abatimento == 0.00) {
   $newJuros = $juros;
   $newValorBruto = $valor_bruto;
 } else {
-  $newCapital = $valor_solicitado - $abatimento;  
+  $newCapital = $valor_solicitado - $abatimento;
   $newJuros = ($porcento / 100) * $newCapital;
   $newValorBruto = $newCapital + $newJuros;
 }
@@ -97,10 +97,10 @@ if ($abatimento == 0.00) {
 
 // 3) Total Atraso
 // if ($total_atraso == 0.00 || $atraso_diaria == 0.00) {
-  // $newTotalAtraso = 0.00;
-  // $newTotalAtraso = $juros_mensal - $juros;
+// $newTotalAtraso = 0.00;
+// $newTotalAtraso = $juros_mensal - $juros;
 // } else {
-  // $newTotalAtraso = $total_atraso - $juros_diaria - $juros_mensal;
+// $newTotalAtraso = $total_atraso - $juros_diaria - $juros_mensal;
 // }
 // echo 'juros_mensal pago '.$juros_mensal.'</br>';
 
@@ -108,12 +108,10 @@ if ($abatimento == 0.00) {
 
 // echo 'atraso_juros_mensal '.$atraso_juros_mensal.'</br>';
 
-if($atraso_juros_mensal == 0.00 || $atraso_juros_mensal == ''){
- $newTotalAtraso = $juros - $juros_mensal;
- 
-}else{
- $newTotalAtraso =  $atraso_juros_mensal - $juros_mensal;
- 
+if ($atraso_juros_mensal == 0.00 || $atraso_juros_mensal == '') {
+  $newTotalAtraso = $juros - $juros_mensal;
+} else {
+  $newTotalAtraso =  $atraso_juros_mensal - $juros_mensal;
 }
 
 // echo "newTotalAtraso " . floatToBr($newTotalAtraso) . PHP_EOL;
@@ -165,15 +163,12 @@ data_valor_pago='$data_hora'
 WHERE id_solicitacao= $id_solicitacao";
 $salvar_pago = mysqli_query($conn, $sql_pago);
 
-$call = "CALL sp_valor_pago_after_update(
-  NOW(), NOW(), NULL)";
+$call = "CALL sp_valor_pago_after_update($id_solicitacao, $valor_pago, $atraso_diaria, $juros_mensal, $juros_diaria, $abatimento, $quitacao,
+$atraso_parcela, $newTotalAtraso, $newTotalDiaria, $usuario, $data_hora, NOW(), NOW(), NULL, 'UPDATE')";
 $executar_proc = mysqli_query($conn, $call);
-
 
 $update_pgto = "UPDATE `solicitacao` SET `dt_pgto`='$ultimadata' , `valor` ='$newCapital', `valor_bruto`='$newValorBruto', `juros`='$newJuros' WHERE id = $id_solicitacao";
 $salve_pgto = mysqli_query($conn, $update_pgto);
-
-die();
 
 move_uploaded_file($_FILES['imagem']['tmp_name'], "comprovante/" . $nome_arquivo);
 
@@ -204,7 +199,7 @@ if ($salvar == 1) {
           <?php
           echo '<meta http-equiv="refresh" content="3;URL=em_aberto.php" />';
           //  echo '<meta http-equiv="refresh" content="3;URL=starter.php" />';
-        } else {
+} else {
           ?>
             <div class="content">
               <div class="container-fluid">
@@ -229,9 +224,9 @@ if ($salvar == 1) {
                         Erro ao Salvar
                       </div>
                     <?php
-                  }
+}
 
-                  exit();
+exit();
 
 
                   // dd($_POST);

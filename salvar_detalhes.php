@@ -142,11 +142,6 @@ if ($quitacao <> 0.00) {
 
 $nome_arquivo = $id_solicitacao . "_" . $data_hora_salve . "_" . $nome;
 
-$queryInsercao = "INSERT INTO `comprovantes`(`id`, `id_solicitacao`, `comprovante`, `usuario`, `dt_pgto`, `data_comprovante`)
-VALUES (null, '$id_solicitacao', '$nome_arquivo', '$id_user', '$dt_pgto', '$data_hora' )";
-$salvar = mysqli_query($conn, $queryInsercao);
-
-
 $sql_pago = "UPDATE valor_pago
 SET
 valor_pago='$valor_pago', 
@@ -170,7 +165,7 @@ $executar_proc = mysqli_query($conn, $call);
 $update_pgto = "UPDATE `solicitacao` SET `dt_pgto`='$ultimadata' , `valor` ='$newCapital', `valor_bruto`='$newValorBruto', `juros`='$newJuros' WHERE id = $id_solicitacao";
 $salve_pgto = mysqli_query($conn, $update_pgto);
 
-move_uploaded_file($_FILES['imagem']['tmp_name'], "comprovante/" . $nome_arquivo);
+move_uploaded_file($_FILES['imagem']['tmp_name'], "teste_comprovante/" . $nome_arquivo);
 
 if ($salvar == 1) {
 ?>
@@ -286,7 +281,7 @@ sobrescrito
                   $nome_arquivo = $id_solicitacao . "_" . $data_hora_salve . "_" . $nome_arquivo;
 
                   $queryInsercao = "INSERT INTO `comprovantes`(`id`, `id_solicitacao`, `comprovante`, `usuario`, `data_comprovante`)
-VALUES (null, '$id_solicitacao', '$nome_arquivo', '$id_user', '$data_hora' )";
+                  VALUES (null, '$id_solicitacao', '$nome_arquivo', '$id_user', '$data_hora' )";
 
                   $salvar = mysqli_query($conn, $queryInsercao);
 

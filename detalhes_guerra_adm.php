@@ -421,15 +421,31 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
 
                           <?php
                               $index = 1;
-                              $select_comprovante = ("SELECT * FROM `comprovantes` where id_solicitacao =  $id_solicitacao ");
+                              $select_comprovante = ("SELECT
+                                                            *
+                                                          FROM
+                                                            `comprovantes` c
+                                                          inner join `user` u on u.id = c.usuario  
+                                                          where
+                                                            c.id_solicitacao =  $id_solicitacao 
+                                                           order by c.id asc 
+                                                            ");
+
                               $result_comprovante = mysqli_query($conn, $select_comprovante);
                               while ($row_comprovante = mysqli_fetch_assoc($result_comprovante)) {
                                   // print_r($row_comprovante);
 
                                   $id_arquivo = $row_comprovante['id'];
                                   $arquivo = $row_comprovante['comprovante'];
-                                  $usuario = $row_comprovante['usuario'];
+                                  $usuario_comprovante = $row_comprovante['usuario'];
                                   $data_comprovante = $row_comprovante['dt_pgto'];
+                                  
+                                  $valor_total_comprovante = $row_comprovante['valor_total'];
+                                  $juros_mensal_comprovante = $row_comprovante['juros_mensal'];
+                                  $juros_diaria_comprovante = $row_comprovante['juros_diaria'];
+                                  $abatimento_comprovante = $row_comprovante['abatimento'];
+                                  $quitacao_comprovante = $row_comprovante['quitacao'];
+                                  $obs = $row_comprovante['obs'];
 
                                   $data_comprovante = date('d/m/Y', strtotime($row_comprovante['dt_pgto']));
 
@@ -441,27 +457,45 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
 
                                   ?>
                                             <div class="post">
-                                              <div class="user-block">
-                                                <!-- <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg"
-                                                  alt="user image"> -->
-                                                <span class="username">
-                                                  <a href=""><?php echo $usuario_name ?></a>
-                                                </span>
-                                                <span
-                                                  class="description"><?php echo $data_comprovante . " - " . $diasemana[$diasemana_numero]?></span>
-                                              </div>
-                                              <!-- /.user-block -->
                                               <p>
-                                                <!-- Lorem ipsum represents a long-held tradition for designers,
-                                                  typographers and the like. Some people hate it and argue for
-                                                  its demise, but others ignore. -->
-                                              </p>
+                                                <div class="card-body">
+                                                  <table id="example1" class="table table-bordered table-striped">
+                                                    <thead>
+                                                      <tr>
+                                                        <th>index</th>
+                                                        <th>Valor</th>
+                                                        <th>Juros Mensal</th>
+                                                        <th>Juros Diaria</th>
+                                                        <th>Abatimento</th>
+                                                        <th>Quitação</th>
+                                                        <th>Usuario</th>
+                                                        <th>Comprovante</th>
+                                                        <th>Data no comprovante</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
 
-                                              <p>
-                                                <!-- <a href="ver_comprovante.php?id=<?php echo $id_arquivo ?>" class="link-black text-sm"><i -->
-                                                <a target='_blank' href="./comprovante/<?php echo $arquivo ?>" class="link-black text-sm"><i
-                                                    class="fas fa-link mr-1"></i> Abrir Comprovante <?php echo $index ?></a>
+                                                      <?php
+                                                       echo "<tr>";
+                                                       echo "<td > $index </td>";
+                                                        echo "<td >" ."R$ " .number_format($valor_total_comprovante, 2, ',' ,'.')."</td>"; 
+                                                        echo "<td >" ."R$ " .number_format($juros_mensal_comprovante, 2, ',' ,'.')."</td>"; 
+                                                        echo "<td >" ."R$ " .number_format($juros_diaria_comprovante, 2, ',' ,'.')."</td>"; 
+                                                        echo "<td >" ."R$ " .number_format($abatimento_comprovante, 2, ',' ,'.')."</td>"; 
+                                                        echo "<td >" ."R$ " .number_format($quitacao_comprovante, 2, ',' ,'.')."</td>"; 
+                                                        echo "<td > $usuario_comprovante</td>";
+                                                        echo "<td class='text-center'> 
+                                                                  <a target='_blank' href='./teste_comprovante/$arquivo'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
+                                                                  </td>";
+                                                        echo "<td >". $data_comprovante ."   ". $diasemana[$diasemana_numero]."</td>";
+                                                       echo "</tr>";
+                                                      
+                                                      ?>
+                                                    </tbody>
+                                                  </table>
+                                                </div>
                                               </p>
+                                              <p><label for="">Observação: <? echo $obs ?> </label></p>
                                             </div>
                                             <?php
                                   $index ++;
@@ -472,6 +506,7 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                         </div>
                       </div>
                     </div>
+                    
                     <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                       <h3 class="text-primary"><i class="fas fa-paint-brush"></i>
                         <?php echo "ID: ". $id_cliente . " | " . $nome_cliente ?> </h3>
@@ -558,9 +593,6 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                                   </script>
                                 </div>
                                 <div class="col-4">
-
-                                        <!-- <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Functional-requirements.docx</a> -->
-                                    </li>
 
                                   </ul>
                                   <div class="text-center mt-4 mb-3">

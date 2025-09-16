@@ -445,6 +445,7 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                                   $juros_diaria_comprovante = $row_comprovante['juros_diaria'];
                                   $abatimento_comprovante = $row_comprovante['abatimento'];
                                   $quitacao_comprovante = $row_comprovante['quitacao'];
+                                  $parcela = $row_comprovante['parcela'];
                                   $obs = $row_comprovante['obs'];
 
                                   $data_comprovante = date('d/m/Y', strtotime($row_comprovante['dt_pgto']));
@@ -468,6 +469,7 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                                                         <th>Juros Diaria</th>
                                                         <th>Abatimento</th>
                                                         <th>Quitação</th>
+                                                        <th>Parcela</th>
                                                         <th>Usuario</th>
                                                         <th>Comprovante</th>
                                                         <th>Data no comprovante</th>
@@ -483,6 +485,7 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                                                         echo "<td >" ."R$ " .number_format($juros_diaria_comprovante, 2, ',' ,'.')."</td>"; 
                                                         echo "<td >" ."R$ " .number_format($abatimento_comprovante, 2, ',' ,'.')."</td>"; 
                                                         echo "<td >" ."R$ " .number_format($quitacao_comprovante, 2, ',' ,'.')."</td>"; 
+                                                        echo "<td >" ."R$ " .number_format($parcela, 2, ',' ,'.')."</td>";
                                                         echo "<td > $usuario_comprovante</td>";
                                                         echo "<td class='text-center'> 
                                                                   <a target='_blank' href='./teste_comprovante/$arquivo'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 

@@ -72,18 +72,21 @@ $atraso_juros_mensal  = $dados['atraso_juros_mensal'] ?? 0.00;
 $porcento             = $dados['porcento']            ?? 0.00;
 $valor_bruto          = $dados['valor_bruto']         ?? 0.00;
 
+$valor_pago_comprovante = $valor_pago;
 $valor_pago = $sum_pgto + $valor_pago;
 
 // 1) Total Diária
-if ($atraso_diaria == 0.00) {
+if ($atraso_diaria == 0.00 && $total_em_atraso == 0.00 || $atraso_diaria == 0 && $total_em_atraso == 0 ) {
+    $newTotalDiaria = 0;
+} elseif( $atraso_diaria == 0 || $atraso_diaria == 0.00) {
   $newTotalDiaria = $total_em_atraso - $juros_diaria;
   // echo "newTotalDiaria Vazio " . floatToBr($newTotalDiaria) . PHP_EOL;
-} else {
+}else{
   $newTotalDiaria = $total_em_atraso + $atraso_diaria - $juros_diaria;
   // echo "newTotalDiaria Nao vazio " . floatToBr($newTotalDiaria) . PHP_EOL;
 }
 // 2) Capital
-if ($abatimento == 0.00) {
+if ($abatimento == 0.00 || $abatimento == 0) {
   $newCapital = $valor_solicitado;
   $newJuros = $juros;
   $newValorBruto = $valor_bruto;
@@ -108,7 +111,7 @@ if ($abatimento == 0.00) {
 
 // echo 'atraso_juros_mensal '.$atraso_juros_mensal.'</br>';
 
-if ($atraso_juros_mensal == 0.00 || $atraso_juros_mensal == '') {
+if ($atraso_juros_mensal == 0.00 || $atraso_juros_mensal == '' || $atraso_juros_mensal == 0) {
   $newTotalAtraso = $juros - $juros_mensal;
 } else {
   $newTotalAtraso =  $atraso_juros_mensal - $juros_mensal;
@@ -118,8 +121,7 @@ if ($atraso_juros_mensal == 0.00 || $atraso_juros_mensal == '') {
 // echo "newValorPago " . floatToBr($valor_pago) . PHP_EOL;
 // echo '</br>';
 
-
-if ($quitacao <> 0.00) {
+if ($quitacao <> 0.00 || $quitacao <> 0) {
 
   $update = "UPDATE clientes SET status_cliente = 4 WHERE id = $id_cliente";
   $salvar_update = mysqli_query($conn, $update);
@@ -136,9 +138,7 @@ if ($quitacao <> 0.00) {
 //   $em_aberto = $total_atraso - $valor_pago;
 // }
 
-// echo $em_aberto;
 // print_r($_POST);
-// exit();
 
 $nome_arquivo = $id_solicitacao . "_" . $data_hora_salve . "_" . $nome;
 
@@ -167,7 +167,16 @@ $salve_pgto = mysqli_query($conn, $update_pgto);
 
 move_uploaded_file($_FILES['imagem']['tmp_name'], "teste_comprovante/" . $nome_arquivo);
 
-if ($salvar == 1) {
+$queryInsercao ="INSERT INTO comprovantes
+(id, id_solicitacao, comprovante, comprovante_nome, usuario, dt_pgto, data_comprovante, valor_total, juros_mensal, juros_diaria, abatimento, quitacao, parcela, obs, updated_at, created_at, deleted_at)
+VALUES(NULL, '$id_solicitacao', '$nome_arquivo', NULL, '$id_user', '$dt_pgto', '$data_hora', '$valor_pago_comprovante', '$juros_mensal', '$juros_diaria', $abatimento, $quitacao, $parcela_pgto, '$obs', '$data_hora', '$data_hora', NULL)";
+
+$salvar = mysqli_query($conn, $queryInsercao);
+
+// exit();
+
+
+if ($salvar_pago == 1) {
 ?>
   <div class="content">
     <div class="container-fluid">
@@ -248,7 +257,7 @@ exit();
                   $extensoes_autorizadas = array('.exe', '.jpg', '.mp4', '.mkv', '.txt', '.csv', '.jpeg');
 
                   // Caminho da pasta FTP
-                  $caminho = './comprovante/';
+                  $caminho = './teste_comprovante/';
 
                   /* 
 Se quiser limitar o tamanho dos arquivo, basta colocar o tamanho máximo 

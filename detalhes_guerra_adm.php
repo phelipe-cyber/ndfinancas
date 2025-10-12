@@ -66,6 +66,7 @@ while ($row_usuario = mysqli_fetch_assoc($recebidos)) {
     $usuario_name = $row_usuario['usuario_name'];
     // $nome_cliente = $socio ? : $cliente ? : $sobrenome ;
     $nome_cliente = $row_usuario['nome'] ;
+    $cpf = $row_usuario['cpf'] ;
     $porcento = $row_usuario['porcentagem'] ;
     // $valor_parcela = $row_usuario['valor_parcela'];
     $data_hora = date('Y-m-d', strtotime($row_usuario['data_hora_solicitacao']));
@@ -286,15 +287,15 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                                         <span class="info-box-number text-center text-muted mb-0">
                                           <?php
                                              
-                                            //  echo "Data vencimento: ".$ultimadata;
+                                            //  echo "Data vencimento: ".$ult_array_data;
                                             //  echo "</br>";
                                             //  echo "Data hoje: ".$data_hoje;
-                                              // echo "</br>";
+                                            //   echo "</br>";
 
-                                              if( $data_hoje <= $ultimadata ){
+                                              if( $data_hoje <= $ult_array_data ){
                                                   // echo $dia_atraso = 0;
                                               }else{
-                                                $data1 = new DateTime($ultimadata);
+                                                $data1 = new DateTime($ult_array_data);
                                                 $data2 = new DateTime();
                                                 $intervalo = $data1->diff($data2);
                                                 echo $dia_atraso = $intervalo->format('%a') ;
@@ -463,14 +464,14 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                                                   <table id="example1" class="table table-bordered table-striped">
                                                     <thead>
                                                       <tr>
-                                                        <th>index</th>
+                                                       
                                                         <th>Valor</th>
                                                         <th>Juros Mensal</th>
                                                         <th>Juros Diaria</th>
                                                         <th>Abatimento</th>
                                                         <th>Quitação</th>
                                                         <th>Parcela</th>
-                                                        <th>Usuario</th>
+                                                        <!-- <th>Usuario</th> -->
                                                         <th>Comprovante</th>
                                                         <th>Data no comprovante</th>
                                                       </tr>
@@ -479,14 +480,14 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
 
                                                       <?php
                                                        echo "<tr>";
-                                                       echo "<td > $index </td>";
+                                                      
                                                         echo "<td >" ."R$ " .number_format($valor_total_comprovante, 2, ',' ,'.')."</td>"; 
                                                         echo "<td >" ."R$ " .number_format($juros_mensal_comprovante, 2, ',' ,'.')."</td>"; 
                                                         echo "<td >" ."R$ " .number_format($juros_diaria_comprovante, 2, ',' ,'.')."</td>"; 
                                                         echo "<td >" ."R$ " .number_format($abatimento_comprovante, 2, ',' ,'.')."</td>"; 
                                                         echo "<td >" ."R$ " .number_format($quitacao_comprovante, 2, ',' ,'.')."</td>"; 
                                                         echo "<td >" ."R$ " .number_format($parcela, 2, ',' ,'.')."</td>";
-                                                        echo "<td > $usuario_comprovante</td>";
+                                                        // echo "<td > $usuario_comprovante</td>";
                                                         echo "<td class='text-center'> 
                                                                   <a target='_blank' href='./teste_comprovante/$arquivo'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
                                                                   </td>";
@@ -512,7 +513,7 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                     
                     <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                       <h3 class="text-primary"><i class="fas fa-paint-brush"></i>
-                        <?php echo "ID: ". $id_cliente . " | " . $nome_cliente ?> </h3>
+                        <?php echo "ID: ". $id_cliente . " | " . $nome_cliente  . "<p> CPF: $cpf </p>"?> </h3>
                       <p class="text-muted">
                         <td class='project-state text-center'><span class='<?php echo $class ?>'> <?php echo $status ?></span></td>
                       </p>
@@ -543,7 +544,7 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                                     <div class="btn btn-default btn-file">
                                       <i class="fas fa-paperclip"></i> Anexar
                                       <!-- <input type="file" name="imagem" accept="image/png, image/jpeg"> -->
-                                      <input required onchange="getFileData(this);" type="file" name="imagem">
+                                      <input onchange="getFileData(this);" type="file" name="imagem">
                                     </div>
                                     <br>
                                   </div>

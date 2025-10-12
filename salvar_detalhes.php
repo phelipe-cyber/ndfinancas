@@ -19,6 +19,9 @@ $tamanho = $_FILES['imagem']['size'];
 $tipo = $_FILES['imagem']['type'];
 $nome = $_FILES['imagem']['name'];
 
+// print_r($_FILES);
+// die();
+
 /**
  * Converte número em formato brasileiro para float
  * Ex: "1.234,56" -> 1234.56
@@ -165,15 +168,17 @@ $executar_proc = mysqli_query($conn, $call);
 $update_pgto = "UPDATE `solicitacao` SET `dt_pgto`='$ultimadata' , `valor` ='$newCapital', `valor_bruto`='$newValorBruto', `juros`='$newJuros' WHERE id = $id_solicitacao";
 $salve_pgto = mysqli_query($conn, $update_pgto);
 
-move_uploaded_file($_FILES['imagem']['tmp_name'], "teste_comprovante/" . $nome_arquivo);
+if( $imagem ){
 
-$queryInsercao ="INSERT INTO comprovantes
-(id, id_solicitacao, comprovante, comprovante_nome, usuario, dt_pgto, data_comprovante, valor_total, juros_mensal, juros_diaria, abatimento, quitacao, parcela, obs, updated_at, created_at, deleted_at)
-VALUES(NULL, '$id_solicitacao', '$nome_arquivo', NULL, '$id_user', '$dt_pgto', '$data_hora', '$valor_pago_comprovante', '$juros_mensal', '$juros_diaria', $abatimento, $quitacao, $parcela_pgto, '$obs', '$data_hora', '$data_hora', NULL)";
+  move_uploaded_file($_FILES['imagem']['tmp_name'], "teste_comprovante/" . $nome_arquivo);
+  
+  $queryInsercao ="INSERT INTO comprovantes
+  (id, id_solicitacao, comprovante, comprovante_nome, usuario, dt_pgto, data_comprovante, valor_total, juros_mensal, juros_diaria, abatimento, quitacao, parcela, obs, updated_at, created_at, deleted_at)
+  VALUES(NULL, '$id_solicitacao', '$nome_arquivo', NULL, '$id_user', '$dt_pgto', '$data_hora', '$valor_pago_comprovante', '$juros_mensal', '$juros_diaria', $abatimento, $quitacao, $parcela_pgto, '$obs', '$data_hora', '$data_hora', NULL)";
+  
+  $salvar = mysqli_query($conn, $queryInsercao);
 
-$salvar = mysqli_query($conn, $queryInsercao);
-
-// exit();
+}
 
 
 if ($salvar_pago == 1) {
@@ -201,7 +206,7 @@ if ($salvar_pago == 1) {
               Salvo com Sucesso
             </div>
           <?php
-          echo '<meta http-equiv="refresh" content="3;URL=em_aberto.php" />';
+          echo '<meta http-equiv="refresh" content="3;URL=solicitacoes.php" />';
           //  echo '<meta http-equiv="refresh" content="3;URL=starter.php" />';
 } else {
           ?>

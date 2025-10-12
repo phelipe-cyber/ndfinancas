@@ -66,7 +66,7 @@ $data_hoje = (date('Y-m-d'));
                       left join `user` u on u.id = s.usuario 
                       left join clientes c on c.id = s.id_cliente
                       left join status st on st.id = s.status_solicitacao
-                      left join valor_pago vp on vp.id_solicitacao = s.id
+                      left join valor_pago vp on vp.id_solicitacao = s.id order by s.dt_pgto asc
                       ");
 
                   $recebidos = mysqli_query($conn, $select_sql);
@@ -132,12 +132,12 @@ $data_hoje = (date('Y-m-d'));
 
                     if ($status_solicitacao == 4) {
                       echo "<td class='text-center'> 
-                                <a href='detalhes_guerra_adm.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
+                                <a target='_blank' href='detalhes_guerra_adm.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
                                 </td>";
                       echo "</tr>";
                     } else {
                       echo "<td class='text-center'> 
-                                <a href='detalhes_guerra_adm.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
+                                <a target='_blank' href='detalhes_guerra_adm.php?id=$id_soli'> <i aria-hidden='true' class='fas fa-eye' style='font-size:30px;'> </i> </a> 
                                 <a id='btn' target='_blank' href='https://api.whatsapp.com/send?phone=55$tel&text=$msg'> <i class='fa fa-whatsapp' style='font-size:30px;color:green;'></i> </a> 
                                 </td>";
                       echo "</tr>";

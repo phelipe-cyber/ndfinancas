@@ -74,7 +74,7 @@ $id_user = $_SESSION['id_user'];
                                                 style="width: 100%;">
                                                 <option selected=""></option>
                                                 <?php
-                                                    $select_sql = ("SELECT *FROM `clientes` c where c.user_created = '$id_user' and c.id_cliente = '0'  ORDER BY `nome` ASC ");
+                                                    $select_sql = ("SELECT * FROM clientes c where c.user_created = $id_user and c.status_cliente = 0 ORDER BY `nome` ASC ");
                                                     
                                                     $recebidos = mysqli_query($conn, $select_sql);
                                                     

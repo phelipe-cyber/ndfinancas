@@ -74,9 +74,14 @@ $juros                = $dados['juros']               ?? 0.00;
 $atraso_juros_mensal  = $dados['atraso_juros_mensal'] ?? 0.00;
 $porcento             = $dados['porcento']            ?? 0.00;
 $valor_bruto          = $dados['valor_bruto']         ?? 0.00;
+$juros_mensal_pago    = $dados['juros_mensal_pago']   ?? 0.00;
 
 $valor_pago_comprovante = $valor_pago;
 $valor_pago = $sum_pgto + $valor_pago;
+
+if( $juros_mensal == '' || $juros_mensal == 0 || $juros_mensal== 0.00 || $juros_mensal_pago == 0.00|| $juros_mensal_pago == 0 || $juros_mensal_pago == ''){
+   $juros_mensal = $juros_mensal_pago + $juros_mensal;
+}
 
 // 1) Total Diária
 if ($atraso_diaria == 0.00 && $total_em_atraso == 0.00 || $atraso_diaria == 0 && $total_em_atraso == 0 ) {
@@ -114,7 +119,7 @@ if ($abatimento == 0.00 || $abatimento == 0) {
 
 // echo 'atraso_juros_mensal '.$atraso_juros_mensal.'</br>';
 
-if ($atraso_juros_mensal == 0.00 || $atraso_juros_mensal == '' || $atraso_juros_mensal == 0) {
+if ($atraso_juros_mensal == 0.00  || $atraso_juros_mensal == ''  || $atraso_juros_mensal == 0  || $juros_diaria == 0 ) {
   $newTotalAtraso = $juros - $juros_mensal;
 } else {
   $newTotalAtraso =  $atraso_juros_mensal - $juros_mensal;
@@ -140,7 +145,6 @@ if ($quitacao <> 0.00 || $quitacao <> 0) {
 // }else{
 //   $em_aberto = $total_atraso - $valor_pago;
 // }
-
 // print_r($_POST);
 
 $nome_arquivo = $id_solicitacao . "_" . $data_hora_salve . "_" . $nome;
@@ -159,8 +163,8 @@ em_aberto='$newTotalDiaria',
 usuario=$id_user, 
 data_valor_pago='$data_hora'
 WHERE id_solicitacao= $id_solicitacao";
+// die();
 $salvar_pago = mysqli_query($conn, $sql_pago);
-
 $call = "CALL sp_valor_pago_after_update($id_solicitacao, $valor_pago, $atraso_diaria, $juros_mensal, $juros_diaria, $abatimento, $quitacao,
 $atraso_parcela, $newTotalAtraso, $newTotalDiaria, $usuario, $data_hora, NOW(), NOW(), NULL, 'UPDATE')";
 $executar_proc = mysqli_query($conn, $call);

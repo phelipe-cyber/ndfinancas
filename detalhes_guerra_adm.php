@@ -96,13 +96,14 @@ while ($row_vl_pgto = mysqli_fetch_assoc($result_vl_pgto)) {
 
   }
   
-   $select_em_atraso = ("SELECT em_aberto as total_em_atraso, total_atraso as total_atraso FROM `valor_pago` where id_solicitacao =  $id_solicitacao  ORDER BY id DESC limit 1 ");
+   $select_em_atraso = ("SELECT em_aberto as total_em_atraso, total_atraso as total_atraso, juros_mensal as juros_mensal_pago  FROM `valor_pago` where id_solicitacao =  $id_solicitacao  ORDER BY id DESC limit 1 ");
   $result_em_atraso = mysqli_query($conn, $select_em_atraso);
   
   while ($row_em_atraso = mysqli_fetch_assoc($result_em_atraso)) {
       
       $total_em_atraso = $row_em_atraso['total_em_atraso'];
       $atraso_juros_mensal = $row_em_atraso['total_atraso'];
+      $juros_mensal_pago = $row_em_atraso['juros_mensal_pago'];
   
     }
   
@@ -604,6 +605,7 @@ $dtProximoPagamento = date('Y-m-d', strtotime($ProximoPagamento . '+1 month' ));
                                   <input type="hidden" name="total_em_atraso" value="<?php echo ($total_em_atraso) ?>">
                                   <input type="hidden" name="valor_bruto" value="<?php echo ($valor_bruto) ?>">
                                   <input type="hidden" name="atraso_juros_mensal" value="<?php echo ($atraso_juros_mensal) ?>">
+                                  <input type="hidden" name="juros_mensal_pago" value="<?php echo ($juros_mensal_pago) ?>">
                                   <input type="hidden" name="id_solicitacao" value="<?php echo $id_solicitacao ?>">
                                   <input type="hidden" name="valor_solicitado" value="<?php echo $valor ?>">
                                   <input type="hidden" name="juros" value="<?php echo $juros ?>">
